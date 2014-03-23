@@ -19,14 +19,14 @@ public class MainTest extends JFrame {
 		
 		mainTest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    
-	    Graph<Integer, String> g = myGraph.getRandomGraph(7,10);
+	    Graph<Integer, String> g = myGraph.getRandomGraph(100,300);
 	    VisualizationViewer<Integer,String> vv = 
 	     new VisualizationViewer<Integer,String>(new FRLayout<Integer, String>(g),
-	     new Dimension (300,200));
+	     new Dimension (1000,700));
 	    mainTest.getContentPane().add(vv);
 	 
 	    mainTest.pack();
-	    mainTest.setSize (new Dimension (400, 300));
+	    mainTest.setSize (new Dimension (1000, 740));
 	    mainTest.setVisible(true);
 
 	}
