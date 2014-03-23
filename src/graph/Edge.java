@@ -5,8 +5,8 @@ package graph;
  * @date 16 mar 2014
  */
 public class Edge {
-	private Vertex first; // first vertex of edge
-	private Vertex second; // second vertex of edge
+	private int first; // first vertex of edge
+	private int second; // second vertex of edge
 
 	/**
 	 * Constructor
@@ -16,7 +16,7 @@ public class Edge {
 	 * @param second
 	 *            - second vertex
 	 */
-	public Edge(Vertex first, Vertex second) {
+	public Edge(int first, int second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -26,7 +26,7 @@ public class Edge {
 	 * 
 	 * @return first vertex
 	 */
-	public Vertex getFirstVertex() {
+	public int getFirstVertex() {
 		return first;
 	}
 	
@@ -35,7 +35,7 @@ public class Edge {
 	 * 
 	 * @return second vertex
 	 */
-	public Vertex getSecondVertex() {
+	public int getSecondVertex() {
 		return second;
 	}
 }
