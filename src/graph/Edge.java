@@ -5,6 +5,7 @@ package graph;
  * @date 16 mar 2014
  */
 public class Edge {
+	
 	private int first; // first vertex of edge
 	private int second; // second vertex of edge
 
@@ -38,4 +39,5 @@ public class Edge {
 	public int getSecondVertex() {
 		return second;
 	}
+	
 }
