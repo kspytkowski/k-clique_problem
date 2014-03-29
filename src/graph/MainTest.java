@@ -21,12 +21,12 @@ public class MainTest {
 	    //System.out.println(i);
 	    //Individual ii = new Individual(6,2);
 	    //System.out.println(ii);
-	    Population population = new Population(2,6,2,0.001,0.1);
+	    Population population = new Population(6,6,2,0.5,0.01);
 	    System.out.println(population);
-	    population.interbreeding();
+	    population.initializeInterbreeding(1);
 	    System.out.println(population);
 	    
-	    Population population2 = new Population(2,6,2,0.001,0.1);
+/*	    Population population2 = new Population(2,6,2,0.001,0.1);
 	    System.out.println(population2);
 	    population2.interbreeding2();
 	    System.out.println(population2);
@@ -34,7 +34,7 @@ public class MainTest {
 	    Population population3 = new Population(2,6,2,0.001,0.1);
 	    System.out.println(population3);
 	    population3.interbreeding3();
-	    System.out.println(population3);
+	    System.out.println(population3);*/
 	    
 
 	}

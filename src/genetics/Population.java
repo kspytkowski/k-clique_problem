@@ -37,22 +37,50 @@ public class Population {
 			individuals.add(new Individual(graphSize, subGraphSize));
 	}
 
-	// TO DO Krzysztof - zmien nazwy tych funkcji i wydziel wspolne fragmenty :)
-	
-	/**
-	 * Interbreeds two Individuals - parents and makes two new Individuals - children
-	 */
-	public void interbreeding() {
+	public void initializeInterbreeding(int which) {
 		Random rand = new Random();
 
+		int amountOfIndividualsToInterbreed = (int) (interbreedingProbability * individualsAmount);
+		if (amountOfIndividualsToInterbreed % 2 == 1)
+			amountOfIndividualsToInterbreed--; // liczba rodzicow musi byc parzysta :D
+
 		LinkedList<Integer> numbers = new LinkedList<Integer>();
-		for (int i = 0; i < individuals.size(); i++) {
+		for (int i = 0; i < amountOfIndividualsToInterbreed; i++) {
 			numbers.add(new Integer(i));
 		}
 
-		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
-		numbers.remove(indexOfFirstParent);
-		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+		for (int i = 0; i < amountOfIndividualsToInterbreed / 2; i++) {
+			int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
+			numbers.remove((Integer) indexOfFirstParent);
+			int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+			numbers.remove((Integer) indexOfSecondParent); // przemysl to :D, jak dasz Integer to wiadomo ze chodzi o obiekt a nie index, dla indexu sa bledy :P
+			interbreeding(indexOfFirstParent, indexOfSecondParent);
+		}
+
+	}
+
+	// TO DO Krzysztof - zmien nazwy tych funkcji i wydziel wspolne fragmenty :)
+
+	/**
+	 * Interbreeds two Individuals - parents and makes two new Individuals - children
+	 * 
+	 * @param indexOfFirstParent
+	 *            - index of first parent
+	 * 
+	 * @param indexOfSecondParent
+	 *            - index of second parent
+	 */
+	public void interbreeding(int indexOfFirstParent, int indexOfSecondParent) {
+		Random rand = new Random();
+
+		// LinkedList<Integer> numbers = new LinkedList<Integer>();
+		// for (int i = 0; i < individuals.size(); i++) {
+		// numbers.add(new Integer(i));
+		// }
+
+		// int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
+		// numbers.remove(indexOfFirstParent);
+		// int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
 
 		Individual firstParent = individuals.get(indexOfFirstParent);
 		Individual secondParent = individuals.get(indexOfSecondParent);
@@ -68,26 +96,32 @@ public class Population {
 			firstChild.setVertex(j, secondParent.getValueOfVertex(j));
 			secondChild.setVertex(j, firstParent.getValueOfVertex(j));
 		}
-		individuals.remove(firstParent);
+		individuals.remove(firstParent); // usuwamy z poczatku listy (najlepiej dopasowani rodzice sa na poczatku)
 		individuals.remove(secondParent);
-		individuals.add(firstChild);
-		individuals.add(secondChild);
+		individuals.addLast(firstChild); // dodajemy na koncu dzieci (zawsze)
+		individuals.addLast(secondChild);
 	}
 
 	/**
 	 * Interbreeds two Individuals - parents and makes one new Individual - child
+	 * 
+	 * @param indexOfFirstParent
+	 *            - index of first parent
+	 * 
+	 * @param indexOfSecondParent
+	 *            - index of second parent
 	 */
-	public void interbreeding2() {
+	public void interbreeding2(int indexOfFirstParent, int indexOfSecondParent) {
 		Random rand = new Random();
 
-		LinkedList<Integer> numbers = new LinkedList<Integer>();
+		/*LinkedList<Integer> numbers = new LinkedList<Integer>();
 		for (int i = 0; i < individuals.size(); i++) {
 			numbers.add(new Integer(i));
 		}
 
 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
 		numbers.remove(indexOfFirstParent);
-		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));*/
 
 		Individual firstParent = individuals.get(indexOfFirstParent);
 		Individual secondParent = individuals.get(indexOfSecondParent);
@@ -104,24 +138,30 @@ public class Population {
 
 		individuals.remove(firstParent);
 		individuals.remove(secondParent);
-		individuals.add(child);
+		individuals.addLast(child);
 		individualsAmount--;
 	}
 
 	/**
 	 * Interbreeds two Individuals - parents and makes one new Individual - child
+	 * 
+	 * @param indexOfFirstParent
+	 *            - index of first parent
+	 * 
+	 * @param indexOfSecondParent
+	 *            - index of second parent
 	 */
-	public void interbreeding3() {
+	public void interbreeding3(int indexOfFirstParent, int indexOfSecondParent) {
 		Random rand = new Random();
 
-		LinkedList<Integer> numbers = new LinkedList<Integer>();
+	/*	LinkedList<Integer> numbers = new LinkedList<Integer>();
 		for (int i = 0; i < individuals.size(); i++) {
 			numbers.add(new Integer(i));
 		}
 
 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
 		numbers.remove(indexOfFirstParent);
-		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));*/
 
 		Individual firstParent = individuals.get(indexOfFirstParent);
 		Individual secondParent = individuals.get(indexOfSecondParent);
@@ -138,16 +178,16 @@ public class Population {
 
 		individuals.remove(firstParent);
 		individuals.remove(secondParent);
-		individuals.add(child);
+		individuals.addLast(child);
 		individualsAmount--;
 
 	}
-	
+
 	/**
 	 * Makes small mutations among individuals in population
 	 */
 	public void mutate() {
-		int amountOfIndividualsToMutate = (int) mutationProbability * individualsAmount;
+		int amountOfIndividualsToMutate = (int) (mutationProbability * individualsAmount);
 		Random rand = new Random();
 		for (int i = 0; i < amountOfIndividualsToMutate; i++) {
 			Individual ind = individuals.get(rand.nextInt(individualsAmount));

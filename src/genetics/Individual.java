@@ -7,54 +7,73 @@ import java.util.Random;
  * @author Krzysztof Spytkowski
  * @date 29 mar 2014
  */
-public class Individual {
+public class Individual implements Comparable<Individual> {
 
-    private final byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
-    private final int size; // size of table with vertices A TO PO CO? TAK SIĘ NIE PISZE
+	private final byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
+	private final int size; // size of table with vertices
+	private double rating; // shows how well individual is adopted in population (0 - 1)
 
-    /**
-     * Constructor
-     *
-     * @param graphSize - size of graph
-     */
-    public Individual(int graphSize) {
-        this.size = graphSize;
-        t = new byte[graphSize];
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param graphSize
+	 *            - size of graph
+	 */
+	public Individual(int graphSize) {
+		this.size = graphSize;
+		t = new byte[graphSize];
+	}
 
-    /**
-     * Constructor
-     *
-     * @param graphSize - graph's size (amount of vertices)
-     * @param subGraphSize - k-clique size (amount of vertices)
-     */
-    public Individual(int graphSize, int subGraphSize) {
-        this.size = graphSize;
-        t = new byte[graphSize];
+	/**
+	 * Constructor
+	 * 
+	 * @param graphSize
+	 *            - graph's size (amount of vertices)
+	 * @param subGraphSize
+	 *            - k-clique size (amount of vertices)
+	 */
+	public Individual(int graphSize, int subGraphSize) {
+		this.size = graphSize;
+		t = new byte[graphSize];
 
-        Random rand = new Random();
-        LinkedList<Integer> helpList = new LinkedList<>();
-        for (int i = 0; i < graphSize; i++) {
-            helpList.add(i);
-        }
+		Random rand = new Random();
+		LinkedList<Integer> helpList = new LinkedList<>();
+		for (int i = 0; i < graphSize; i++) {
+			helpList.add(i);
+		}
 
-        for (int i = 0; i < subGraphSize; i++) {
+		for (int i = 0; i < subGraphSize; i++) {
 
-            /*
-             * PRZEMYSL to krzysztof! NO WŁAŚNIE
-             * 
-             * 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
-             numbers.remove(indexOfFirstParent);
-             int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-             * 
-             * 
-             */
-            int j = rand.nextInt(graphSize - i);
-            int k = helpList.get(j);
-            t[k] = 1;
-            helpList.remove(j);
-        }
-    }
+			/*
+			 * PRZEMYSL to krzysztof! NO WŁAŚNIE
+			 * 
+			 * int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size())); numbers.remove(indexOfFirstParent); int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+			 */
+			int j = rand.nextInt(graphSize - i);
+			int k = helpList.get(j);
+			t[k] = 1;
+			helpList.remove(j);
+		}
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return rating
+	 */
+	public double getRating() {
+		return rating;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param rating
+	 *            - rating
+	 */
+	public void setrating(double rating) {
+		this.rating = rating;
+	}
 
 	/**
 	 * Remove vertex (1 => 0)
@@ -111,30 +130,38 @@ public class Individual {
 		return size;
 	}
 
-    /**
-     * Getter
-     *
-     * @return size
-     */
-    public int getSize() {
-        return size;
-    }
+	/**
+	 * To REMOVE!
+	 */
+	@Override
+	public String toString() {
+		String s = "Osobnik: ";
+		for (int i = 0; i < size; i++) {
+			s += t[i];
+		}
+		s += "\n";
+		return s;
+	}
 
-    /**
-     * To REMOVE!
-     */
-    @Override
-    public String toString() {
-        String s = "Osobik: ";
-        for (int i = 0; i < size; i++) {
-            s += t[i];
-        }
-        s += "\n";
-        return s;
-    }
+	/**
+	 * Getter
+	 * 
+	 * @return table of subgraph's vertices
+	 */
+	public byte[] getT() {
+		return t;
+	}
 
-    public byte[] getT() {
-        return t;
-    }
+	/**
+	 * Na pewno poprawnie?!
+	 */
+	@Override
+	public int compareTo(Individual i) {
+		if (this.rating > i.rating)
+			return 1;
+		else if (rating < i.rating)
+			return -1;
+		return 0;
+	}
 
 }
