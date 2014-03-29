@@ -9,7 +9,19 @@ import java.util.Random;
  */
 public class Individual {
 
-	private byte t[]; // table of subgraph's vertices
+	private byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
+	private int size; // size of table with vertices
+
+	/**
+	 * Constructor
+	 * 
+	 * @param graphSize
+	 *            - size of graph
+	 */
+	public Individual(int graphSize) {
+		this.size = graphSize;
+		t = new byte[graphSize];
+	}
 
 	/**
 	 * Constructor
@@ -20,6 +32,7 @@ public class Individual {
 	 *            - k-clique size (amount of vertices)
 	 */
 	public Individual(int graphSize, int subGraphSize) {
+		this.size = graphSize;
 		t = new byte[graphSize];
 
 		Random rand = new Random();
@@ -29,6 +42,17 @@ public class Individual {
 		}
 
 		for (int i = 0; i < subGraphSize; i++) {
+			
+			/*
+			 * PRZEMYSL to krzysztof!
+			 * 
+			 * 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
+		numbers.remove(indexOfFirstParent);
+		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+			 * 
+			 * 
+			 */
+			
 			int j = rand.nextInt(graphSize - i);
 			int k = helpList.get(j);
 			t[k] = 1;
@@ -57,9 +81,46 @@ public class Individual {
 	}
 
 	/**
+	 * Sets vertex
+	 * 
+	 * @param index
+	 *            - index of vertex
+	 * @param value
+	 *            - value to set
+	 */
+	public void setVertex(int index, byte value) {
+		t[index] = value;
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @param index
+	 *            - vertex index
+	 * @return value of vertex
+	 */
+	public byte getValueOfVertex(int index) {
+		return t[index];
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @return size
+	 */
+	public int getSize() {
+		return size;
+	}
+
+	/**
 	 * To REMOVE!
 	 */
 	public String toString() {
-		return "aa" + t[0] + t[1] + t[2] + t[3] + t[4] + t[5];
+		String s = new String("Osobik: ");
+		for (int i =0; i < size; i++) {
+			s += t[i];
+		}
+		s += "\n";
+		return s;
 	}
 }

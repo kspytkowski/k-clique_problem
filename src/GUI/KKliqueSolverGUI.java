@@ -20,7 +20,7 @@ public class KKliqueSolverGUI extends javax.swing.JFrame {
      */
     public KKliqueSolverGUI() {
         try {
-            graph = new MyGraph(50, 10);
+            graph = new MyGraph(50, 120);
         } catch (NoPossibilityToCreateGraphException ex) {
             Logger.getLogger(KKliqueSolverGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

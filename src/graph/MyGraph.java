@@ -13,10 +13,8 @@ import exceptions.NoPossibilityToCreateGraphException;
  */
 public class MyGraph {
 
-	public Graph<Integer, String> g; // graph
-
 	/**
-	 * Constructor - Creates random sparse graph
+	 * Creates random sparse graph
 	 * 
 	 * @param vertices
 	 *            - amount of verticles
@@ -24,7 +22,7 @@ public class MyGraph {
 	 *            - amount of edges
 	 * @throws NoPossibilityToCreateGraphException
 	 */
-	public MyGraph(int vertices, int edges) throws NoPossibilityToCreateGraphException {
+	public static Graph<Integer, String> createGraph(int vertices, int edges) throws NoPossibilityToCreateGraphException {
 
 		if (vertices < 1)
 			throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
@@ -33,7 +31,7 @@ public class MyGraph {
 		if (edges > (vertices * (vertices - 1) / 2))
 			throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
 
-		g = new SparseGraph<>();
+		Graph<Integer, String> g = new SparseGraph<>();
 
 		for (int i = 1; i <= vertices; i++) {
 			g.addVertex((Integer) i);
@@ -54,14 +52,6 @@ public class MyGraph {
 			g.addEdge("EDGE" + i, edgesList.get(r).getFirstVertex(), edgesList.get(r).getSecondVertex());
 			edgesList.remove(r);
 		}
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return graph
-	 */
-	public Graph<Integer, String> getGraph() {
 		return g;
 	}
 
