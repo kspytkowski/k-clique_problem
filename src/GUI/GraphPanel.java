@@ -22,19 +22,19 @@ import javax.swing.JPanel;
  */
 public class GraphPanel extends JPanel {
     private VisualizationViewer<Integer, String> vv;
-    private MyGraph graph;
+    private Graph<Integer, String> graph;
     
     public GraphPanel() {
         try {
-            graph = new MyGraph(10, 10);
+            graph = MyGraph.createGraph(10, 10);
         } catch (NoPossibilityToCreateGraphException ex) {
             Logger.getLogger(KKliqueSolverGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        actualizeGraph(graph.getGraph(), 3);
+        actualizeGraph(graph, 3);
     }
     
     public final void actualizeGraph(Graph<Integer, String> g, int whichLayout) {
-        vv = new VisualizationViewer<>(GraphVisualisation.getLayout(g, whichLayout), new Dimension(300, 200));
+        vv = new VisualizationViewer<>(GraphVisualisation.getLayout(g, whichLayout), new Dimension(1000, 550));
         vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
         add(vv, BorderLayout.CENTER);
     }
