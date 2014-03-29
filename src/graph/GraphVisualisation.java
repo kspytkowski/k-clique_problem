@@ -37,11 +37,11 @@ public class GraphVisualisation extends JFrame {
 	 *            - layout
 	 */
 	private void visualize(Layout<Integer, String> l) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(new Dimension(400, 300));
 		VisualizationViewer<Integer, String> vv = new VisualizationViewer<>(l, new Dimension(300, 200));
 		getContentPane().add(vv);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-		setSize(new Dimension(400, 300));
 		setVisible(true);
 	};
 

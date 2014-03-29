@@ -1,19 +1,16 @@
 package graph;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 import exceptions.NoPossibilityToCreateGraphException;
+import genetics.Individual;
 
 /* IT'S JUST TO DEMONSTRATE DISPLAYING OF GRAPH */
-public class MainTest extends JFrame {
-
-	private static final long serialVersionUID = 1L;
+public class MainTest {
 
 	public static void main(String[] args) {
 		
-		MainTest mainTest = new MainTest();
+		//MainTest mainTest = new MainTest();
 		MyGraph myGraph = null;
 		try {
 			myGraph = new MyGraph(10,30);
@@ -23,12 +20,17 @@ public class MainTest extends JFrame {
 		}
 		GraphVisualisation myGraphVisualisation = new GraphVisualisation(myGraph);
 		myGraphVisualisation.CircleGraphVisualisation();
-		myGraphVisualisation.FRGraphVisualisation();
+		//myGraphVisualisation.FRGraphVisualisation();
+		myGraphVisualisation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		mainTest.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    mainTest.pack();
-	    mainTest.setSize (new Dimension (100, 740));
-	    mainTest.setVisible(true);
+		// 6 rozmiar grafu, 2 rozmiar poszukiwanej k-kliki
+	    Individual i = new Individual(6,2);
+	    System.out.println(i);
+	    Individual ii = new Individual(6,2);
+	    System.out.println(ii);
+	    Individual iii = new Individual(6,2);
+	    System.out.println(iii);
+	    
 
 	}
 }

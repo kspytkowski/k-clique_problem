@@ -26,8 +26,12 @@ public class MyGraph {
 	 */
 	public MyGraph(int vertices, int edges) throws NoPossibilityToCreateGraphException {
 
+		if (vertices < 1)
+			throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
+		if (edges < 0)
+			throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
 		if (edges > (vertices * (vertices - 1) / 2))
-			throw new NoPossibilityToCreateGraphException("To many edges");
+			throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
 
 		g = new SparseGraph<>();
 
