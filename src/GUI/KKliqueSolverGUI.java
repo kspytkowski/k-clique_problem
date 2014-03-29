@@ -1,13 +1,6 @@
 package GUI;
 
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import exceptions.NoPossibilityToCreateGraphException;
-import graph.GraphVisualisation;
-import graph.MyGraph;
-import java.awt.Dimension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import edu.uci.ics.jung.graph.Graph;
 
 /**
  *
@@ -20,16 +13,9 @@ public class KKliqueSolverGUI extends javax.swing.JFrame {
      */
     public KKliqueSolverGUI() {
         initComponents();
-        graphPanel = new GraphPanel();
-//        MyGraph graph;
-//        try {
-//            graph = new MyGraph(10, 10);
-//            VisualizationViewer<Integer, String> vv = new VisualizationViewer<>(GraphVisualisation.getLayout(graph.getGraph(), 3), new Dimension(300, 200));
-//            vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
-//            graphPanel.add(vv);
-//        } catch (NoPossibilityToCreateGraphException ex) {
-//            Logger.getLogger(KKliqueSolverGUI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        GraphPanel graphPanel1 = new GraphPanel();
+        Graph<Integer, String> graph;
+        graphPanel.add(graphPanel1);
     }
 
     /**
