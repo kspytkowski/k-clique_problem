@@ -19,13 +19,12 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 public class GraphVisualisation extends JFrame {
 	
 	private static final long serialVersionUID = 1L; // default serial version number
-	private MyGraph graph; // graph to be displayed
+	private final MyGraph graph; // graph to be displayed
 
 	/**
 	 * Constructor
 	 * 
-	 * @param g
-	 *            - graph
+         * @param graph
 	 */
 	public GraphVisualisation(MyGraph graph) {
 		this.graph = graph;
@@ -39,7 +38,7 @@ public class GraphVisualisation extends JFrame {
 	 */
 	private void visualize(Layout<Integer, String> l) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		VisualizationViewer<Integer, String> vv = new VisualizationViewer<Integer, String>(l, new Dimension(300, 200));
+		VisualizationViewer<Integer, String> vv = new VisualizationViewer<>(l, new Dimension(300, 200));
 		getContentPane().add(vv);
 		pack();
 		setSize(new Dimension(400, 300));
@@ -50,7 +49,7 @@ public class GraphVisualisation extends JFrame {
 	 * Visualize graph (A simple layout places vertices randomly on a circle)
 	 */
 	public void CircleGraphVisualisation() {
-		Layout<Integer, String> layout = new CircleLayout<Integer, String>(graph.getGraph());
+		Layout<Integer, String> layout = new CircleLayout<>(graph.getGraph());
 		visualize(layout);
 	}
 
@@ -58,7 +57,7 @@ public class GraphVisualisation extends JFrame {
 	 * Visualize graph (The Kamada-Kawai algorithm for node layout)
 	 */
 	public void KKGraphVisualisation() {
-		Layout<Integer, String> layout = new KKLayout<Integer, String>(graph.getGraph());
+		Layout<Integer, String> layout = new KKLayout<>(graph.getGraph());
 		visualize(layout);
 	}
 
@@ -66,7 +65,7 @@ public class GraphVisualisation extends JFrame {
 	 * Visualize graph (The Fruchterman-Rheingold algorithm)
 	 */
 	public void FRGraphVisualisation() {
-		Layout<Integer, String> layout = new FRLayout<Integer, String>(graph.getGraph());
+		Layout<Integer, String> layout = new FRLayout<>(graph.getGraph());
 		visualize(layout);
 	}
 
@@ -74,7 +73,7 @@ public class GraphVisualisation extends JFrame {
 	 * Visualize graph (A simple force-directed spring-embedder)
 	 */
 	public void SpringGraphVisualisation() {
-		Layout<Integer, String> layout = new SpringLayout<Integer, String>(graph.getGraph());
+		Layout<Integer, String> layout = new SpringLayout<>(graph.getGraph());
 		visualize(layout);
 	}
 
@@ -82,7 +81,7 @@ public class GraphVisualisation extends JFrame {
 	 * Visualize graph (Meyer's "Self-Organizing Map" layout)
 	 */
 	public void ISOMLGraphVisualisation() {
-		Layout<Integer, String> layout = new ISOMLayout<Integer, String>(graph.getGraph());
+		Layout<Integer, String> layout = new ISOMLayout<>(graph.getGraph());
 		visualize(layout);
 	}
 }

@@ -6,8 +6,8 @@ package graph;
  */
 public class Edge {
 	
-	private int first; // first vertex of edge
-	private int second; // second vertex of edge
+	private final int first; // first vertex of edge
+	private final int second; // second vertex of edge
 
 	/**
 	 * Constructor

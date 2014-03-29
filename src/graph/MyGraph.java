@@ -29,13 +29,13 @@ public class MyGraph {
 		if (edges > (vertices * (vertices - 1) / 2))
 			throw new NoPossibilityToCreateGraphException("To many edges");
 
-		g = new SparseGraph<Integer, String>();
+		g = new SparseGraph<>();
 
 		for (int i = 1; i <= vertices; i++) {
 			g.addVertex((Integer) i);
 		}
 
-		LinkedList<Edge> edgesList = new LinkedList<Edge>();
+		LinkedList<Edge> edgesList = new LinkedList<>();
 		for (int i = 1; i <= vertices; i++) {
 			for (int j = 1; j <= vertices; j++) {
 				if (i != j)
