@@ -10,13 +10,14 @@ import java.util.Random;
 public class Population {
 
 	private LinkedList<Individual> individuals; // list of individuals
+	private int individualsAmount; // amount of individuals in population
 	private double interbreedingProbability; // individuals' interbreeding probability
 	private double mutationProbability; // individuals' mutation probability
 
 	/**
 	 * Constructor
 	 * 
-	 * @param individualAmount
+	 * @param individualsAmount
 	 *            - initially amount of individuals
 	 * @param graphSize
 	 *            - graph's size (amount of vertices)
@@ -27,14 +28,17 @@ public class Population {
 	 * @param mutationProbability
 	 *            - individuals' mutation probability
 	 */
-	public Population(int individualAmount, int graphSize, int subGraphSize, double interbreedingProbability, double mutationProbability) {
+	public Population(int individualsAmount, int graphSize, int subGraphSize, double interbreedingProbability, double mutationProbability) {
+		this.individualsAmount = individualsAmount;
 		this.interbreedingProbability = interbreedingProbability;
 		this.mutationProbability = mutationProbability;
 		individuals = new LinkedList<>();
-		for (int i = 0; i < individualAmount; i++)
+		for (int i = 0; i < individualsAmount; i++)
 			individuals.add(new Individual(graphSize, subGraphSize));
 	}
 
+	// TO DO Krzysztof - zmien nazwy tych funkcji i wydziel wspolne fragmenty :)
+	
 	/**
 	 * Interbreeds two Individuals - parents and makes two new Individuals - children
 	 */
@@ -101,6 +105,7 @@ public class Population {
 		individuals.remove(firstParent);
 		individuals.remove(secondParent);
 		individuals.add(child);
+		individualsAmount--;
 	}
 
 	/**
@@ -134,7 +139,21 @@ public class Population {
 		individuals.remove(firstParent);
 		individuals.remove(secondParent);
 		individuals.add(child);
+		individualsAmount--;
 
+	}
+	
+	/**
+	 * Makes small mutations among individuals in population
+	 */
+	public void mutate() {
+		int amountOfIndividualsToMutate = (int) mutationProbability * individualsAmount;
+		Random rand = new Random();
+		for (int i = 0; i < amountOfIndividualsToMutate; i++) {
+			Individual ind = individuals.get(rand.nextInt(individualsAmount));
+			int positionInGeneToChange = rand.nextInt(ind.getSize());
+			ind.inversePartOfGene(positionInGeneToChange);
+		}
 	}
 
 	/**

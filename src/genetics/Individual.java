@@ -42,17 +42,13 @@ public class Individual {
 		}
 
 		for (int i = 0; i < subGraphSize; i++) {
-			
+
 			/*
 			 * PRZEMYSL to krzysztof!
 			 * 
-			 * 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
-		numbers.remove(indexOfFirstParent);
-		int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-			 * 
-			 * 
+			 * int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size())); numbers.remove(indexOfFirstParent); int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
 			 */
-			
+
 			int j = rand.nextInt(graphSize - i);
 			int k = helpList.get(j);
 			t[k] = 1;
@@ -93,6 +89,19 @@ public class Individual {
 	}
 
 	/**
+	 * Inverses (0 => 1, 1 => 0)
+	 * 
+	 * @param index
+	 *            - index of part to inverse
+	 */
+	public void inversePartOfGene(int index) {
+		if (t[index] == 0)
+			setVertex(index, (byte) 1);
+		else
+			setVertex(index, (byte) 0);
+	}
+
+	/**
 	 * Getter
 	 * 
 	 * @param index
@@ -117,7 +126,7 @@ public class Individual {
 	 */
 	public String toString() {
 		String s = new String("Osobik: ");
-		for (int i =0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			s += t[i];
 		}
 		s += "\n";
