@@ -11,7 +11,7 @@ public class KKliqueSolverGUI extends javax.swing.JFrame {
      */
     public KKliqueSolverGUI() {
         initComponents();
-        GraphPanel graphPanelVisual = new GraphPanel();
+        GraphPanel graphPanelVisual = new GraphPanel(graphPanel.getSize());
         graphPanel.add(graphPanelVisual);
     }
 

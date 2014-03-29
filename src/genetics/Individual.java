@@ -9,62 +9,52 @@ import java.util.Random;
  */
 public class Individual {
 
-	private byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
-	private int size; // size of table with vertices
+    private final byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
+    private final int size; // size of table with vertices A TO PO CO? TAK SIĘ NIE PISZE
 
-	/**
-	 * Constructor
-	 * 
-	 * @param graphSize
-	 *            - size of graph
-	 */
-	public Individual(int graphSize) {
-		this.size = graphSize;
-		t = new byte[graphSize];
-	}
+    /**
+     * Constructor
+     *
+     * @param graphSize - size of graph
+     */
+    public Individual(int graphSize) {
+        this.size = graphSize;
+        t = new byte[graphSize];
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param graphSize
-	 *            - graph's size (amount of vertices)
-	 * @param subGraphSize
-	 *            - k-clique size (amount of vertices)
-	 */
-	public Individual(int graphSize, int subGraphSize) {
-		this.size = graphSize;
-		t = new byte[graphSize];
+    /**
+     * Constructor
+     *
+     * @param graphSize - graph's size (amount of vertices)
+     * @param subGraphSize - k-clique size (amount of vertices)
+     */
+    public Individual(int graphSize, int subGraphSize) {
+        this.size = graphSize;
+        t = new byte[graphSize];
 
-		Random rand = new Random();
-		LinkedList<Integer> helpList = new LinkedList<>();
-		for (int i = 0; i < graphSize; i++) {
-			helpList.add(i);
-		}
+        Random rand = new Random();
+        LinkedList<Integer> helpList = new LinkedList<>();
+        for (int i = 0; i < graphSize; i++) {
+            helpList.add(i);
+        }
 
-		for (int i = 0; i < subGraphSize; i++) {
+        for (int i = 0; i < subGraphSize; i++) {
 
-			/*
-			 * PRZEMYSL to krzysztof!
-			 * 
-			 * int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size())); numbers.remove(indexOfFirstParent); int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-			 */
-
-			int j = rand.nextInt(graphSize - i);
-			int k = helpList.get(j);
-			t[k] = 1;
-			helpList.remove(j);
-		}
-	}
-
-	/**
-	 * Adds vertex (0 => 1)
-	 * 
-	 * @param index
-	 *            - number of vertex to add
-	 */
-	public void addVertex(int index) {
-		t[index] = 1;
-	}
+            /*
+             * PRZEMYSL to krzysztof! NO WŁAŚNIE
+             * 
+             * 		int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
+             numbers.remove(indexOfFirstParent);
+             int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+             * 
+             * 
+             */
+            int j = rand.nextInt(graphSize - i);
+            int k = helpList.get(j);
+            t[k] = 1;
+            helpList.remove(j);
+        }
+    }
 
 	/**
 	 * Remove vertex (1 => 0)
@@ -121,15 +111,30 @@ public class Individual {
 		return size;
 	}
 
-	/**
-	 * To REMOVE!
-	 */
-	public String toString() {
-		String s = new String("Osobik: ");
-		for (int i = 0; i < size; i++) {
-			s += t[i];
-		}
-		s += "\n";
-		return s;
-	}
+    /**
+     * Getter
+     *
+     * @return size
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * To REMOVE!
+     */
+    @Override
+    public String toString() {
+        String s = "Osobik: ";
+        for (int i = 0; i < size; i++) {
+            s += t[i];
+        }
+        s += "\n";
+        return s;
+    }
+
+    public byte[] getT() {
+        return t;
+    }
+
 }
