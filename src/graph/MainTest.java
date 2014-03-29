@@ -18,10 +18,9 @@ public class MainTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		GraphVisualisation myGraphVisualisation = new GraphVisualisation(myGraph);
-		myGraphVisualisation.CircleGraphVisualisation();
-		//myGraphVisualisation.FRGraphVisualisation();
-		myGraphVisualisation.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		GraphVisualisation myGraphVisualisation = new GraphVisualisation(myGraph);
+//		myGraphVisualisation.CircleGraphVisualisation();
+//		//myGraphVisualisation.FRGraphVisualisation();
 		
 		// 6 rozmiar grafu, 2 rozmiar poszukiwanej k-kliki
 	    Individual i = new Individual(6,2);
