@@ -1,7 +1,5 @@
 package GUI;
 
-import edu.uci.ics.jung.graph.Graph;
-
 /**
  *
  * @author wukat
@@ -13,9 +11,8 @@ public class KKliqueSolverGUI extends javax.swing.JFrame {
      */
     public KKliqueSolverGUI() {
         initComponents();
-        GraphPanel graphPanel1 = new GraphPanel();
-        Graph<Integer, String> graph;
-        graphPanel.add(graphPanel1);
+        GraphPanel graphPanelVisual = new GraphPanel();
+        graphPanel.add(graphPanelVisual);
     }
 
     /**
