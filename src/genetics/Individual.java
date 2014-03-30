@@ -35,24 +35,15 @@ public class Individual implements Comparable<Individual> {
 	public Individual(int graphSize, int subGraphSize) {
 		this.size = graphSize;
 		t = new byte[graphSize];
-
 		Random rand = new Random();
 		LinkedList<Integer> helpList = new LinkedList<>();
 		for (int i = 0; i < graphSize; i++) {
 			helpList.add(i);
 		}
-
 		for (int i = 0; i < subGraphSize; i++) {
-
-			/*
-			 * PRZEMYSL to krzysztof! NO WŁAŚNIE
-			 * 
-			 * int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size())); numbers.remove(indexOfFirstParent); int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-			 */
-			int j = rand.nextInt(graphSize - i);
-			int k = helpList.get(j);
+			int k = helpList.get(rand.nextInt(graphSize - i));
 			t[k] = 1;
-			helpList.remove(j);
+			helpList.remove((Integer) k); // musi byc rzutowanie, bo chce usunac obiekt, a nie cos o indexie k
 		}
 	}
 
@@ -153,7 +144,7 @@ public class Individual implements Comparable<Individual> {
 	}
 
 	/**
-	 * Na pewno poprawnie?!
+	 * Na pewno poprawnie?! Potem sie sprawdzi :D
 	 */
 	@Override
 	public int compareTo(Individual i) {
