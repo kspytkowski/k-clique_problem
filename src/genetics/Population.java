@@ -1,6 +1,8 @@
 package genetics;
 
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 /**
@@ -37,6 +39,62 @@ public class Population {
 			individuals.add(new Individual(graphSize, subGraphSize));
 	}
 
+	public void rouletteSelection() {
+		double sum = 0;
+		Iterator<Individual> it = individuals.iterator();
+		// przystosowanie przynajmniej jednego osobnika musi byc > 0!
+		// liczymy sume przystosowan wszystkich osobnikow
+		while(it.hasNext()) {
+			sum += it.next().getRating();
+		}
+		// robimy tzm. "kolo ruletki", iteracyjnie posumowane prawdopodobienstwa
+		// np. dla populacji 6 osobnikow:
+		// przystosowania poszczeg. osobnikow => 1,2,5,1,6,5
+		// suma przystosowan = 20
+		// selectionProbability (nasze kolo) => 1/20, 1/20 + 2/20, 1/20 + 2/20 + 5/20 itd.
+		LinkedList<Double> selectionProbability = new LinkedList<>();
+		it = individuals.iterator();
+		double last = 0;
+		while(it.hasNext()) {
+			last += it.next().getRating() / sum;
+			selectionProbability.add(last);
+		}
+		System.out.println(sum); // zeby sie w Main'ie pokazalo ;)
+		// teraz tworzymy nowe pokolenie, wybierajac rodzicow z listy individualsow na podstawie ich selectionProbability (powyzej stworzonego kola)
+		LinkedList<Individual> individualsParents = new LinkedList<>();
+		Random rand = new Random();
+		it = individuals.iterator();
+		while(it.hasNext()) {
+			int i = 0;
+			// przy ruletce co iteracje wybieramy losowy punkt na kole ruletki
+			double actualRouletteWheel = rand.nextDouble();
+			Iterator<Double> iter = selectionProbability.iterator();
+			// szukamy odpowiedniego osobnika na naszym kole ruletki
+			while (iter.next() < actualRouletteWheel) {
+				i++;
+			}
+			// dodajemy "wylosowanego" osobnika do nowej poluacji
+			individualsParents.add(individuals.get(i)); // populacja rodzicow, Individualse moga sie powtarzac
+			it.next();
+		}
+		individuals = individualsParents; // populacja rodzicow zastepuje dotychczasowa populacje
+	}
+	
+	// tylko do pomocy, trzeba cos konkretnego napisac...
+	public void dostosowanie() {
+		//tu ustawimy rating osobnikom, tylko dla sprawdzenia poprawnosci ruletki...
+		Iterator<Individual> it = individuals.iterator();
+		while(it.hasNext()) {
+			Individual ind = it.next();
+			int lol = 0;
+			for (int i =0; i < ind.getSize(); i++) {
+				if (ind.getT()[i] == 1)
+					lol += 1;
+			}
+			ind.setRating(lol);
+		}
+		
+	}
 	/**
 	 * Starts appropriate interbreeding
 	 * 

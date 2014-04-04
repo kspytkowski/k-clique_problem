@@ -62,7 +62,7 @@ public class Individual implements Comparable<Individual> {
 	 * @param rating
 	 *            - rating
 	 */
-	public void setrating(double rating) {
+	public void setRating(double rating) {
 		this.rating = rating;
 	}
 
@@ -130,6 +130,8 @@ public class Individual implements Comparable<Individual> {
 		for (int i = 0; i < size; i++) {
 			s += t[i];
 		}
+		s += " ";
+		s += rating;
 		s += "\n";
 		return s;
 	}
