@@ -1,41 +1,30 @@
 package graph;
 
-import java.util.LinkedList;
-
-import exceptions.NoPossibilityToCreateGraphException;
-import genetics.Individual;
 import genetics.Population;
 
-/* IT'S JUST TO DEMONSTRATE DISPLAYING OF GRAPH */
 public class MainTest {
 
+	// ODPAL, ŁADNIE POKAZUJE ZE W KAZDYM NOWYM POKOLENIU SUMA PRZYSTOSOWANIA OSOBNIKOW WZRASTA!
+	
 	public static void main(String[] args) {
-		
-		//MainTest mainTest = new MainTest();
-//		GraphVisualisation myGraphVisualisation = new GraphVisualisation(myGraph);
-//		myGraphVisualisation.CircleGraphVisualisation();
-//		//myGraphVisualisation.FRGraphVisualisation();
-		
-		// 6 rozmiar grafu, 2 rozmiar poszukiwanej k-kliki
-	    //Individual i = new Individual(6,2);
-	    //System.out.println(i);
-	    //Individual ii = new Individual(6,2);
-	    //System.out.println(ii);
-	    Population population = new Population(6,6,2,0.5,0.01);
-	    System.out.println(population);
-	    population.initializeInterbreeding(1);
-	    System.out.println(population);
-	    
-/*	    Population population2 = new Population(2,6,2,0.001,0.1);
-	    System.out.println(population2);
-	    population2.interbreeding2();
-	    System.out.println(population2);
-	    
-	    Population population3 = new Population(2,6,2,0.001,0.1);
-	    System.out.println(population3);
-	    population3.interbreeding3();
-	    System.out.println(population3);*/
-	    
-
+	
+		// 100 osobnikow, 100 - ilosc wierzcholkow grafu, 20 - szukana k=20 klika, 0.6 - prawdop. krzyzowania, 0.02 - prawdop. mutacji
+		// przy tak duzej liczbie osobnikow, tak malym grafie, juz po ok. 100 iteracjach (pokoleniach) dostajemy najlepszy wynik, kotry potem
+		// lekko oscyluje (krzyzowania przestaja miec jakiekolwwiek znaczenie, wynik jest zmieniany jedynie przez mutacje, ale
+		// w sposob nieznaczacy)
+	    Population population = new Population(100,10,3,0.6,0.02);
+	    // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
+	   // System.out.println(population);
+	    population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
+	    // dla 1000 pokolen
+	    for (int i  = 0; i < 10; i++) {
+	       population.rouletteSelection(); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
+		   population.initializeCrossingOver(1); // krzyzuj losowe
+		   population.mutate(); // mutuj losowe
+		   population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
+		   System.out.println(population);
+	    }
+	    // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
+	   // System.out.println(population);
 	}
 }
