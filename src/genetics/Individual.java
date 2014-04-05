@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class Individual implements Comparable<Individual> {
 
-	private final byte t[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
-	private final int size; // size of table with vertices
+	private final byte verices[]; // table of subgraph's vertices (0 - not exists, 1 - exists)
+	private final int verticesAmount; // size of table with vertices
 	private double rating; // shows how well individual is adopted in population (0 - 1)
 
 	/**
@@ -20,8 +20,8 @@ public class Individual implements Comparable<Individual> {
 	 *            - size of graph
 	 */
 	public Individual(int graphSize) {
-		this.size = graphSize;
-		t = new byte[graphSize];
+		this.verticesAmount = graphSize;
+		verices = new byte[graphSize];
 	}
 
 	/**
@@ -33,16 +33,19 @@ public class Individual implements Comparable<Individual> {
 	 *            - k-clique size (amount of vertices)
 	 */
 	public Individual(int graphSize, int subGraphSize) {
-		this.size = graphSize;
-		t = new byte[graphSize];
+		// TO DO! wyjatek! subgraph nie moze byc > niz graph
+		this.verticesAmount = graphSize;
+		verices = new byte[graphSize];
 		Random rand = new Random();
+		// list that helps to choose random indexes (need it below)
 		LinkedList<Integer> helpList = new LinkedList<>();
 		for (int i = 0; i < graphSize; i++) {
 			helpList.add(i);
 		}
 		for (int i = 0; i < subGraphSize; i++) {
+			// choose index of vertex from graph that will be added to subGraph
 			int k = helpList.get(rand.nextInt(graphSize - i));
-			t[k] = 1;
+			verices[k] = 1;
 			helpList.remove((Integer) k); // musi byc rzutowanie, bo chce usunac obiekt, a nie cos o indexie k
 		}
 	}
@@ -73,7 +76,7 @@ public class Individual implements Comparable<Individual> {
 	 *            - number of vertex to remove
 	 */
 	public void removeVertex(int index) {
-		t[index] = 0;
+		verices[index] = 0;
 	}
 
 	/**
@@ -85,7 +88,7 @@ public class Individual implements Comparable<Individual> {
 	 *            - value to set
 	 */
 	public void setVertex(int index, byte value) {
-		t[index] = value;
+		verices[index] = value;
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class Individual implements Comparable<Individual> {
 	 *            - index of part to inverse
 	 */
 	public void inversePartOfGene(int index) {
-		if (t[index] == 0)
+		if (verices[index] == 0)
 			setVertex(index, (byte) 1);
 		else
 			setVertex(index, (byte) 0);
@@ -106,19 +109,19 @@ public class Individual implements Comparable<Individual> {
 	 * 
 	 * @param index
 	 *            - vertex index
-	 * @return value of vertex
+	 * @return value of vertex (0 - not exists, 1 - exists)
 	 */
 	public byte getValueOfVertex(int index) {
-		return t[index];
+		return verices[index];
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return size
+	 * @return verticesAmount
 	 */
-	public int getSize() {
-		return size;
+	public int getVerticesAmount() {
+		return verticesAmount;
 	}
 
 	/**
@@ -127,8 +130,8 @@ public class Individual implements Comparable<Individual> {
 	@Override
 	public String toString() {
 		String s = "Osobnik: ";
-		for (int i = 0; i < size; i++) {
-			s += t[i];
+		for (int i = 0; i < verticesAmount; i++) {
+			s += verices[i];
 		}
 		s += " ";
 		s += rating;
@@ -141,8 +144,8 @@ public class Individual implements Comparable<Individual> {
 	 * 
 	 * @return table of subgraph's vertices
 	 */
-	public byte[] getT() {
-		return t;
+	public byte[] getVertices() {
+		return verices;
 	}
 
 	/**
