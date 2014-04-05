@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class Population {
 
-    private final LinkedList<Individual> individuals; // list of individuals
+    private LinkedList<Individual> individuals; // list of individuals
     private int individualsAmount; // amount of individuals in population
     private final double interbreedingProbability; // individuals' interbreeding probability
     private final double mutationProbability; // individuals' mutation probability
@@ -97,12 +97,11 @@ public class Population {
 	 *            - type of interbreeding
 	 */
 	public void initializeCrossingOver(int which) { // TO DO zrob z which ENUMa
-		Random rand = new Random();
 		int amountOfIndividualsToInterbreed = (int) (interbreedingProbability * individualsAmount);
 		if (amountOfIndividualsToInterbreed % 2 == 1)
 			amountOfIndividualsToInterbreed--; // liczba rodzicow musi byc parzysta :D
 		// Pomocne przy losowaniu RANDomowych rodzicow
-		LinkedList<Integer> numbers = new LinkedList<Integer>();
+		LinkedList<Integer> numbers = new LinkedList<>();
 		for (int i = 0; i < amountOfIndividualsToInterbreed; i++) {
 			numbers.add(new Integer(i));
 		}
@@ -131,15 +130,15 @@ public class Population {
      * @param firstParent - first parent
      * @param secondParent - second parent
      */
-    public void interbreeding(Individual firstParent, Individual secondParent) {
-        Individual firstChild = new Individual(firstParent.getSize());
-        Individual secondChild = new Individual(secondParent.getSize());
-        int splitPoint = rand.nextInt(firstParent.getSize()); // punkt przeciecia genomu albo chromosomu (nomenklatura...)
+    public void crossOver(Individual firstParent, Individual secondParent) {
+        Individual firstChild = new Individual(firstParent.getVerticesAmount());
+        Individual secondChild = new Individual(secondParent.getVerticesAmount());
+        int splitPoint = rand.nextInt(firstParent.getVerticesAmount()); // punkt przeciecia genomu albo chromosomu (nomenklatura...)
         for (int j = 0; j < splitPoint; j++) {
             firstChild.setVertex(j, firstParent.getValueOfVertex(j));
             secondChild.setVertex(j, secondParent.getValueOfVertex(j));
         }
-        for (int j = splitPoint; j < firstParent.getSize(); j++) {
+        for (int j = splitPoint; j < firstParent.getVerticesAmount(); j++) {
             firstChild.setVertex(j, secondParent.getValueOfVertex(j));
             secondChild.setVertex(j, firstParent.getValueOfVertex(j));
         }
@@ -157,12 +156,12 @@ public class Population {
      * @param secondParent - second parent
      */
     public void crossOver2(Individual firstParent, Individual secondParent) {
-        Individual child = new Individual(firstParent.getSize());
-        int splitPoint = rand.nextInt(firstParent.getSize()); // czy tu nie rand.nextInt(firstParent.getSize() - 1) + 1 ?
+        Individual child = new Individual(firstParent.getVerticesAmount());
+        int splitPoint = rand.nextInt(firstParent.getVerticesAmount()); // czy tu nie rand.nextInt(firstParent.getVerticesAmount() - 1) + 1 ?
         for (int j = 0; j < splitPoint; j++) {
             child.setVertex(j, firstParent.getValueOfVertex(j));
         }
-        for (int j = splitPoint; j < firstParent.getSize(); j++) {
+        for (int j = splitPoint; j < firstParent.getVerticesAmount(); j++) {
             child.setVertex(j, secondParent.getValueOfVertex(j));
         }
         individuals.addLast(child);
@@ -179,8 +178,8 @@ public class Population {
      * @param secondParent - second parent
      */
     public void crossOver3(Individual firstParent, Individual secondParent) {
-        Individual child = new Individual(firstParent.getSize());
-        for (int j = 0; j < firstParent.getSize(); j++) {
+        Individual child = new Individual(firstParent.getVerticesAmount());
+        for (int j = 0; j < firstParent.getVerticesAmount(); j++) {
             if (rand.nextBoolean()) {
                 child.setVertex(j, firstParent.getValueOfVertex(j));
             } else {
@@ -198,7 +197,7 @@ public class Population {
         int amountOfIndividualsToMutate = (int) (mutationProbability * individualsAmount); // liczba osobnikow do mutacji
         for (int i = 0; i < amountOfIndividualsToMutate; i++) { // losuj osobniki i mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
             Individual ind = individuals.get(rand.nextInt(individualsAmount));
-            int positionInGeneToChange = rand.nextInt(ind.getSize());
+            int positionInGeneToChange = rand.nextInt(ind.getVerticesAmount());
             ind.inversePartOfGene(positionInGeneToChange);
         }
     }
