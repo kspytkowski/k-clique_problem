@@ -18,7 +18,7 @@ public final class GraphVisualisation {
     private static final long serialVersionUID = 1L; // default serial version number
 
     /**
-     * 
+     *
      * @param g - graph
      * @param which - visualisation method
      * @return layout

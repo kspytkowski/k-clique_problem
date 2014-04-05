@@ -24,13 +24,15 @@ public class Individual implements Comparable<Individual> {
     }
 
     /**
-     * Constructor
+     * Constructor //wyjasnic co to robi to nie
+     * //powstaje podgraf o wielkosci podgrafRozmiar, czyli wybieramy sobie w tablicy odpowiednia ilosc wierzcholkow
      *
      * @param graphSize - graph's size (amount of vertices)
      * @param subGraphSize - k-clique size (amount of vertices)
      */
     public Individual(int graphSize, int subGraphSize) {
-        // TO DO! wyjatek! subgraph nie moze byc > niz graph
+        // TO DO! wyjatek! subgraph nie moze byc > niz graph'
+        //a na cholere ci wyjątek, zrob zwykle zabezpieczenia.
         Random rand = new Random();
         this.verticesAmount = graphSize;
         vertices = new byte[graphSize];

@@ -35,92 +35,92 @@ public class Population {
         }
     }
 
-	public void rouletteSelection() {
-		double populationRatingSum = 0;
-		Iterator<Individual> individualsIterator = individuals.iterator();
+    public void rouletteSelection() {
+        double populationRatingSum = 0;
+        Iterator<Individual> individualsIterator = individuals.iterator();
 		// przystosowanie przynajmniej jednego osobnika musi byc > 0! -> zadbaj o to :D
-		// liczymy sume przystosowan wszystkich osobnikow
-		while(individualsIterator.hasNext()) {
-			populationRatingSum += individualsIterator.next().getRating();
-		}
+        // liczymy sume przystosowan wszystkich osobnikow
+        while (individualsIterator.hasNext()) {
+            populationRatingSum += individualsIterator.next().getRating();
+        }
 		// robimy tzm. "kolo ruletki", iteracyjnie posumowane prawdopodobienstwa
-		// np. dla populacji 6 osobnikow:
-		// przystosowania poszczeg. osobnikow => 1,2,5,1,6,5
-		// suma przystosowan = 20
-		// rouletteWheel (nasze kolo) => 1/20, 1/20 + 2/20, 1/20 + 2/20 + 5/20 itd.
-		LinkedList<Double> rouletteWheel = new LinkedList<>();
-		individualsIterator = individuals.iterator();
-		double lastRating = 0;
-		while(individualsIterator.hasNext()) {
-			lastRating += individualsIterator.next().getRating() / populationRatingSum;
-			rouletteWheel.add(lastRating);
-		}
-		System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
-		// teraz tworzymy nowe pokolenie, wybierajac rodzicow z listy individualsow na podstawie ich selectionProbability (powyzej stworzonego kola)
-		LinkedList<Individual> individualsParents = new LinkedList<>();
-		individualsIterator = individuals.iterator();
-		while(individualsIterator.hasNext()) {
-			int i = 0;
-			// przy ruletce co iteracje wybieramy losowy punkt na kole ruletki
-			double actualRouletteWheelPoint = rand.nextDouble();
-			Iterator<Double> rouletteWheelIterator = rouletteWheel.iterator();
-			// szukamy odpowiedniego osobnika na naszym kole ruletki
-			while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
-				i++;
-			}
-			// dodajemy "wylosowanego" osobnika do nowej poluacji
-			individualsParents.add(individuals.get(i)); // populacja rodzicow, Individualse moga sie powtarzac
-			individualsIterator.next();
-		}
-		individuals = individualsParents; // populacja rodzicow zastepuje dotychczasowa populacje
-	}
-	
-	// tylko do pomocy, trzeba cos konkretnego napisac...
-	public void dostosowanie() {
-		//tu ustawimy rating osobnikom, tylko dla sprawdzenia poprawnosci ruletki...
-		Iterator<Individual> it = individuals.iterator();
-		while(it.hasNext()) {
-			Individual ind = it.next();
-			int lol = 0;
-			for (int i =0; i < ind.getVerticesAmount(); i++) {
-				if (ind.getVertices()[i] == 1)
-					lol += 1;
-			}
-			ind.setRating(lol);
-		}
-		
-	}
-	/**
-	 * Starts appropriate interbreeding
-	 * 
-	 * @param which
-	 *            - type of interbreeding
-	 */
-	public void initializeCrossingOver(int which) { // TO DO zrob z which ENUMa
-		int amountOfIndividualsToInterbreed = (int) (interbreedingProbability * individualsAmount);
-		if (amountOfIndividualsToInterbreed % 2 == 1)
-			amountOfIndividualsToInterbreed--; // liczba rodzicow musi byc parzysta :D
-		// Pomocne przy losowaniu RANDomowych rodzicow
-		LinkedList<Integer> numbers = new LinkedList<>();
-		for (int i = 0; i < amountOfIndividualsToInterbreed; i++) {
-			numbers.add(new Integer(i));
-		}
-		// W kazdym obiegu petli wez 2 sposrod losowo stworzonej (przez selekcje) paczki rodzicow i ich krzyzuj (rodzicow bierzemy z poczatku listy)
-		for (int i = 0; i < amountOfIndividualsToInterbreed / 2; i++) {
-			int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
-			numbers.remove((Integer) indexOfFirstParent);
-			int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-			numbers.remove((Integer) indexOfSecondParent); // jak dasz Integer to wiadomo ze chodzi o obiekt a nie index, dla indexu sa bledy :P
-			Individual firstParent = individuals.get(indexOfFirstParent);
-			Individual secondParent = individuals.get(indexOfSecondParent);
-			crossOver(firstParent, secondParent); // tu bedzie switch - wybor odpowiedniego krzyzowania
-			individuals.remove(firstParent); // usuwamy rodzicow, ktorzy wyprodukowali dzieci
-			individuals.remove(secondParent);
-		}
+        // np. dla populacji 6 osobnikow:
+        // przystosowania poszczeg. osobnikow => 1,2,5,1,6,5
+        // suma przystosowan = 20
+        // rouletteWheel (nasze kolo) => 1/20, 1/20 + 2/20, 1/20 + 2/20 + 5/20 itd.
+        LinkedList<Double> rouletteWheel = new LinkedList<>();
+        individualsIterator = individuals.iterator();
+        double lastRating = 0;
+        while (individualsIterator.hasNext()) {
+            lastRating += individualsIterator.next().getRating() / populationRatingSum;
+            rouletteWheel.add(lastRating);
+        }
+        System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
+        // teraz tworzymy nowe pokolenie, wybierajac rodzicow z listy individualsow na podstawie ich selectionProbability (powyzej stworzonego kola)
+        LinkedList<Individual> individualsParents = new LinkedList<>();
+        individualsIterator = individuals.iterator();
+        while (individualsIterator.hasNext()) {
+            int i = 0;
+            // przy ruletce co iteracje wybieramy losowy punkt na kole ruletki
+            double actualRouletteWheelPoint = rand.nextDouble();
+            Iterator<Double> rouletteWheelIterator = rouletteWheel.iterator();
+            // szukamy odpowiedniego osobnika na naszym kole ruletki
+            while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
+                i++;
+            }
+            // dodajemy "wylosowanego" osobnika do nowej poluacji
+            individualsParents.add(individuals.get(i)); // populacja rodzicow, Individualse moga sie powtarzac
+            individualsIterator.next();
+        }
+        individuals = individualsParents; // populacja rodzicow zastepuje dotychczasowa populacje
+    }
 
-	}
+    // tylko do pomocy, trzeba cos konkretnego napisac...
+    public void dostosowanie() {
+        //tu ustawimy rating osobnikom, tylko dla sprawdzenia poprawnosci ruletki...
+        Iterator<Individual> it = individuals.iterator();
+        while (it.hasNext()) {
+            Individual ind = it.next();
+            int lol = 0;
+            for (int i = 0; i < ind.getVerticesAmount(); i++) {
+                if (ind.getVertices()[i] == 1) {
+                    lol += 1;
+                }
+            }
+            ind.setRating(lol);
+        }
 
-    // TO DO Krzysztof - zmien nazwy tych funkcji
+    }
+
+    /**
+     * Starts appropriate interbreeding
+     *
+     * @param which - type of interbreeding
+     */
+    public void initializeCrossingOver(int which) { // TO DO zrob z which ENUMa
+        int amountOfIndividualsToInterbreed = (int) (interbreedingProbability * individualsAmount);
+        if (amountOfIndividualsToInterbreed % 2 == 1) {
+            amountOfIndividualsToInterbreed--; // liczba rodzicow musi byc parzysta :D
+        }		// Pomocne przy losowaniu RANDomowych rodzicow
+        LinkedList<Integer> numbers = new LinkedList<>();
+        for (int i = 0; i < amountOfIndividualsToInterbreed; i++) {
+            numbers.add(new Integer(i));
+        }
+        // W kazdym obiegu petli wez 2 sposrod losowo stworzonej (przez selekcje) paczki rodzicow i ich krzyzuj (rodzicow bierzemy z poczatku listy)
+        for (int i = 0; i < amountOfIndividualsToInterbreed / 2; i++) {
+            int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
+            numbers.remove((Integer) indexOfFirstParent);
+            int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
+            numbers.remove((Integer) indexOfSecondParent); // jak dasz Integer to wiadomo ze chodzi o obiekt a nie index, dla indexu sa bledy :P
+            Individual firstParent = individuals.get(indexOfFirstParent);
+            Individual secondParent = individuals.get(indexOfSecondParent);
+            crossOver(firstParent, secondParent); // tu bedzie switch - wybor odpowiedniego krzyzowania
+            individuals.remove(firstParent); // usuwamy rodzicow, ktorzy wyprodukowali dzieci
+            individuals.remove(secondParent);
+        }
+
+    }
+
     // [0,0,0,0,0,0,0] => [0,0,1,1,1,1]
     // [1,1,1,1,1,1,1] => [1,1,0,0,0,0] (two parents => two children)
     /**
@@ -146,7 +146,7 @@ public class Population {
         individuals.addLast(secondChild);
     }
 
-	// [0,0,0,0,0,0,0] => [0,0,0,1,1,1]
+    // [0,0,0,0,0,0,0] => [0,0,0,1,1,1]
     // [1,1,1,1,1,1,1] => (two parents => one child)
     /**
      * Interbreeds two Individuals - parents and makes one new Individual -
