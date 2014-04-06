@@ -11,7 +11,7 @@ public class Individual implements Comparable<Individual> {
 
 	private final byte[] vertices; // table of subgraph's vertices (0 - not exists, 1 - exists)
 	private int verticesAmount; // amount of vertices in Individual
-	private double rating; // shows how well individual is adopted in population
+	private double fitness; // shows how well individual is adopted in population
 
 	/**
 	 * Copy constructor
@@ -22,7 +22,7 @@ public class Individual implements Comparable<Individual> {
 	public Individual(Individual i) {
 		this.verticesAmount = i.getVerticesAmount();
 		this.vertices = i.vertices.clone();
-		this.rating = i.getRating();
+		this.fitness = i.getFitness();
 	}
 
 	/**
@@ -53,20 +53,20 @@ public class Individual implements Comparable<Individual> {
 	/**
 	 * Getter
 	 * 
-	 * @return rating
+	 * @return fitness
 	 */
-	public double getRating() {
-		return rating;
+	public double getFitness() {
+		return fitness;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param rating
-	 *            - rating
+	 * @param fitness
+	 *            - fitness
 	 */
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class Individual implements Comparable<Individual> {
 			s += i;
 		}
 		s += " ";
-		s += rating;
+		s += fitness;
 		return s += "\n";
 	}
 
@@ -165,9 +165,9 @@ public class Individual implements Comparable<Individual> {
 	 */
 	@Override
 	public int compareTo(Individual i) {
-		if (this.rating == i.rating) {
+		if (this.fitness == i.fitness) {
 			return 0;
 		}
-		return (this.rating > i.rating) ? 1 : -1;
+		return (this.fitness > i.fitness) ? 1 : -1;
 	}
 }

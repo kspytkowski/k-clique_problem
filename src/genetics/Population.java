@@ -52,13 +52,13 @@ public class Population {
 		double populationRatingSum = 0;
 		Iterator<Individual> individualsIterator = individuals.iterator();
 		while (individualsIterator.hasNext()) {
-			populationRatingSum += individualsIterator.next().getRating();
+			populationRatingSum += individualsIterator.next().getFitness();
 		}
 		LinkedList<Double> rouletteWheel = new LinkedList<>();
 		individualsIterator = individuals.iterator();
 		double lastRating = 0;
 		while (individualsIterator.hasNext()) {
-			lastRating += individualsIterator.next().getRating() / populationRatingSum;
+			lastRating += individualsIterator.next().getFitness() / populationRatingSum;
 			rouletteWheel.add(lastRating);
 		}
 		System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
@@ -103,7 +103,7 @@ public class Population {
 				lol2 = czyJestKKlika * kCliqueSize / (Math.abs(kCliqueSize - ind.getVerticesAmount()) + kCliqueSize);
 			else
 				lol2 = czyJestKKlika;
-			ind.setRating(lol2);
+			ind.setFitness(lol2);
 			
 			if (czyJestKKlika == 1 && ind.getVerticesAmount() == kCliqueSize) {
 				System.out.println("-----POPULACJA-----");
