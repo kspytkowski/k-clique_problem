@@ -10,7 +10,7 @@ public class MainTest {
     public static void main(String[] args) {
     	Graph<Integer, String> myGraph = null;
 		try {
-			myGraph = MyGraph.createGraph(20, 160);
+			myGraph = MyGraph.createGraph(20, 150);
 		} catch (NoPossibilityToCreateGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -20,13 +20,13 @@ public class MainTest {
         // przy tak duzej liczbie osobnikow, tak malym grafie, juz po ok. 100 iteracjach (pokoleniach) dostajemy najlepszy wynik, kotry potem
         // lekko oscyluje (krzyzowania przestaja miec jakiekolwwiek znaczenie, wynik jest zmieniany jedynie przez mutacje, ale
         // w sposob nieznaczacy)
-        Population population = new Population(10, 20, 12, 0.6, 0.06);
+        Population population = new Population(100, 20, 8, 0.6, 0.02);
         population.setMyGraph(myGraph);
 	    // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
         // System.out.println(population);
         population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
         // dla 1000 pokolen
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             population.rouletteSelection(); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
             population.initializeCrossingOver(1); // krzyzuj losowe
             population.mutate(); // mutuj losowe

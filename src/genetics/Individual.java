@@ -87,7 +87,7 @@ public class Individual implements Comparable<Individual> {
     public void setVertex(int index, byte value) {
     	if (vertices[index] != value && value == 1)
     		verticesAmount++;
-        else if (vertices[index] != value && vertices[index] == 0)
+        else if (vertices[index] != value && value == 0)
         	verticesAmount--;
         vertices[index] = value;
     }
