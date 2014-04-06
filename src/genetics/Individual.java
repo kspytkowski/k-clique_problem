@@ -19,7 +19,7 @@ public class Individual implements Comparable<Individual> {
      * @param i - individual
      */
     public Individual(Individual i) {
-        this.verticesAmount = i.verticesAmount;
+        this.verticesAmount = i.getVerticesAmount();
         this.vertices = i.vertices.clone();
         this.rating = i.getRating();
     }
