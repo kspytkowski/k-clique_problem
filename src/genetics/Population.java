@@ -12,13 +12,13 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class Population {
 
-	private static Graph<Integer, String> myGraph; // reference to main graph
+	private static Graph<Integer, String> graph; // reference to main graph
 	private LinkedList<Individual> individuals; // list of individuals
 	private int individualsAmount; // amount of individuals in population
-	private final double interbreedingProbability; // individuals' interbreeding probability
+	private final double crossingOverProbability; // individuals' crossing-over probability
 	private final double mutationProbability; // individuals' mutation probability
-	private final Random rand = new Random();
-	private final int kCliqueSize;
+	private final Random rand = new Random(); // object that generates random numbers
+	private final int kCliqueSize; // size of K-Clique
 
 	/**
 	 * Constructor
@@ -30,14 +30,14 @@ public class Population {
 	 * @param subGraphSize
 	 *            - k-clique size (amount of vertices)
 	 * @param interbreedingProbability
-	 *            - individuals' interbreeding probability
+	 *            - individuals' crossing-over probability
 	 * @param mutationProbability
 	 *            - individuals' mutation probability
 	 */
 	public Population(int individualsAmount, int graphSize, int subGraphSize, double interbreedingProbability, double mutationProbability) {
 		this.kCliqueSize = subGraphSize;
 		this.individualsAmount = individualsAmount;
-		this.interbreedingProbability = interbreedingProbability;
+		this.crossingOverProbability = interbreedingProbability;
 		this.mutationProbability = mutationProbability;
 		individuals = new LinkedList<>();
 		for (int i = 0; i < individualsAmount; i++) {
@@ -45,19 +45,15 @@ public class Population {
 		}
 	}
 
-	public void rouletteSelection() {
+	/**
+	 * Selects parents according to their fitness. The better the chromosomes are, the more chances to be selected they have.
+	 */
+	public void rouletteWheelSelection() {
 		double populationRatingSum = 0;
 		Iterator<Individual> individualsIterator = individuals.iterator();
-		// przystosowanie przynajmniej jednego osobnika musi byc > 0! -> zadbaj o to :D
-		// liczymy sume przystosowan wszystkich osobnikow
 		while (individualsIterator.hasNext()) {
 			populationRatingSum += individualsIterator.next().getRating();
 		}
-		// robimy tzm. "kolo ruletki", iteracyjnie posumowane prawdopodobienstwa
-		// np. dla populacji 6 osobnikow:
-		// przystosowania poszczeg. osobnikow => 1,2,5,1,6,5
-		// suma przystosowan = 20
-		// rouletteWheel (nasze kolo) => 1/20, 1/20 + 2/20, 1/20 + 2/20 + 5/20 itd.
 		LinkedList<Double> rouletteWheel = new LinkedList<>();
 		individualsIterator = individuals.iterator();
 		double lastRating = 0;
@@ -66,19 +62,15 @@ public class Population {
 			rouletteWheel.add(lastRating);
 		}
 		System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
-		// teraz tworzymy nowe pokolenie, wybierajac rodzicow z listy individualsow na podstawie ich selectionProbability (powyzej stworzonego kola)
 		LinkedList<Individual> individualsParents = new LinkedList<>();
 		individualsIterator = individuals.iterator();
 		while (individualsIterator.hasNext()) {
 			int i = 0;
-			// przy ruletce co iteracje wybieramy losowy punkt na kole ruletki
 			double actualRouletteWheelPoint = rand.nextDouble();
 			Iterator<Double> rouletteWheelIterator = rouletteWheel.iterator();
-			// szukamy odpowiedniego osobnika na naszym kole ruletki
 			while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
 				i++;
 			}
-			// dodajemy "wylosowanego" osobnika do nowej poluacji
 			individualsParents.add(individuals.get(i)); // populacja rodzicow, Individualse moga sie powtarzac
 			individualsIterator.next();
 		}
@@ -93,132 +85,147 @@ public class Population {
 		while (it.hasNext()) {
 			Individual ind = it.next();
 			int lol = 0;
-			for (int i = 0; i < myGraph.getVertexCount(); i++) {
+			for (int i = 0; i < graph.getVertexCount(); i++) {
 				if (ind.getVertices()[i] == 1) {
-						for(int k = i + 1; k <= myGraph.getVertexCount(); k++) {
-							if (myGraph.isNeighbor(i + 1, k) && ind.getVertices()[k - 1] == 1)
-								lol+=1;
-						}
+					for (int k = i + 1; k <= graph.getVertexCount(); k++) {
+						if (graph.isNeighbor(i + 1, k) && ind.getVertices()[k - 1] == 1)
+							lol += 1;
+					}
 				}
 			}
 			double lol2;
-			double czyJestKKlika = (double)lol / ((ind.getVerticesAmount() * (ind.getVerticesAmount() - 1) / 2));
+			
+			double czyJestKKlika = 0.0;
+					
+			if (ind.getVerticesAmount() != 0 && ind.getVerticesAmount() != 1)
+				czyJestKKlika = (double) lol / ((ind.getVerticesAmount() * (ind.getVerticesAmount() - 1) / 2));
 			if (ind.getVerticesAmount() != kCliqueSize)
-			 lol2 = czyJestKKlika * kCliqueSize / (Math.abs(kCliqueSize - ind.getVerticesAmount()) + kCliqueSize);
+				lol2 = czyJestKKlika * kCliqueSize / (Math.abs(kCliqueSize - ind.getVerticesAmount()) + kCliqueSize);
 			else
 				lol2 = czyJestKKlika;
 			ind.setRating(lol2);
+			
 			if (czyJestKKlika == 1 && ind.getVerticesAmount() == kCliqueSize) {
 				System.out.println("-----POPULACJA-----");
 				System.out.println(this);
 				System.out.println("-----K-KLIKA-----");
 				System.out.println(ind);
 				System.exit(0);
-				
+
 			}
 		}
 
 	}
 
 	/**
-	 * Starts appropriate interbreeding
+	 * Starts appropriate crossing-over
 	 * 
-	 * @param which
-	 *            - type of interbreeding
+	 * @param crossingOverType
+	 *            - type of crossing-over
 	 */
-	public void initializeCrossingOver(int which) { // TO DO zrob z which ENUMa
-		int amountOfIndividualsToInterbreed = (int) (interbreedingProbability * individualsAmount);
-		if (amountOfIndividualsToInterbreed % 2 == 1) {
-			amountOfIndividualsToInterbreed--; // liczba rodzicow musi byc parzysta :D
-		} // Pomocne przy losowaniu RANDomowych rodzicow
-		LinkedList<Integer> numbers = new LinkedList<>();
-		for (int i = 0; i < amountOfIndividualsToInterbreed; i++) {
-			numbers.add(new Integer(i));
-		}
-		// W kazdym obiegu petli wez 2 sposrod losowo stworzonej (przez selekcje) paczki rodzicow i ich krzyzuj (rodzicow bierzemy z poczatku listy)
-		for (int i = 0; i < amountOfIndividualsToInterbreed / 2; i++) {
-			int indexOfFirstParent = numbers.get(rand.nextInt(numbers.size()));
-			numbers.remove((Integer) indexOfFirstParent);
-			int indexOfSecondParent = numbers.get(rand.nextInt(numbers.size()));
-			numbers.remove((Integer) indexOfSecondParent); // jak dasz Integer to wiadomo ze chodzi o obiekt a nie index, dla indexu sa bledy :P
-			Individual firstParent = individuals.get(indexOfFirstParent);
-			Individual secondParent = individuals.get(indexOfSecondParent);
-			crossOver(firstParent, secondParent); // tu bedzie switch - wybor odpowiedniego krzyzowania
-			individuals.remove(firstParent); // usuwamy rodzicow, ktorzy wyprodukowali dzieci
-			individuals.remove(secondParent);
-		}
+	public void initializeCrossingOver(CrossingOverType crossingOverType) {
+		int amountOfIndividualsToCrossOver = (individualsAmount % 2 == 0) ? individualsAmount : individualsAmount - 1;
+		LinkedList<Individual> newIndividuals = new LinkedList<>();
+		for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
+			Individual firstParent = individuals.get(i);
+			Individual secondParent = individuals.get(i + 1);
+			if (crossingOverProbability > rand.nextDouble()) {
+				switch (crossingOverType) {
+				case ONEPOINTWITHTWOCHILDREN:
+					onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividuals);
+					break;
+				case ONEPOINTWITHONECHILD:
+					onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividuals);
+					break;
+				case UNIFORMCROSSOVER:
+					uniformCrossingOver(firstParent, secondParent, newIndividuals);
+					break;
+				}
 
+			} else {
+				newIndividuals.add(firstParent);
+				newIndividuals.add(secondParent);
+			}
+		}
+		individuals = newIndividuals;
 	}
 
 	// [0,0,0,0,0,0,0] => [0,0,1,1,1,1]
-	// [1,1,1,1,1,1,1] => [1,1,0,0,0,0] (two parents => two children)
+	// [1,1,1,1,1,1,1] => [1,1,0,0,0,0]
 	/**
-	 * Interbreeds two Individuals - parents and makes two new Individuals - children
+	 * 
+	 * Crosses over two Individuals (parents) and makes two new Individuals (children)
 	 * 
 	 * @param firstParent
 	 *            - first parent
 	 * @param secondParent
 	 *            - second parent
+	 * @param newIndividuals
+	 *            - list of new Individuals
 	 */
-	public void crossOver(Individual firstParent, Individual secondParent) {
+	public void onePointWithTwoChildrenCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
 		Individual firstChild = new Individual(firstParent);
 		Individual secondChild = new Individual(secondParent);
-		int splitPoint = rand.nextInt(kCliqueSize); // punkt przeciecia genomu albo chromosomu (nomenklatura...)
+		int splitPoint = rand.nextInt(graph.getVertexCount()); // punkt przeciecia  chromosomu 
 		for (int j = 0; j < splitPoint; j++) {
 			firstChild.setVertex(j, firstParent.getValueOfVertex(j));
 			secondChild.setVertex(j, secondParent.getValueOfVertex(j));
 		}
-		for (int j = splitPoint; j < kCliqueSize; j++) {
+		for (int j = splitPoint; j < graph.getVertexCount(); j++) {
 			firstChild.setVertex(j, secondParent.getValueOfVertex(j));
 			secondChild.setVertex(j, firstParent.getValueOfVertex(j));
 		}
-		individuals.addLast(firstChild); // dodajemy NA KONCU listy dzieci (zawsze)
-		individuals.addLast(secondChild);
+		newIndividuals.add(firstChild);
+		newIndividuals.addLast(secondChild);
 	}
 
 	// [0,0,0,0,0,0,0] => [0,0,0,1,1,1]
-	// [1,1,1,1,1,1,1] => (two parents => one child)
+	// [1,1,1,1,1,1,1] =>
 	/**
-	 * Interbreeds two Individuals - parents and makes one new Individual - child
+	 * Crosses over two Individuals (parents) and makes one new Individual (child)
 	 * 
 	 * @param firstParent
 	 *            - first parent
 	 * @param secondParent
 	 *            - second parent
+	 * @param newIndividuals
+	 *            - list of new Individulas
 	 */
-	public void crossOver2(Individual firstParent, Individual secondParent) {
+	public void onePointWithOneChildCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
 		Individual child = new Individual(firstParent);
-		int splitPoint = rand.nextInt(kCliqueSize); // czy tu nie rand.nextInt(kCliqueSize - 1) + 1 ?
+		int splitPoint = rand.nextInt(graph.getVertexCount());
 		for (int j = 0; j < splitPoint; j++) {
 			child.setVertex(j, firstParent.getValueOfVertex(j));
 		}
-		for (int j = splitPoint; j < kCliqueSize; j++) {
+		for (int j = splitPoint; j < graph.getVertexCount(); j++) {
 			child.setVertex(j, secondParent.getValueOfVertex(j));
 		}
-		individuals.addLast(child);
+		newIndividuals.add(child);
 		individualsAmount--;
 	}
 
 	// [0,0,0,0,0,0,0] => [0,1,1,1,0,1]
-	// [1,1,1,1,1,1,1] => (two parents => one child)
+	// [1,1,1,1,1,1,1] =>
 	/**
-	 * Interbreeds two Individuals - parents and makes one new Individual - child
+	 * Crosses over two Individuals (parents) and makes one new Individual (child)
 	 * 
 	 * @param firstParent
 	 *            - first parent
 	 * @param secondParent
 	 *            - second parent
+	 * @param newIndividuals
+	 *            - list of new Individulas
 	 */
-	public void crossOver3(Individual firstParent, Individual secondParent) {
+	public void uniformCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
 		Individual child = new Individual(firstParent);
-		for (int j = 0; j < kCliqueSize; j++) {
+		for (int j = 0; j < graph.getVertexCount(); j++) {
 			if (rand.nextBoolean()) {
 				child.setVertex(j, firstParent.getValueOfVertex(j));
 			} else {
 				child.setVertex(j, secondParent.getValueOfVertex(j));
 			}
 		}
-		individuals.addLast(child);
+		newIndividuals.add(child);
 		individualsAmount--;
 	}
 
@@ -226,44 +233,13 @@ public class Population {
 	 * Makes small mutations among individuals in population
 	 */
 	public void mutate() {
-		int amountOfIndividualsToMutate = (int) (mutationProbability * individualsAmount); // liczba osobnikow do mutacji
-		for (int i = 0; i < amountOfIndividualsToMutate; i++) { // losuj osobniki i mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
-			Individual ind = individuals.get(rand.nextInt(individualsAmount));
-			//int positionInGeneToChange = rand.nextInt(ind.getVerticesAmount() - 1); // tu nie byc -1 czy ma byc?!?!?!
-			int positionInGeneToChange = rand.nextInt(myGraph.getVertexCount());
-			ind.inversePartOfGene(positionInGeneToChange);
+		for (int i = 0; i < individualsAmount; i++) { // mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
+			if (rand.nextDouble() < mutationProbability) {
+				Individual ind = individuals.get(i);
+				int positionInGeneToChange = rand.nextInt(graph.getVertexCount());
+				ind.inverseVertex(positionInGeneToChange);
+			}
 		}
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @param index
-	 *            - index of individual
-	 * @return individual
-	 */
-	public Individual getIndividual(int index) {
-		return individuals.get(index);
-	}
-
-	/**
-	 * Adds individual to population
-	 * 
-	 * @param i
-	 *            - individual
-	 */
-	public void addIndividual(Individual i) {
-		individuals.add(i);
-	}
-
-	/**
-	 * Removes individual from population
-	 * 
-	 * @param index
-	 *            - index of individual
-	 */
-	public void removeIndividual(int index) {
-		individuals.remove(index);
 	}
 
 	@Override
@@ -275,11 +251,22 @@ public class Population {
 		return s;
 	}
 
+	/**
+	 * Getter
+	 * 
+	 * @return graph
+	 */
 	public static Graph<Integer, String> getMyGraph() {
-		return myGraph;
+		return graph;
 	}
 
-	public static void setMyGraph(Graph<Integer, String> myGraph) {
-		Population.myGraph = myGraph;
+	/**
+	 * Setter
+	 * 
+	 * @param graph
+	 *            - graph to set
+	 */
+	public static void setMyGraph(Graph<Integer, String> graph) {
+		Population.graph = graph;
 	}
 }

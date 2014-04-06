@@ -10,7 +10,7 @@ import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import exceptions.NoPossibilityToCreateGraphException;
 import genetics.Individual;
 import graph.GraphVisualisation;
-import graph.MyGraph;
+import graph.GraphFactory;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +38,7 @@ public class GraphPanel extends JPanel {
      */
     public GraphPanel(JPanel containing) {
         try {
-            graph = MyGraph.createGraph(10, 7);
+            graph = GraphFactory.createGraph(10, 7);
         } catch (NoPossibilityToCreateGraphException ex) {
             Logger.getLogger(KKliqueSolverGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
