@@ -40,10 +40,8 @@ public class MyGraph {
 
         LinkedList<Edge> edgesList = new LinkedList<>();
         for (int i = 1; i <= vertices; i++) {
-            for (int j = 1; j <= vertices; j++) {
-                if (i != j) {
+            for (int j = i + 1; j <= vertices; j++) {
                     edgesList.add(new Edge(i, j));
-                }
             }
         }
 

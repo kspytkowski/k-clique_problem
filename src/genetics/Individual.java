@@ -10,17 +10,18 @@ import java.util.Random;
 public class Individual implements Comparable<Individual> {
 
     private final byte[] vertices; // table of subgraph's vertices (0 - not exists, 1 - exists)
-    private final int verticesAmount; // size of table with vertices
-    private double rating; // shows how well individual is adopted in population (0 - 1)
+    private int verticesAmount; // amount of vertices in Individual
+    private double rating; // shows how well individual is adopted in population
 
     /**
-     * Constructor
+     * CopyConstructor
      *
-     * @param graphSize - size of graph
+     * @param i - individual
      */
-    public Individual(int graphSize) {
-        this.verticesAmount = graphSize;
-        vertices = new byte[graphSize];
+    public Individual(Individual i) {
+        this.verticesAmount = i.verticesAmount;
+        this.vertices = i.vertices.clone();
+        this.rating = i.getRating();
     }
 
     /**
@@ -31,10 +32,10 @@ public class Individual implements Comparable<Individual> {
      * @param subGraphSize - k-clique size (amount of vertices)
      */
     public Individual(int graphSize, int subGraphSize) {
-        // TO DO! wyjatek! subgraph nie moze byc > niz graph'
+        // TO DO! wyjatek! subgraph nie moze byc > niz graph
         //a na cholere ci wyjątek, zrob zwykle zabezpieczenia.
-        Random rand = new Random();
-        this.verticesAmount = graphSize;
+        Random rand = new Random();                        
+        this.verticesAmount = subGraphSize; 
         vertices = new byte[graphSize];
         // list that helps to choose random indexes (need it below)
         LinkedList<Integer> helpList = new LinkedList<>();
@@ -74,6 +75,7 @@ public class Individual implements Comparable<Individual> {
      */
     public void removeVertex(int index) {
         vertices[index] = 0;
+        verticesAmount--; //new
     }
 
     /**
@@ -83,6 +85,10 @@ public class Individual implements Comparable<Individual> {
      * @param value - value to set
      */
     public void setVertex(int index, byte value) {
+    	if (vertices[index] != value && value == 1)
+    		verticesAmount++;
+        else if (vertices[index] != value && vertices[index] == 0)
+        	verticesAmount--;
         vertices[index] = value;
     }
 
