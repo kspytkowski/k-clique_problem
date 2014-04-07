@@ -62,6 +62,11 @@ public class Individual implements Comparable<Individual> {
 		this.chromosome = new byte[chromosomeLength];
 		this.fitness = 0.0;
 	}
+	
+	public Individual(double fit, boolean b) {
+		chromosome = null;
+		this.fitness = fit;
+	}
 
 	/**
 	 * Getter
@@ -198,9 +203,9 @@ public class Individual implements Comparable<Individual> {
 	@Override
 	public String toString() {
 		String s = "Individual: ";
-		for (int i : chromosome) {
-			s += i;
-		}
+	//	for (int i : chromosome) {
+	//		s += i;
+	//	}
 		s += " ";
 		s += fitness;
 		return s += "\n";

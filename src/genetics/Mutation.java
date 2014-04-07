@@ -28,7 +28,7 @@ public class Mutation {
 	public void mutate(Population population) {
 		Random rand = new Random();
 		// jak dasz individualsAmount to zobaczysz jak szybko algorytm jest zbiezny, a wiec zly
-		for (int i = 0; i < population.getIndividualsAmount(); i++) { // mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
+		for (int i = 0; i < population.getActualIndividualsAmount(); i++) { // mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
 			if (rand.nextDouble() < mutationProbability) {
 				Individual ind = population.getIndividual(i);
 				int positionInChromosomeToChange = rand.nextInt(ind.getChromosomeLength());

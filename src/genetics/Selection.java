@@ -33,7 +33,7 @@ public class Selection {
 			rouletteWheel.add(lastRating);
 		}
 		System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
-		Population newPopulation = new Population(population.getIndividualsAmount(), population.getKCliqueSize());
+		Population newPopulation = new Population(population.getActualIndividualsAmount(), population.getKCliqueSize());
 		individualsIterator = population.getIndividuals().iterator();
 		while (individualsIterator.hasNext()) {
 			int i = 0;
@@ -47,23 +47,24 @@ public class Selection {
 		}
 		return newPopulation; // populacja rodzicow zastepuje dotychczasowa populacje
 	}
-	
+
 	public static Population tournament(Population population, int gameIndividualsAmount) {
+		// wyjatek jak populacja nie ma osobnikow -,-
 		// gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
-		Population newPopulation = new Population(population.getIndividualsAmount(), population.getKCliqueSize());
-		int restOfPopulation = population.getIndividualsAmount() % gameIndividualsAmount;
+		Population newPopulation = new Population(population.getActualIndividualsAmount(), population.getKCliqueSize());
+		int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
 		int i = 0;
-		for (; i < restOfPopulation; i++) {
+		System.out.println(population);
+		for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju
 			newPopulation.addIndividual(population.getIndividual(i));
 		}
-		Individual actualBestIndividual = new Individual(population.getIndividual(0).getChromosomeLength());
-		for (; i < population.getIndividualsAmount(); i = i + gameIndividualsAmount) {
+		Individual actualBestIndividual;
+		for (; i < population.getActualIndividualsAmount(); i = i + gameIndividualsAmount) {
 			actualBestIndividual = population.getIndividual(i);
-			for (int j = i + 1; j < (i + 1) * gameIndividualsAmount - 1; j++) {
-				actualBestIndividual = Individual.isBetter(actualBestIndividual, population.getIndividual(j));
+			for (int j = i + 1; j < (i / gameIndividualsAmount + 1) * gameIndividualsAmount + restOfPopulation; j++) {
+				actualBestIndividual = Individual.isBetter(population.getIndividual(j), actualBestIndividual);
 			}
 			newPopulation.addIndividual(actualBestIndividual);
-			actualBestIndividual = null;
 		}
 		return newPopulation;
 	}

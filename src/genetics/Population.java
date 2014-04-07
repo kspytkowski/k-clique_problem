@@ -13,6 +13,7 @@ public class Population {
 
 	private static Graph<Integer, String> graph; // reference to main graph
 	private LinkedList<Individual> individuals; // list of individuals
+	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow...
 	private int individualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
 	private final int kCliqueSize; // size of K-Clique
 
@@ -98,6 +99,15 @@ public class Population {
 	 */
 	public void addIndividual(Individual i) {
 		individuals.add(i);
+	}
+
+	/**
+	 * Returns actual amount of individuals in population
+	 * 
+	 * @return amount of individuals
+	 */
+	public int getActualIndividualsAmount() {
+		return individuals.size();
 	}
 
 	/**

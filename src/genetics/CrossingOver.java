@@ -29,8 +29,8 @@ public class CrossingOver {
 	 */
 	public Population crossOver(CrossingOverType crossingOverType, Population population) {
 		// jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza
-		int amountOfIndividualsToCrossOver = (population.getIndividualsAmount() % 2 == 0) ? population.getIndividualsAmount() : population.getIndividualsAmount() - 1;
-		Population newPopulation = new Population(population.getIndividualsAmount(),population.getKCliqueSize());
+		int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
+		Population newPopulation = new Population(population.getActualIndividualsAmount(),population.getKCliqueSize());
 		for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
 			Individual firstParent = population.getIndividual(i);
 			Individual secondParent = population.getIndividual(i + 1);
