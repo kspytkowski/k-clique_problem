@@ -91,6 +91,27 @@ public class Population {
 	}
 
 	/**
+	 * Adds individual to population
+	 * 
+	 * @param i
+	 *            - individual
+	 */
+	public void addIndividual(Individual i) {
+		individuals.add(i);
+	}
+
+	/**
+	 * Getter
+	 * 
+	 * @param index
+	 *            - index of individual
+	 * @return individual on specified index
+	 */
+	public Individual getIndividual(int index) {
+		return individuals.get(index);
+	}
+
+	/**
 	 * Getter
 	 * 
 	 * @return size of k-clique

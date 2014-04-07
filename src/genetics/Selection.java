@@ -42,7 +42,7 @@ public class Selection {
 			while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
 				i++;
 			}
-			newPopulation.getIndividuals().add(population.getIndividuals().get(i)); // populacja rodzicow, Individualse moga sie powtarzac
+			newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
 			individualsIterator.next();
 		}
 		return newPopulation; // populacja rodzicow zastepuje dotychczasowa populacje
@@ -54,15 +54,15 @@ public class Selection {
 		int restOfPopulation = population.getIndividualsAmount() % gameIndividualsAmount;
 		int i = 0;
 		for (; i < restOfPopulation; i++) {
-			newPopulation.getIndividuals().add(population.getIndividuals().get(i));
+			newPopulation.addIndividual(population.getIndividual(i));
 		}
-		Individual actualBestIndividual = new Individual(population.getIndividuals().get(0).getChromosomeLength());
+		Individual actualBestIndividual = new Individual(population.getIndividual(0).getChromosomeLength());
 		for (; i < population.getIndividualsAmount(); i = i + gameIndividualsAmount) {
-			actualBestIndividual = population.getIndividuals().get(i);
+			actualBestIndividual = population.getIndividual(i);
 			for (int j = i + 1; j < (i + 1) * gameIndividualsAmount - 1; j++) {
-				actualBestIndividual = Individual.isBetter(actualBestIndividual, population.getIndividuals().get(j));
+				actualBestIndividual = Individual.isBetter(actualBestIndividual, population.getIndividual(j));
 			}
-			newPopulation.getIndividuals().add(actualBestIndividual);
+			newPopulation.addIndividual(actualBestIndividual);
 			actualBestIndividual = null;
 		}
 		return newPopulation;

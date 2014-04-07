@@ -32,8 +32,8 @@ public class CrossingOver {
 		int amountOfIndividualsToCrossOver = (population.getIndividualsAmount() % 2 == 0) ? population.getIndividualsAmount() : population.getIndividualsAmount() - 1;
 		Population newPopulation = new Population(population.getIndividualsAmount(),population.getKCliqueSize());
 		for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
-			Individual firstParent = population.getIndividuals().get(i);
-			Individual secondParent = population.getIndividuals().get(i + 1);
+			Individual firstParent = population.getIndividual(i);
+			Individual secondParent = population.getIndividual(i + 1);
 			if (crossingOverProbability > rand.nextDouble()) {
 				switch (crossingOverType) {
 				case ONEPOINTWITHTWOCHILDREN:

@@ -30,9 +30,9 @@ public class Mutation {
 		// jak dasz individualsAmount to zobaczysz jak szybko algorytm jest zbiezny, a wiec zly
 		for (int i = 0; i < population.getIndividualsAmount(); i++) { // mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
 			if (rand.nextDouble() < mutationProbability) {
-				Individual ind = population.getIndividuals().get(i);
-				int positionInGeneToChange = rand.nextInt(ind.getChromosomeLength());
-				ind.inverseGene(positionInGeneToChange);
+				Individual ind = population.getIndividual(i);
+				int positionInChromosomeToChange = rand.nextInt(ind.getChromosomeLength());
+				ind.inverseGene(positionInChromosomeToChange);
 			}
 		}
 	}
