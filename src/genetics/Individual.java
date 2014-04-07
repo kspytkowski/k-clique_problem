@@ -9,9 +9,46 @@ import java.util.Random;
  */
 public class Individual implements Comparable<Individual> {
 
-	private final byte[] vertices; // table of subgraph's vertices (0 - not exists, 1 - exists)
-	private int verticesAmount; // amount of vertices in Individual
+	private final byte[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
+	private int activeGenesAmount; // amount of vertices in Individual
 	private double fitness; // shows how well individual is adopted in population
+
+	/**
+	 * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
+	 * 
+	 * @param graphSize
+	 *            - graph's size (amount of vertices)
+	 * @param kCliqueSize
+	 *            - k-clique size (amount of vertices)
+	 */
+	public Individual(int graphSize, int kCliqueSize) {
+		// TO DO! wyjatek! subgraph nie moze byc > niz graph
+		// a na cholere ci wyjątek, zrob zwykle zabezpieczenia.
+		this.activeGenesAmount = kCliqueSize;
+		chromosome = new byte[graphSize];
+		LinkedList<Integer> helpList = new LinkedList<>();
+		for (int i = 0; i < graphSize; i++) {
+			helpList.add(i);
+		}
+		Random rand = new Random();
+		for (int i = 0; i < kCliqueSize; i++) {
+			int k = helpList.get(rand.nextInt(graphSize - i));
+			chromosome[k] = 1;
+			helpList.remove((Integer) k);
+		}
+	}
+
+	/**
+	 * Constructor - creates blank Individual (all genes are 0)
+	 * 
+	 * @param verticesAmount
+	 *            - amount of vertices
+	 */
+	public Individual(int verticesAmount) {
+		this.activeGenesAmount = 0;
+		this.chromosome = new byte[verticesAmount];
+		this.fitness = 0.0;
+	}
 
 	/**
 	 * Copy constructor
@@ -20,34 +57,18 @@ public class Individual implements Comparable<Individual> {
 	 *            - individual
 	 */
 	public Individual(Individual i) {
-		this.verticesAmount = i.getVerticesAmount();
-		this.vertices = i.vertices.clone();
+		this.activeGenesAmount = i.getActiveGenesAmount();
+		this.chromosome = i.chromosome.clone();
 		this.fitness = i.getFitness();
 	}
 
 	/**
-	 * Constructor Creates subgraph that has size of subGraphSize - chooses appropriate amount of vertices and puts them into table
+	 * Getter
 	 * 
-	 * @param graphSize
-	 *            - graph's size (amount of vertices)
-	 * @param subGraphSize
-	 *            - k-clique size (amount of vertices)
+	 * @return length of chromosome
 	 */
-	public Individual(int graphSize, int subGraphSize) {
-		// TO DO! wyjatek! subgraph nie moze byc > niz graph
-		// a na cholere ci wyjątek, zrob zwykle zabezpieczenia.
-		this.verticesAmount = subGraphSize;
-		vertices = new byte[graphSize];
-		LinkedList<Integer> helpList = new LinkedList<>();
-		for (int i = 0; i < graphSize; i++) {
-			helpList.add(i);
-		}
-		Random rand = new Random();
-		for (int i = 0; i < subGraphSize; i++) {
-			int k = helpList.get(rand.nextInt(graphSize - i));
-			vertices[k] = 1;
-			helpList.remove((Integer) k);
-		}
+	public int getChromosomeLength() {
+		return chromosome.length;
 	}
 
 	/**
@@ -70,98 +91,87 @@ public class Individual implements Comparable<Individual> {
 	}
 
 	/**
-	 * Removes vertex (1 => 0)
+	 * Removes gene - makes 0 form 1 in chromosome
 	 * 
-	 * @param index
-	 *            - number of vertex to remove
+	 * @param geneIndex
+	 *            - index of gene to remove
 	 */
-	public void removeVertex(int index) {
-		vertices[index] = 0;
-		verticesAmount--;
+	public void removeGene(int geneIndex) {
+		chromosome[geneIndex] = 0;
+		activeGenesAmount--;
 	}
 
 	/**
 	 * Setter
 	 * 
-	 * @param index
-	 *            - index of vertex
+	 * @param geneIndex
+	 *            - index of gene
 	 * @param value
 	 *            - value to set
 	 */
-	public void setVertex(int index, byte value) {
-		if (vertices[index] != value && value == 1)
-			verticesAmount++;
-		else if (vertices[index] != value && value == 0)
-			verticesAmount--;
-		vertices[index] = value;
+	public void setGene(int geneIndex, byte value) {
+		if (chromosome[geneIndex] != value && value == 1)
+			activeGenesAmount++;
+		else if (chromosome[geneIndex] != value && value == 0)
+			activeGenesAmount--;
+		chromosome[geneIndex] = value;
 	}
 
 	/**
-	 * Inverses vertex (0 => 1, 1 => 0)
+	 * Inverses gene - makes 0 form 1 or 1 from 0 in chromosome
 	 * 
-	 * @param index
-	 *            - index of vertex to inverse
+	 * @param geneIndex
+	 *            - index of gene to inverse
 	 */
-	public void inverseVertex(int index) { // zmien nazwe tej funkcji
-		setVertex(index, (vertices[index] == 0) ? (byte) 1 : (byte) 0);
+	public void inverseGene(int geneIndex) {
+		setGene(geneIndex, (chromosome[geneIndex] == 0) ? (byte) 1 : (byte) 0);
 	}
 
 	/**
 	 * Getter
 	 * 
 	 * @param index
-	 *            - index of vertex
-	 * @return value of vertex (0 - not exists, 1 - exists)
+	 *            - index of gene
+	 * @return value of gene: 0 - not exists, 1 - exists
 	 */
-	public byte getValueOfVertex(int index) {
-		return vertices[index];
+	public byte getValueOfGene(int geneIndex) {
+		return chromosome[geneIndex];
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return amount of vertices
+	 * @return amount of active genes
 	 */
-	public int getVerticesAmount() {
-		return verticesAmount;
-	}
-
-	/**
-	 * To REMOVE!
-	 */
-	@Override
-	public String toString() {
-		String s = "Osobnik: ";
-		for (int i : vertices) {
-			s += i;
-		}
-		s += " ";
-		s += fitness;
-		return s += "\n";
+	public int getActiveGenesAmount() {
+		return activeGenesAmount;
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @return table of subgraph's vertices
+	 * @return chromosome - table
 	 */
-	public byte[] getVertices() {
-		return vertices;
+	public byte[] getChromosome() {
+		return chromosome;
 	}
 
 	/**
 	 * Getter
 	 * 
-	 * @param index
-	 *            - index of vertex
-	 * @return value of vertex
+	 * @param geneIndex
+	 *            - index of gene
+	 * @return value of gene
 	 */
-	public byte getVertex(int index) {
-		return vertices[index];
+	public byte getGene(int geneIndex) {
+		return chromosome[geneIndex];
 	}
 
 	/**
-	 * Compares two individuals (better individual has better rating)
+	 * Compares two individuals - better individual has better fitness
+	 * 
+	 * @param i
+	 *            - individual
 	 */
 	@Override
 	public int compareTo(Individual i) {
@@ -169,5 +179,16 @@ public class Individual implements Comparable<Individual> {
 			return 0;
 		}
 		return (this.fitness > i.fitness) ? 1 : -1;
+	}
+
+	@Override
+	public String toString() {
+		String s = "Individual: ";
+		for (int i : chromosome) {
+			s += i;
+		}
+		s += " ";
+		s += fitness;
+		return s += "\n";
 	}
 }
