@@ -49,7 +49,22 @@ public class Selection {
 	}
 	
 	public static Population tournament(Population population, int gameIndividualsAmount) {
+		// gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
 		Population newPopulation = new Population(population.getIndividualsAmount(), population.getKCliqueSize());
-		return null;
+		int restOfPopulation = population.getIndividualsAmount() % gameIndividualsAmount;
+		int i = 0;
+		for (; i < restOfPopulation; i++) {
+			newPopulation.getIndividuals().add(population.getIndividuals().get(i));
+		}
+		Individual actualBestIndividual = new Individual(population.getIndividuals().get(0).getChromosomeLength());
+		for (; i < population.getIndividualsAmount(); i = i + gameIndividualsAmount) {
+			actualBestIndividual = population.getIndividuals().get(i);
+			for (int j = i + 1; j < (i + 1) * gameIndividualsAmount - 1; j++) {
+				actualBestIndividual = Individual.isBetter(actualBestIndividual, population.getIndividuals().get(j));
+			}
+			newPopulation.getIndividuals().add(actualBestIndividual);
+			actualBestIndividual = null;
+		}
+		return newPopulation;
 	}
 }

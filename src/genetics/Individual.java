@@ -39,18 +39,6 @@ public class Individual implements Comparable<Individual> {
 	}
 
 	/**
-	 * Constructor - creates blank Individual (all genes are 0)
-	 * 
-	 * @param verticesAmount
-	 *            - amount of vertices
-	 */
-	public Individual(int verticesAmount) {
-		this.activeGenesAmount = 0;
-		this.chromosome = new byte[verticesAmount];
-		this.fitness = 0.0;
-	}
-
-	/**
 	 * Copy constructor
 	 * 
 	 * @param i
@@ -60,6 +48,19 @@ public class Individual implements Comparable<Individual> {
 		this.activeGenesAmount = i.getActiveGenesAmount();
 		this.chromosome = i.chromosome.clone();
 		this.fitness = i.getFitness();
+	}
+
+	/**
+	 * Constructor - creates blank Individual (all genes are 0)
+	 * 
+	 * @param chromosomeLength
+	 *            - amount of genes
+	 * 
+	 */
+	public Individual(int chromosomeLength) {
+		this.activeGenesAmount = 0;
+		this.chromosome = new byte[chromosomeLength];
+		this.fitness = 0.0;
 	}
 
 	/**
@@ -179,6 +180,19 @@ public class Individual implements Comparable<Individual> {
 			return 0;
 		}
 		return (this.fitness > i.fitness) ? 1 : -1;
+	}
+
+	/**
+	 * Checks if "second" individual is better than "first" individual
+	 * 
+	 * @param first
+	 *            - first individual to compare to
+	 * @param second
+	 *            - second individual to compare to
+	 * @return true if second individual is better, false otherwise
+	 */
+	public static Individual isBetter(Individual first, Individual second) {
+		return first.compareTo(second) > 0 ? first : second;
 	}
 
 	@Override
