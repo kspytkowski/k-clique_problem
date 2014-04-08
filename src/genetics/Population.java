@@ -1,5 +1,7 @@
 package genetics;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -11,7 +13,8 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class Population {
 
-	private static Graph<Integer, String> graph; // reference to main graph
+	// ponizsze nie moze byc static, bo jak se zrobie nowy graf to i nowa populacje potrzebuje i odwrotnie, napisz to ci wytłumacze :P
+	private Graph<Integer, String> graph; // reference to main graph
 	private LinkedList<Individual> individuals; // list of individuals
 	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow... => zrobilem, ze żądana :D
 	private int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
@@ -27,7 +30,8 @@ public class Population {
 	 * @param kCliqueSize
 	 *            - k-clique size (amount of vertices)
 	 */
-	public Population(int individualsAmount, int graphSize, int kCliqueSize) {
+	public Population(int individualsAmount, int graphSize, Graph<Integer, String> graph, int kCliqueSize) {
+		this.graph = graph;
 		this.kCliqueSize = kCliqueSize;
 		this.demandedIndividualsAmount = individualsAmount;
 		individuals = new LinkedList<>();
@@ -44,7 +48,8 @@ public class Population {
 	 * @param kCliqueSize
 	 *            - size of k-clique
 	 */
-	public Population(int individualsAmount, int kCliqueSize) {
+	public Population(int individualsAmount, Graph<Integer, String> graph, int kCliqueSize) {
+		this.graph = graph;
 		individuals = new LinkedList<>();
 		this.demandedIndividualsAmount = individualsAmount;
 		this.kCliqueSize = kCliqueSize;
@@ -95,10 +100,22 @@ public class Population {
 	 * Keeps constant amount of individuals in population (adds random individuals)
 	 */
 	public void keepConstantPopulationSize() {
-		System.out.println(individuals.size());
-		System.out.println(demandedIndividualsAmount);
 		while (individuals.size() < demandedIndividualsAmount) {
 			addIndividual(new Individual(graph.getVertexCount(), kCliqueSize));
+		}
+	}
+
+	/**
+	 * Removes worst individuals from population
+	 * 
+	 * @param howMuchToRemove
+	 *            - shows how many individuals should be removed (in percentage)
+	 */
+	public void removeWorstIndividuals(double howMuchToRemove) {
+		int toRemove = (int)(howMuchToRemove * getActualIndividualsAmount());
+		Collections.sort(individuals);
+		for(int i = 0; i < toRemove; i++) {
+			individuals.removeFirst();
 		}
 	}
 
@@ -164,7 +181,7 @@ public class Population {
 	 * 
 	 * @return graph
 	 */
-	public static Graph<Integer, String> getMyGraph() {
+	public Graph<Integer, String> getMyGraph() {
 		return graph;
 	}
 
@@ -174,8 +191,8 @@ public class Population {
 	 * @param graph
 	 *            - graph to set
 	 */
-	public static void setMyGraph(Graph<Integer, String> graph) {
-		Population.graph = graph;
+	public void setMyGraph(Graph<Integer, String> graph) {
+		this.graph = graph;
 	}
 
 	@Override

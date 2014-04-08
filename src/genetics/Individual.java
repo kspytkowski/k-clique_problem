@@ -36,6 +36,7 @@ public class Individual implements Comparable<Individual> {
 			chromosome[k] = 1;
 			helpList.remove((Integer) k);
 		}
+		
 	}
 
 	/**
