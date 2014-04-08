@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class CrossingOver {
 
-	private final double crossingOverProbability; // individuals' crossing-over probability
+	private double crossingOverProbability; // individuals' crossing-over probability
 	private final Random rand = new Random(); // object that generates random numbers
 
 	/**
@@ -22,6 +22,25 @@ public class CrossingOver {
 	}
 
 	/**
+	 * Getter
+	 * 
+	 * @return individuals' crossing-over probability
+	 */
+	public double getCrossingOverProbability() {
+		return crossingOverProbability;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param crossingOverProbability
+	 *            - individuals' crossing-over probability
+	 */
+	public void setCrossingOverProbability(double crossingOverProbability) {
+		this.crossingOverProbability = crossingOverProbability;
+	}
+
+	/**
 	 * Starts appropriate crossing-over
 	 * 
 	 * @param crossingOverType
@@ -30,7 +49,7 @@ public class CrossingOver {
 	public Population crossOver(CrossingOverType crossingOverType, Population population) {
 		// jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza
 		int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
-		Population newPopulation = new Population(population.getActualIndividualsAmount(),population.getKCliqueSize());
+		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getKCliqueSize());
 		for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
 			Individual firstParent = population.getIndividual(i);
 			Individual secondParent = population.getIndividual(i + 1);
@@ -55,8 +74,6 @@ public class CrossingOver {
 		return newPopulation;
 	}
 
-	// [0,0,0,0,0,0,0] => [0,0,1,1,1,1]
-	// [1,1,1,1,1,1,1] => [1,1,0,0,0,0]
 	/**
 	 * 
 	 * Crosses over two Individuals (parents) and makes two new Individuals (children)
@@ -84,8 +101,6 @@ public class CrossingOver {
 		population.getIndividuals().add(secondChild);
 	}
 
-	// [0,0,0,0,0,0,0] => [0,0,0,1,1,1]
-	// [1,1,1,1,1,1,1] =>
 	/**
 	 * Crosses over two Individuals (parents) and makes one new Individual (child)
 	 * 
@@ -108,8 +123,6 @@ public class CrossingOver {
 		population.getIndividuals().add(child);
 	}
 
-	// [0,0,0,0,0,0,0] => [0,1,1,1,0,1]
-	// [1,1,1,1,1,1,1] =>
 	/**
 	 * Crosses over two Individuals (parents) and makes one new Individual (child)
 	 * 

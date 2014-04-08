@@ -13,27 +13,27 @@ public class Selection {
 	private static Random rand = new Random(); // object that generates random numbers
 
 	/**
-	 * Selects parents according to their fitness. The better the chromosomes are, the more chances to be selected they have.
+	 * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
 	 * 
 	 * @param population
 	 *            - population
-	 * @return new population
+	 * @return new population (parents)
 	 */
 	public static Population rouletteWheelSelection(Population population) {
-		double populationRatingSum = 0;
+		double populationFitnessSum = 0;
 		Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
 		while (individualsIterator.hasNext()) {
-			populationRatingSum += individualsIterator.next().getFitness();
+			populationFitnessSum += individualsIterator.next().getFitness();
 		}
 		LinkedList<Double> rouletteWheel = new LinkedList<>();
 		individualsIterator = population.getIndividuals().iterator();
-		double lastRating = 0;
+		double lastFitness = 0;
 		while (individualsIterator.hasNext()) {
-			lastRating += individualsIterator.next().getFitness() / populationRatingSum;
-			rouletteWheel.add(lastRating);
+			lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
+			rouletteWheel.add(lastFitness);
 		}
-		System.out.println(populationRatingSum); // zeby sie w Main'ie pokazalo ;)
-		Population newPopulation = new Population(population.getActualIndividualsAmount(), population.getKCliqueSize());
+		System.out.println(populationFitnessSum); // zeby sie w Main'ie pokazalo ;)
+		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getKCliqueSize());
 		individualsIterator = population.getIndividuals().iterator();
 		while (individualsIterator.hasNext()) {
 			int i = 0;
@@ -45,16 +45,23 @@ public class Selection {
 			newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
 			individualsIterator.next();
 		}
-		return newPopulation; // populacja rodzicow zastepuje dotychczasowa populacje
+		return newPopulation;
 	}
 
-	public static Population tournament(Population population, int gameIndividualsAmount) {
-		// wyjatek jak populacja nie ma osobnikow -,-
+	/**
+	 * Selects parents according to their fitness. Individuals are divided into small groups and from every group the best individual is selected.
+	 * 
+	 * @param population
+	 *            - population
+	 * @param gameIndividualsAmount
+	 *            - amount of individuals taken part in every tournament (only one wins)
+	 * @return new population (parents)
+	 */
+	public static Population tournament(Population population, int gameIndividualsAmount) { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
 		// gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
-		Population newPopulation = new Population(population.getActualIndividualsAmount(), population.getKCliqueSize());
+		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getKCliqueSize());
 		int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
 		int i = 0;
-		System.out.println(population);
 		for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju
 			newPopulation.addIndividual(population.getIndividual(i));
 		}

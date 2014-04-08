@@ -10,7 +10,7 @@ import java.util.Random;
 public class Individual implements Comparable<Individual> {
 
 	private final byte[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
-	private int activeGenesAmount; // amount of vertices in Individual
+	private int activeGenesAmount; // amount of vertices in subgraph
 	private double fitness; // shows how well individual is adopted in population
 
 	/**
@@ -61,11 +61,6 @@ public class Individual implements Comparable<Individual> {
 		this.activeGenesAmount = 0;
 		this.chromosome = new byte[chromosomeLength];
 		this.fitness = 0.0;
-	}
-	
-	public Individual(double fit, boolean b) {
-		chromosome = null;
-		this.fitness = fit;
 	}
 
 	/**
@@ -203,9 +198,9 @@ public class Individual implements Comparable<Individual> {
 	@Override
 	public String toString() {
 		String s = "Individual: ";
-	//	for (int i : chromosome) {
-	//		s += i;
-	//	}
+		for (int i : chromosome) {
+			s += i;
+		}
 		s += " ";
 		s += fitness;
 		return s += "\n";

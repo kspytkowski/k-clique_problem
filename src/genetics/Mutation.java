@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class Mutation {
 
-	private final double mutationProbability; // individuals' mutation probability
+	private double mutationProbability; // individuals' mutation probability
 
 	/**
 	 * Mutates some genes in Individual
@@ -20,15 +20,33 @@ public class Mutation {
 	}
 
 	/**
-	 * Makes small mutations among individuals in population
+	 * Getter
+	 * 
+	 * @return individuals' mutation probability
+	 */
+	public double getMutationProbability() {
+		return mutationProbability;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param mutationProbability
+	 *            - individuals' mutation probability
+	 */
+	public void setMutationProbability(double mutationProbability) {
+		this.mutationProbability = mutationProbability;
+	}
+
+	/**
+	 * Makes small mutations among individuals (changes some genes in their chromosome)
 	 * 
 	 * @param population
 	 *            - population
 	 */
 	public void mutate(Population population) {
 		Random rand = new Random();
-		// jak dasz individualsAmount to zobaczysz jak szybko algorytm jest zbiezny, a wiec zly
-		for (int i = 0; i < population.getActualIndividualsAmount(); i++) { // mutuj - zmien jeden gen chromosomu (0 => 1 lub 1 => 0)
+		for (int i = 0; i < population.getActualIndividualsAmount(); i++) {
 			if (rand.nextDouble() < mutationProbability) {
 				Individual ind = population.getIndividual(i);
 				int positionInChromosomeToChange = rand.nextInt(ind.getChromosomeLength());

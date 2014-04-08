@@ -13,8 +13,8 @@ public class Population {
 
 	private static Graph<Integer, String> graph; // reference to main graph
 	private LinkedList<Individual> individuals; // list of individuals
-	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow...
-	private int individualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
+	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow... => zrobilem, ze żądana :D
+	private int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
 	private final int kCliqueSize; // size of K-Clique
 
 	/**
@@ -29,7 +29,7 @@ public class Population {
 	 */
 	public Population(int individualsAmount, int graphSize, int kCliqueSize) {
 		this.kCliqueSize = kCliqueSize;
-		this.individualsAmount = individualsAmount;
+		this.demandedIndividualsAmount = individualsAmount;
 		individuals = new LinkedList<>();
 		for (int i = 0; i < individualsAmount; i++) {
 			individuals.add(new Individual(graphSize, kCliqueSize));
@@ -46,7 +46,7 @@ public class Population {
 	 */
 	public Population(int individualsAmount, int kCliqueSize) {
 		individuals = new LinkedList<>();
-		this.individualsAmount = individualsAmount;
+		this.demandedIndividualsAmount = individualsAmount;
 		this.kCliqueSize = kCliqueSize;
 	}
 
@@ -89,6 +89,17 @@ public class Population {
 			}
 		}
 
+	}
+
+	/**
+	 * Keeps constant amount of individuals in population (adds random individuals)
+	 */
+	public void keepConstantPopulationSize() {
+		System.out.println(individuals.size());
+		System.out.println(demandedIndividualsAmount);
+		while (individuals.size() < demandedIndividualsAmount) {
+			addIndividual(new Individual(graph.getVertexCount(), kCliqueSize));
+		}
 	}
 
 	/**
@@ -142,10 +153,10 @@ public class Population {
 	/**
 	 * Getter
 	 * 
-	 * @return amount of individuals in population
+	 * @return amount of individuals that should be in population
 	 */
-	public int getIndividualsAmount() {
-		return individualsAmount;
+	public int getDemandedIndividualsAmount() {
+		return demandedIndividualsAmount;
 	}
 
 	/**
