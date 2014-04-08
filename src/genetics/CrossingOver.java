@@ -47,7 +47,7 @@ public class CrossingOver {
 	 *            - type of crossing-over
 	 */
 	public Population crossOver(CrossingOverType crossingOverType, Population population) {
-		// jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza
+		// jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza => zostawic to tak?!
 		int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
 		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getMyGraph(), population.getKCliqueSize());
 		for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {

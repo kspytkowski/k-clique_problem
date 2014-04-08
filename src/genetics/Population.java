@@ -85,8 +85,8 @@ public class Population {
 			ind.setFitness(lol2);
 
 			if (czyJestKKlika == 1 && ind.getActiveGenesAmount() >= kCliqueSize) {
-				System.out.println("-----POPULACJA-----");
-				System.out.println(this);
+				//System.out.println("-----POPULACJA-----");
+				//System.out.println(this);
 				System.out.println("-----K-KLIKA-----");
 				System.out.println(ind);
 				System.exit(0);
