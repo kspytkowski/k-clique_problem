@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.uci.ics.jung.graph.Graph;
+import graph.GraphRepresentation;
 
 /**
  * @author Krzysztof Spytkowski
@@ -16,11 +17,12 @@ import edu.uci.ics.jung.graph.Graph;
 public class Population {
 
 	// ponizsze nie moze byc static, bo jak se zrobie nowy graf to i nowa populacje potrzebuje i odwrotnie, napisz to ci wytłumacze :P
-	private Graph<Integer, String> graph; // reference to main graph
+	//private Graph<Integer, String> graph; // reference to main graph
+	private GraphRepresentation graph;
 	private LinkedList<Individual> individuals; // list of individuals
 	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow... => zrobilem, ze żądana :D
 	private int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
-	private final int kCliqueSize; // size of K-Clique
+	//private final int kCliqueSize; // size of K-Clique
 
 	/**
 	 * Constructor
@@ -32,10 +34,10 @@ public class Population {
 	 * @param kCliqueSize
 	 *            - k-clique size (amount of vertices)
 	 */
-	public Population(int individualsAmount, int graphSize, Graph<Integer, String> graph, int kCliqueSize) {
+	public Population(int individualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) {
 		// populacja musi miec individualsAmount > 1
 		this.graph = graph;
-		this.kCliqueSize = kCliqueSize;
+		//this.kCliqueSize = kCliqueSize;
 		this.demandedIndividualsAmount = individualsAmount;
 		individuals = new LinkedList<>();
 		for (int i = 0; i < individualsAmount; i++) {
@@ -51,11 +53,11 @@ public class Population {
 	 * @param kCliqueSize
 	 *            - size of k-clique
 	 */
-	public Population(int individualsAmount, Graph<Integer, String> graph, int kCliqueSize) {
+	public Population(int individualsAmount, GraphRepresentation graph, int kCliqueSize) {
 		this.graph = graph;
 		individuals = new LinkedList<>();
 		this.demandedIndividualsAmount = individualsAmount;
-		this.kCliqueSize = kCliqueSize;
+		//this.kCliqueSize = kCliqueSize;
 	}
 
 	// tylko do pomocy, trzeba cos konkretnego napisac...
@@ -88,7 +90,7 @@ public class Population {
 			lol2 = czyJestKKlika;
 			ind.setFitness(lol2);
 
-			if (czyJestKKlika == 1 && ind.getActiveGenesAmount() >= kCliqueSize) {
+			if (czyJestKKlika == 1 && ind.getActiveGenesAmount() >= graph.getKCliqueSize()) {
 				// System.out.println("-----POPULACJA-----");
 				// System.out.println(this);
 				System.out.println("-----K-KLIKA-----");
@@ -114,7 +116,7 @@ public class Population {
 		Random rand = new Random();
 		for (int i = 0; i < getActualIndividualsAmount(); i++) {
 			Individual ind = getIndividual(i);
-			if (ind.getActiveGenesAmount() > kCliqueSize) {
+			if (ind.getActiveGenesAmount() > graph.getKCliqueSize()) {
 
 				Map<Integer, Integer> cosik = new HashMap<>();
 
@@ -136,7 +138,7 @@ public class Population {
 					}
 				}
 
-				while (ind.getActiveGenesAmount() > kCliqueSize) {
+				while (ind.getActiveGenesAmount() > graph.getKCliqueSize()) {
 					// int index = rand.nextInt(genesIndexes.size());
 					// ind.removeGene(genesIndexes.get(index));
 					// genesIndexes.remove((Integer) index);
@@ -148,7 +150,7 @@ public class Population {
 						genesIndexes.add(j);
 					}
 				}
-				while (ind.getActiveGenesAmount() < kCliqueSize) {
+				while (ind.getActiveGenesAmount() < graph.getKCliqueSize()) {
 					int index = rand.nextInt(genesIndexes.size());
 					ind.addGene(genesIndexes.get(index));
 					genesIndexes.remove((Integer) index);
@@ -176,7 +178,7 @@ public class Population {
 	 */
 	public void keepConstantPopulationSize() {
 		while (individuals.size() < demandedIndividualsAmount) {
-			addIndividual(new Individual(graph.getVertexCount(), kCliqueSize));
+			addIndividual(new Individual(graph.getVertexCount(), graph.getKCliqueSize()));
 		}
 	}
 
@@ -232,7 +234,7 @@ public class Population {
 	 * @return size of k-clique
 	 */
 	public int getKCliqueSize() {
-		return kCliqueSize;
+		return graph.getKCliqueSize();
 	}
 
 	/**
@@ -258,7 +260,7 @@ public class Population {
 	 * 
 	 * @return graph
 	 */
-	public Graph<Integer, String> getMyGraph() {
+	public GraphRepresentation getMyGraph() {
 		return graph;
 	}
 
@@ -268,7 +270,7 @@ public class Population {
 	 * @param graph
 	 *            - graph to set
 	 */
-	public void setMyGraph(Graph<Integer, String> graph) {
+	public void setMyGraph(GraphRepresentation graph) {
 		this.graph = graph;
 	}
 

@@ -8,6 +8,7 @@ import genetics.Mutation;
 import genetics.Population;
 import genetics.Selection;
 
+
 public class MainTest {
 
 	// tworzac individualse robimy to tak, ze te nowe sa lepsze/niegorszze od reszty populacji, ktora jest juz po krzyzowaniu,
@@ -16,10 +17,22 @@ public class MainTest {
 	
 	// ODPAL, ŁADNIE POKAZUJE ZE W KAZDYM NOWYM POKOLENIU SUMA PRZYSTOSOWANIA OSOBNIKOW WZRASTA!
     public static void main(String[] args) {
+    	GraphRepresentation gr = null;
+    	try {
+			gr = new GraphRepresentation(50, 1000, 20, false);
+			System.out.println(gr);
+		} catch (NoPossibilityToCreateGraphException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	
-    	Graph<Integer, String> myGraph2 = null;
+    	
+    	
+    	
+    	
+   /* 	Graph<Integer, String> myGraph2 = null;
 		try {
-			myGraph2 = GraphFactory.createGraph2(20, 50, 1000);
+			myGraph2 = GraphFactory.createGraph2(50, 1000, 20);
 		} catch (NoPossibilityToCreateGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,15 +42,15 @@ public class MainTest {
     	
     	Graph<Integer, String> myGraph = null;
 		try {
-			myGraph = GraphFactory.createGraph(50, 1000);
+			myGraph = GraphFactory.createGraph(50, 1000, 20);
 		} catch (NoPossibilityToCreateGraphException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		//System.out.println(myGraph);
 		CrossingOver crossingOver = new CrossingOver(0.0);
 		Mutation mutation = new Mutation(0.00);
-        Population population = new Population(10, 50, myGraph, 20);
+        Population population = new Population(10, 50, gr, 20);
 	    // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
         System.out.println(population);
         population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
