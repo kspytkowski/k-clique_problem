@@ -16,13 +16,9 @@ import graph.GraphRepresentation;
  */
 public class Population {
 
-	// ponizsze nie moze byc static, bo jak se zrobie nowy graf to i nowa populacje potrzebuje i odwrotnie, napisz to ci wytłumacze :P
-	//private Graph<Integer, String> graph; // reference to main graph
-	private GraphRepresentation graph;
+	private GraphRepresentation graph; // main graph 
 	private LinkedList<Individual> individuals; // list of individuals
-	// zmien nazwe ponizszego na bardziej adekwatna np. bazowa liczba osobnikow... => zrobilem, ze żądana :D
 	private int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
-	//private final int kCliqueSize; // size of K-Clique
 
 	/**
 	 * Constructor
@@ -37,7 +33,6 @@ public class Population {
 	public Population(int individualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) {
 		// populacja musi miec individualsAmount > 1
 		this.graph = graph;
-		//this.kCliqueSize = kCliqueSize;
 		this.demandedIndividualsAmount = individualsAmount;
 		individuals = new LinkedList<>();
 		for (int i = 0; i < individualsAmount; i++) {
@@ -57,7 +52,6 @@ public class Population {
 		this.graph = graph;
 		individuals = new LinkedList<>();
 		this.demandedIndividualsAmount = individualsAmount;
-		//this.kCliqueSize = kCliqueSize;
 	}
 
 	// tylko do pomocy, trzeba cos konkretnego napisac...
@@ -102,6 +96,7 @@ public class Population {
 
 	}
 
+	// tylko do pomocy, trzeba cos konkretnego napisac...
 	public void printDostatosowanie() {
 		// tylko w celach testowych, zeby sie w mainie pokazalo
 		double populationFitnessSum = 0;
@@ -112,6 +107,7 @@ public class Population {
 		System.out.println(populationFitnessSum);
 	}
 
+	// tylko do pomocy, trzeba cos konkretnego napisac...
 	public void napraw() {
 		Random rand = new Random();
 		for (int i = 0; i < getActualIndividualsAmount(); i++) {
@@ -204,7 +200,6 @@ public class Population {
 	 */
 	public void addIndividual(Individual i) { // w losowe miejsce => teraz dziala zbieznosc :D
 		Random rand = new Random();
-		// individuals.add(i);
 		individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
 	}
 
@@ -260,7 +255,7 @@ public class Population {
 	 * 
 	 * @return graph
 	 */
-	public GraphRepresentation getMyGraph() {
+	public GraphRepresentation getGraphRepresentation() {
 		return graph;
 	}
 
@@ -270,7 +265,7 @@ public class Population {
 	 * @param graph
 	 *            - graph to set
 	 */
-	public void setMyGraph(GraphRepresentation graph) {
+	public void setGraphRepresentation(GraphRepresentation graph) {
 		this.graph = graph;
 	}
 
