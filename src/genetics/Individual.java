@@ -36,7 +36,15 @@ public class Individual implements Comparable<Individual> {
 			chromosome[k] = 1;
 			helpList.remove((Integer) k);
 		}
-		
+		/* To TEST VERSION 
+		chromosome = new byte[graphSize];
+		Random rand = new Random();
+		for (int i = 0; i < graphSize; i++) {
+			if (rand.nextBoolean()) {
+				chromosome[i] = 1;
+				this.activeGenesAmount++;
+			}
+		}*/
 	}
 
 	/**
@@ -101,6 +109,17 @@ public class Individual implements Comparable<Individual> {
 	public void removeGene(int geneIndex) {
 		chromosome[geneIndex] = 0;
 		activeGenesAmount--;
+	}
+	
+	/**
+	 * Adds gene - makes 1 form 0 in chromosome
+	 * 
+	 * @param geneIndex
+	 *            - index of gene to remove
+	 */
+	public void addGene(int geneIndex) {
+		chromosome[geneIndex] = 1;
+		activeGenesAmount++;
 	}
 
 	/**

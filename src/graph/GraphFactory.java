@@ -13,6 +13,44 @@ import exceptions.NoPossibilityToCreateGraphException;
  */
 public class GraphFactory {
 
+	private static Random rand = new Random(); // object that generates random numbers
+
+	/**
+	 * Creates graph with verticesAmount vertices (without any edge)
+	 * 
+	 * @param verticesAmount
+	 *            - amount of vertices
+	 * @return graph
+	 */
+	private static Graph<Integer, String> createGraphVertices(int verticesAmount) {
+		Graph<Integer, String> graph = new SparseGraph<>();
+		for (int i = 1; i <= verticesAmount; i++) {
+			graph.addVertex((Integer) i);
+		}
+		return graph;
+	}
+	
+	/**
+	 * Adds to graph new edges
+	 * 
+	 * @param graph
+	 *            - graph
+	 * @param possibleEdges
+	 *            - list of edges that could be add
+	 * @param existedEdgesAmount
+	 *            - amount of edges that already exists in graph
+	 * @param demandedEdgesAmount
+	 *            - amount of edges that should be in graph
+	 */
+	private static void fillGraphWithEdges(Graph<Integer, String> graph, LinkedList<Edge> possibleEdges, int existedEdgesAmount, int demandedEdgesAmount) {
+		int randEdge;
+		for (int i = existedEdgesAmount + 1; i <= demandedEdgesAmount; i++) {
+			randEdge = rand.nextInt(possibleEdges.size());
+			graph.addEdge("EDGE" + i, possibleEdges.get(randEdge).getFirstVertex(), possibleEdges.get(randEdge).getSecondVertex());
+			possibleEdges.remove(randEdge);
+		}
+	}
+
 	/**
 	 * Creates random sparse graph
 	 * 
@@ -32,23 +70,14 @@ public class GraphFactory {
 		if (edges > (vertices * (vertices - 1) / 2)) {
 			throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
 		}
-		Graph<Integer, String> graph = new SparseGraph<>();
-		for (int i = 1; i <= vertices; i++) {
-			graph.addVertex((Integer) i);
-		}
+		Graph<Integer, String> graph = createGraphVertices(vertices);
 		LinkedList<Edge> edgesList = new LinkedList<>();
 		for (int i = 1; i <= vertices; i++) {
 			for (int j = i + 1; j <= vertices; j++) {
 				edgesList.add(new Edge(i, j));
 			}
 		}
-		Random rand = new Random();
-		int randEdge;
-		for (int i = 1; i <= edges; i++) {
-			randEdge = rand.nextInt(edgesList.size());
-			graph.addEdge("EDGE" + i, edgesList.get(randEdge).getFirstVertex(), edgesList.get(randEdge).getSecondVertex());
-			edgesList.remove(randEdge);
-		}
+		fillGraphWithEdges(graph, edgesList, 0, edges);
 		return graph;
 	}
 
@@ -66,10 +95,7 @@ public class GraphFactory {
 	 */
 	public static Graph<Integer, String> createGraph2(int kCliqueSize, int vertices, int edges) throws NoPossibilityToCreateGraphException {
 		// kiedys rzuce wyjatki
-		Graph<Integer, String> graph = new SparseGraph<>();
-		for (int i = 1; i <= vertices; i++) {
-			graph.addVertex((Integer) i);
-		}
+		Graph<Integer, String> graph = createGraphVertices(vertices);
 		for (int i = 1, k = 1; i <= kCliqueSize; i++) {
 			for (int j = i + 1; j <= kCliqueSize; j++, k++) {
 				graph.addEdge("EDGE" + k, i, j);
@@ -81,14 +107,8 @@ public class GraphFactory {
 				edgesList.add(new Edge(i, j));
 			}
 		}
-		Random rand = new Random();
-		int randEdge;
 		int existedEdgesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
-		for (int i = existedEdgesAmount + 1; i <= edges; i++) {
-			randEdge = rand.nextInt(edgesList.size());
-			graph.addEdge("EDGE" + i, edgesList.get(randEdge).getFirstVertex(), edgesList.get(randEdge).getSecondVertex());
-			edgesList.remove(randEdge);
-		}
+		fillGraphWithEdges(graph, edgesList, existedEdgesAmount, edges);
 		return graph;
 	}
 }

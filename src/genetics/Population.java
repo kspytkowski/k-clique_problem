@@ -1,9 +1,11 @@
 package genetics;
 
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Random;
 
 import edu.uci.ics.jung.graph.Graph;
 
@@ -31,6 +33,7 @@ public class Population {
 	 *            - k-clique size (amount of vertices)
 	 */
 	public Population(int individualsAmount, int graphSize, Graph<Integer, String> graph, int kCliqueSize) {
+		// populacja musi miec individualsAmount > 1
 		this.graph = graph;
 		this.kCliqueSize = kCliqueSize;
 		this.demandedIndividualsAmount = individualsAmount;
@@ -66,7 +69,7 @@ public class Population {
 			for (int i = 0; i < graph.getVertexCount(); i++) {
 				if (ind.getChromosome()[i] == 1) {
 					for (int k = i + 1; k <= graph.getVertexCount(); k++) {
-						// System.out.println(ind.getVertices().length);
+						// System.out.println(graph.getVertexCount());
 						if (graph.isNeighbor(i + 1, k) && ind.getChromosome()[k - 1] == 1)
 							lol += 1;
 					}
@@ -78,15 +81,16 @@ public class Population {
 
 			if (ind.getActiveGenesAmount() != 0 && ind.getActiveGenesAmount() != 1)
 				czyJestKKlika = (double) lol / ((ind.getActiveGenesAmount() * (ind.getActiveGenesAmount() - 1) / 2));
-			if (ind.getActiveGenesAmount() != kCliqueSize)
-				lol2 = czyJestKKlika * kCliqueSize / (Math.abs(kCliqueSize - ind.getActiveGenesAmount()) + kCliqueSize);
-			else
-				lol2 = czyJestKKlika;
+			// if (ind.getActiveGenesAmount() == kCliqueSize)
+			// lol2 = czyJestKKlika / (Math.abs(kCliqueSize - ind.getActiveGenesAmount()) + 1);
+			// lol2 = czyJestKKlika / (Math.abs(kCliqueSize - ind.getActiveGenesAmount()) - 1 + 2.73);
+			// else
+			lol2 = czyJestKKlika;
 			ind.setFitness(lol2);
 
 			if (czyJestKKlika == 1 && ind.getActiveGenesAmount() >= kCliqueSize) {
-				//System.out.println("-----POPULACJA-----");
-				//System.out.println(this);
+				// System.out.println("-----POPULACJA-----");
+				// System.out.println(this);
 				System.out.println("-----K-KLIKA-----");
 				System.out.println(ind);
 				System.exit(0);
@@ -94,6 +98,77 @@ public class Population {
 			}
 		}
 
+	}
+
+	public void printDostatosowanie() {
+		// tylko w celach testowych, zeby sie w mainie pokazalo
+		double populationFitnessSum = 0;
+		Iterator<Individual> individualsIterator = getIndividuals().iterator();
+		while (individualsIterator.hasNext()) {
+			populationFitnessSum += individualsIterator.next().getFitness();
+		}
+		System.out.println(populationFitnessSum);
+	}
+
+	public void napraw() {
+		Random rand = new Random();
+		for (int i = 0; i < getActualIndividualsAmount(); i++) {
+			Individual ind = getIndividual(i);
+			if (ind.getActiveGenesAmount() > kCliqueSize) {
+
+				Map<Integer, Integer> cosik = new HashMap<>();
+
+				// LinkedList<Integer> genesIndexes = new LinkedList<>();
+				for (int j = 0; j < ind.getChromosomeLength(); j++) {
+					if (ind.getGene(j) == 1) {
+						// genesIndexes.add(j);
+						int lol = 0;
+						for (int ii = 0; ii < graph.getVertexCount(); ii++) {
+							if (ind.getChromosome()[ii] == 1) {
+								for (int k = ii + 1; k <= graph.getVertexCount(); k++) {
+									// System.out.println(graph.getVertexCount());
+									if (graph.isNeighbor(ii + 1, k) && ind.getChromosome()[k - 1] == 1)
+										lol += 1;
+								}
+							}
+						}
+						cosik.put(j, lol);
+					}
+				}
+
+				while (ind.getActiveGenesAmount() > kCliqueSize) {
+					// int index = rand.nextInt(genesIndexes.size());
+					// ind.removeGene(genesIndexes.get(index));
+					// genesIndexes.remove((Integer) index);
+				}
+			} else {
+				LinkedList<Integer> genesIndexes = new LinkedList<>();
+				for (int j = 0; j < ind.getChromosomeLength(); j++) {
+					if (ind.getGene(j) == 0) {
+						genesIndexes.add(j);
+					}
+				}
+				while (ind.getActiveGenesAmount() < kCliqueSize) {
+					int index = rand.nextInt(genesIndexes.size());
+					ind.addGene(genesIndexes.get(index));
+					genesIndexes.remove((Integer) index);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Counts individuals' fitness sum
+	 * 
+	 * @return individuals' fitness sum
+	 */
+	public double fitnessSum() {
+		double sum = 0;
+		Iterator<Individual> individualsIterator = individuals.iterator();
+		while (individualsIterator.hasNext()) {
+			sum += individualsIterator.next().getFitness();
+		}
+		return sum;
 	}
 
 	/**
@@ -112,9 +187,9 @@ public class Population {
 	 *            - shows how many individuals should be removed (in percentage)
 	 */
 	public void removeWorstIndividuals(double howMuchToRemove) {
-		int toRemove = (int)(howMuchToRemove * getActualIndividualsAmount());
+		int toRemove = (int) (howMuchToRemove * getActualIndividualsAmount());
 		Collections.sort(individuals);
-		for(int i = 0; i < toRemove; i++) {
+		for (int i = 0; i < toRemove; i++) {
 			individuals.removeFirst();
 		}
 	}
@@ -125,8 +200,10 @@ public class Population {
 	 * @param i
 	 *            - individual
 	 */
-	public void addIndividual(Individual i) {
-		individuals.add(i);
+	public void addIndividual(Individual i) { // w losowe miejsce => teraz dziala zbieznosc :D
+		Random rand = new Random();
+		// individuals.add(i);
+		individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
 	}
 
 	/**

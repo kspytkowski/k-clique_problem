@@ -20,11 +20,8 @@ public class Selection {
 	 * @return new population (parents)
 	 */
 	public static Population rouletteWheelSelection(Population population) {
-		double populationFitnessSum = 0;
+		double populationFitnessSum = population.fitnessSum();
 		Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
-		while (individualsIterator.hasNext()) {
-			populationFitnessSum += individualsIterator.next().getFitness();
-		}
 		LinkedList<Double> rouletteWheel = new LinkedList<>();
 		individualsIterator = population.getIndividuals().iterator();
 		double lastFitness = 0;
@@ -32,7 +29,6 @@ public class Selection {
 			lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
 			rouletteWheel.add(lastFitness);
 		}
-		System.out.println(populationFitnessSum); // zeby sie w Main'ie pokazalo ;)
 		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getMyGraph(), population.getKCliqueSize());
 		individualsIterator = population.getIndividuals().iterator();
 		while (individualsIterator.hasNext()) {
@@ -73,13 +69,6 @@ public class Selection {
 			}
 			newPopulation.addIndividual(actualBestIndividual);
 		}
-		// tylko w celach testowych, zeby sie w mainie pokazalo
-		double populationFitnessSum = 0;
-		Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
-		while (individualsIterator.hasNext()) {
-			populationFitnessSum += individualsIterator.next().getFitness();
-		}
-		System.out.println(populationFitnessSum);
 		return newPopulation;
 	}
 }
