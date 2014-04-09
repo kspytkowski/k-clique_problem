@@ -29,7 +29,7 @@ public class Selection {
 			lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
 			rouletteWheel.add(lastFitness);
 		}
-		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getMyGraph(), population.getKCliqueSize());
+		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
 		individualsIterator = population.getIndividuals().iterator();
 		while (individualsIterator.hasNext()) {
 			int i = 0;
@@ -55,7 +55,7 @@ public class Selection {
 	 */
 	public static Population tournament(Population population, int gameIndividualsAmount) { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
 		// gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
-		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getMyGraph(), population.getKCliqueSize());
+		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
 		int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
 		int i = 0;
 		for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju
