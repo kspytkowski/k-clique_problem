@@ -89,13 +89,9 @@ public class CrossingOver {
 		Individual firstChild = new Individual(firstParent.getChromosomeLength());
 		Individual secondChild = new Individual(firstParent.getChromosomeLength());
 		int splitPoint = rand.nextInt(firstChild.getChromosomeLength());
-		for (int j = 0; j < splitPoint; j++) {
-			firstChild.setGene(j, firstParent.getValueOfGene(j));
-			secondChild.setGene(j, secondParent.getValueOfGene(j));
-		}
-		for (int j = splitPoint; j < firstChild.getChromosomeLength(); j++) {
-			firstChild.setGene(j, secondParent.getValueOfGene(j));
-			secondChild.setGene(j, firstParent.getValueOfGene(j));
+		for (int j = 0; j < firstChild.getChromosomeLength(); j++) {
+			firstChild.setGene(j, j < splitPoint ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
+			secondChild.setGene(j, j < splitPoint ? secondParent.getValueOfGene(j) : firstParent.getValueOfGene(j));
 		}
 		population.getIndividuals().add(firstChild);
 		population.getIndividuals().add(secondChild);
@@ -114,11 +110,8 @@ public class CrossingOver {
 	public void onePointWithOneChildCrossingOver(Individual firstParent, Individual secondParent, Population population) {
 		Individual child = new Individual(firstParent.getChromosomeLength());
 		int splitPoint = rand.nextInt(child.getChromosomeLength());
-		for (int j = 0; j < splitPoint; j++) {
-			child.setGene(j, firstParent.getValueOfGene(j));
-		}
-		for (int j = splitPoint; j < child.getChromosomeLength(); j++) {
-			child.setGene(j, secondParent.getValueOfGene(j));
+		for (int j = 0; j < child.getChromosomeLength(); j++) {
+			child.setGene(j, j < splitPoint ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
 		}
 		population.getIndividuals().add(child);
 	}
@@ -136,11 +129,7 @@ public class CrossingOver {
 	public void uniformCrossingOver(Individual firstParent, Individual secondParent, Population population) {
 		Individual child = new Individual(firstParent.getChromosomeLength());
 		for (int j = 0; j < child.getChromosomeLength(); j++) {
-			if (rand.nextBoolean()) {
-				child.setGene(j, firstParent.getValueOfGene(j));
-			} else {
-				child.setGene(j, secondParent.getValueOfGene(j));
-			}
+			child.setGene(j, rand.nextBoolean() ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
 		}
 		population.getIndividuals().add(child);
 	}
