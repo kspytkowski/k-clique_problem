@@ -18,6 +18,48 @@ public class GraphRepresentation {
 	private final int kCliqueSize; // size of K-Clique
 
 	/**
+	 * Constructor - creates random sparse graph
+	 * 
+	 * @param vertices
+	 *            - amount of vertices
+	 * @param edges
+	 *            - amount of edges
+	 * @param kCliqueSize
+	 *            - k-clique size (amount of vertices)
+	 * @throws NoPossibilityToCreateGraphException
+	 */
+	public GraphRepresentation(int vertices, int edges, int kCliqueSize, boolean shouldBeKClique) throws NoPossibilityToCreateGraphException {
+		if (vertices < 1) {
+			throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
+		}
+		if (edges < 0) {
+			throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
+		}
+		if (edges > (vertices * (vertices - 1) / 2)) {
+			throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
+		}
+		this.kCliqueSize = kCliqueSize;
+		graph = createGraphVertices(vertices);
+		if (shouldBeKClique) {
+			LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
+			int kCliqueEgdesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
+			fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
+			edgesList = new LinkedList<>();
+			for (int i = 1; i <= vertices; i++) {
+				for (int j = kCliqueSize + 1; j <= vertices; j++) {
+					if (i != j && i < j) {
+						edgesList.add(new Edge(i, j));
+					}
+				}
+			}
+			fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
+		} else {
+			LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
+			fillGraphWithEdges(graph, edgesList, 0, edges);
+		}
+	}
+
+	/**
 	 * Getter
 	 * 
 	 * @return graph
@@ -36,9 +78,9 @@ public class GraphRepresentation {
 	}
 
 	/**
-	 * Returns amount of vertex in graph
+	 * Getter
 	 * 
-	 * @return vertex count
+	 * @return graph vertex amount
 	 */
 	public int getVertexCount() {
 		return graph.getVertexCount();
@@ -107,48 +149,6 @@ public class GraphRepresentation {
 			}
 		}
 		return edgesList;
-	}
-
-	/**
-	 * Constructor - creates random sparse graph
-	 * 
-	 * @param vertices
-	 *            - amount of vertices
-	 * @param edges
-	 *            - amount of edges
-	 * @param kCliqueSize
-	 *            - k-clique size (amount of vertices)
-	 * @throws NoPossibilityToCreateGraphException
-	 */
-	public GraphRepresentation(int vertices, int edges, int kCliqueSize, boolean shouldBeKClique) throws NoPossibilityToCreateGraphException {
-		if (vertices < 1) {
-			throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
-		}
-		if (edges < 0) {
-			throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
-		}
-		if (edges > (vertices * (vertices - 1) / 2)) {
-			throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
-		}
-		this.kCliqueSize = kCliqueSize;
-		graph = createGraphVertices(vertices);
-		if (shouldBeKClique) {
-			LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
-			int kCliqueEgdesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
-			fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
-			edgesList = new LinkedList<>();
-			for (int i = 1; i <= vertices; i++) {
-				for (int j = kCliqueSize + 1; j <= vertices; j++) {
-					if (i != j && i < j) {
-						edgesList.add(new Edge(i, j));
-					}
-				}
-			}
-			fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
-		} else {
-			LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
-			fillGraphWithEdges(graph, edgesList, 0, edges);
-		}
 	}
 
 	@Override

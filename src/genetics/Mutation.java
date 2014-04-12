@@ -11,7 +11,7 @@ public class Mutation {
 	private double mutationProbability; // individuals' mutation probability
 
 	/**
-	 * Mutates some genes in Individual
+	 * Constructor
 	 * 
 	 * @param mutationProbability
 	 */
