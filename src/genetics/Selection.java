@@ -58,7 +58,7 @@ public class Selection {
 		Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
 		int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
 		int i = 0;
-		for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju
+		for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju, mozna w sumie ich nie brac pod uwage :) zalezy jak chcemy...
 			newPopulation.addIndividual(population.getIndividual(i));
 		}
 		Individual actualBestIndividual;
