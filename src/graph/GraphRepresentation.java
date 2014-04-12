@@ -132,8 +132,8 @@ public class GraphRepresentation {
 		}
 		this.kCliqueSize = kCliqueSize;
 		graph = createGraphVertices(vertices);
-		LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
 		if (shouldBeKClique) {
+			LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
 			int kCliqueEgdesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
 			fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
 			edgesList = new LinkedList<>();
@@ -146,6 +146,7 @@ public class GraphRepresentation {
 			}
 			fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
 		} else {
+			LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
 			fillGraphWithEdges(graph, edgesList, 0, edges);
 		}
 	}
