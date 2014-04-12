@@ -49,8 +49,7 @@ public class Mutation {
 		for (int i = 0; i < population.getActualIndividualsAmount(); i++) {
 			if (rand.nextDouble() < mutationProbability) {
 				Individual ind = population.getIndividual(i);
-				int positionInChromosomeToChange = rand.nextInt(ind.getChromosomeLength());
-				ind.inverseGene(positionInChromosomeToChange);
+				ind.inverseGene(rand.nextInt(ind.getChromosomeLength()));
 			}
 		}
 	}
