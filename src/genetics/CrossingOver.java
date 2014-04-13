@@ -64,6 +64,9 @@ public class CrossingOver {
                 case UNIFORMCROSSOVER:
                     uniformCrossingOver(firstParent, secondParent, newPopulation);
                     break;
+                case WEIGHTEDUNIFORMCROSSOVER:
+                    weightedUniformCrossingOver(firstParent, secondParent, newPopulation);
+                    break;
                 }
 
             } else {
@@ -130,6 +133,25 @@ public class CrossingOver {
         Individual child = new Individual(firstParent.getChromosomeLength());
         for (int j = 0; j < child.getChromosomeLength(); j++) {
             child.setGene(j, rand.nextBoolean() ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
+        }
+        population.getIndividuals().add(child);
+    }
+
+    /**
+     * Crosses over two Individuals (parents) and makes one new Individual (child)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
+     */
+    public void weightedUniformCrossingOver(Individual firstParent, Individual secondParent, Population population) {
+        Individual child = new Individual(firstParent.getChromosomeLength());
+        double ratio = firstParent.getFitness() / (firstParent.getFitness() + secondParent.getFitness());
+        for (int j = 0; j < child.getChromosomeLength(); j++) {
+            child.setGene(j, ratio > rand.nextDouble() ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
         }
         population.getIndividuals().add(child);
     }
