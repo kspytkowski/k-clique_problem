@@ -23,13 +23,10 @@ public class Population {
 
     /**
      * Constructor
-     * 
-     * @param demandedIndividualsAmount
-     *            - initially amount of individuals
-     * @param graphSize
-     *            - graph's size (amount of vertices)
-     * @param kCliqueSize
-     *            - k-clique size (amount of vertices)
+     *
+     * @param demandedIndividualsAmount - initially amount of individuals
+     * @param graphSize - graph's size (amount of vertices)
+     * @param kCliqueSize - k-clique size (amount of vertices)
      * @throws GeneticAlgorithmException
      */
     public Population(int demandedIndividualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
@@ -52,9 +49,8 @@ public class Population {
 
     /**
      * Getter
-     * 
-     * @param index
-     *            - index of individual
+     *
+     * @param index - index of individual
      * @return individual on specified index
      */
     public Individual getIndividual(int index) {
@@ -63,7 +59,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return size of k-clique
      */
     public int getKCliqueSize() {
@@ -72,7 +68,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return list of individuals
      */
     public LinkedList<Individual> getIndividuals() {
@@ -81,9 +77,8 @@ public class Population {
 
     /**
      * Setter
-     * 
-     * @param individuals
-     *            - list of individuals
+     *
+     * @param individuals - list of individuals
      */
     public void setIndividuals(LinkedList<Individual> individuals) {
         this.individuals = individuals;
@@ -91,7 +86,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return amount of individuals that should be in population
      */
     public int getDemandedIndividualsAmount() {
@@ -100,7 +95,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return graph
      */
     public GraphRepresentation getGraphRepresentation() {
@@ -109,7 +104,7 @@ public class Population {
 
     /**
      * Counts individuals' fitness sum
-     * 
+     *
      * @return individuals' fitness sum
      */
     public double fitnessSum() {
@@ -122,7 +117,8 @@ public class Population {
     }
 
     /**
-     * Keeps constant amount of individuals in population (adds random individuals)
+     * Keeps constant amount of individuals in population (adds random
+     * individuals)
      */
     public void keepConstantPopulationSize() {
         while (individuals.size() < demandedIndividualsAmount) {
@@ -132,9 +128,9 @@ public class Population {
 
     /**
      * Removes worst individuals from population
-     * 
-     * @param howManyToRemove
-     *            - shows how many individuals should be removed (in percentage)
+     *
+     * @param howManyToRemove - shows how many individuals should be removed (in
+     * percentage)
      */
     public void removeWorstIndividuals(double howManyToRemove) {
         int toRemove = (int) (howManyToRemove * getActualIndividualsAmount());
@@ -146,9 +142,8 @@ public class Population {
 
     /**
      * Adds individual to population
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public void addIndividual(Individual i) { // w losowe miejsce => teraz dziala zbieznosc :D
         individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
@@ -156,7 +151,7 @@ public class Population {
 
     /**
      * Returns actual amount of individuals in population
-     * 
+     *
      * @return amount of individuals
      */
     public int getActualIndividualsAmount() {
@@ -227,13 +222,10 @@ public class Population {
 
     // tylko do pomocy, trzeba cos konkretnego napisac...
     public void napraw() {
-        Random rand = new Random();
         for (int i = 0; i < getActualIndividualsAmount(); i++) {
             Individual ind = getIndividual(i);
             if (ind.getActiveGenesAmount() > graph.getKCliqueSize()) {
-
                 Map<Integer, Integer> cosik = new HashMap<>();
-
                 // LinkedList<Integer> genesIndexes = new LinkedList<>();
                 for (int j = 0; j < ind.getChromosomeLength(); j++) {
                     if (ind.getGene(j) == 1) {

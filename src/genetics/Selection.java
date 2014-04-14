@@ -13,7 +13,7 @@ import exceptions.GeneticAlgorithmException;
  */
 public class Selection {
 
-    private static Random rand = new Random(); // object that generates random numbers
+    private static final Random rand = new Random(); // object that generates random numbers
 
     /**
      * Creates new population according to given roulette with probability of choosing concrete individual
@@ -24,10 +24,11 @@ public class Selection {
      *            - list with probabilities of individuals
      * @throws GeneticAlgorithmException
      */
+    
+    //czemu to jest DOuble?
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) throws GeneticAlgorithmException {
         LinkedList<Individual> IndividualsList = new LinkedList<>();
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
-        individualsIterator = population.getIndividuals().iterator();
         while (individualsIterator.hasNext()) {
             int i = 0;
             double actualRouletteWheelPoint = rand.nextDouble();

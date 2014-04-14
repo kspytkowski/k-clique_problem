@@ -16,9 +16,8 @@ public class CrossingOver {
 
     /**
      * Constructor
-     * 
-     * @param crossingOverProbability
-     *            - probability of crossing-over
+     *
+     * @param crossingOverProbability - probability of crossing-over
      * @throws GeneticAlgorithmException
      */
     public CrossingOver(double crossingOverProbability) throws GeneticAlgorithmException {
@@ -30,7 +29,7 @@ public class CrossingOver {
 
     /**
      * Getter
-     * 
+     *
      * @return individuals' crossing-over probability
      */
     public double getCrossingOverProbability() {
@@ -39,9 +38,8 @@ public class CrossingOver {
 
     /**
      * Setter
-     * 
-     * @param crossingOverProbability
-     *            - individuals' crossing-over probability
+     *
+     * @param crossingOverProbability - individuals' crossing-over probability
      * @throws GeneticAlgorithmException
      */
     public void setCrossingOverProbability(double crossingOverProbability) throws GeneticAlgorithmException {
@@ -53,34 +51,37 @@ public class CrossingOver {
 
     /**
      * Starts appropriate crossing-over
-     * 
-     * @param crossingOverType
-     *            - type of crossing-over
+     *
+     * @param crossingOverType - type of crossing-over
      * @throws GeneticAlgorithmException
      */
     public void crossOver(CrossingOverType crossingOverType, Population population) throws GeneticAlgorithmException {
         // jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza => zostawic to tak?!
-        int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
+        // niech się ostatni krzyżuje sam ze sobą
+        //int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
+        int amountOfIndividualsToCrossOver = population.getActualIndividualsAmount();
         LinkedList<Individual> newIndividualsList = new LinkedList<>();
         for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
             Individual firstParent = population.getIndividual(i);
-            Individual secondParent = population.getIndividual(i + 1);
+            Individual secondParent = population.getIndividual(i);
+            if (amountOfIndividualsToCrossOver - i != 1) {
+                secondParent = population.getIndividual(i + 1);
+            }
             if (crossingOverProbability > rand.nextDouble()) {
                 switch (crossingOverType) {
-                case ONEPOINTWITHTWOCHILDREN:
-                    onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
-                    break;
-                case ONEPOINTWITHONECHILD:
-                    onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
-                    break;
-                case UNIFORMCROSSOVER:
-                    uniformCrossingOver(firstParent, secondParent, newIndividualsList);
-                    break;
-                case WEIGHTEDUNIFORMCROSSOVER:
-                    weightedUniformCrossingOver(firstParent, secondParent, newIndividualsList);
-                    break;
+                    case ONEPOINTWITHTWOCHILDREN:
+                        onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
+                        break;
+                    case ONEPOINTWITHONECHILD:
+                        onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
+                        break;
+                    case UNIFORMCROSSOVER:
+                        uniformCrossingOver(firstParent, secondParent, newIndividualsList);
+                        break;
+                    case WEIGHTEDUNIFORMCROSSOVER:
+                        weightedUniformCrossingOver(firstParent, secondParent, newIndividualsList);
+                        break;
                 }
-
             } else {
                 newIndividualsList.add(firstParent);
                 newIndividualsList.add(secondParent);
@@ -90,15 +91,13 @@ public class CrossingOver {
     }
 
     /**
-     * 
-     * Crosses over two Individuals (parents) and makes two new Individuals (children)
-     * 
-     * @param firstParent
-     *            - first parent
-     * @param secondParent
-     *            - second parent
-     * @param newIndividuals
-     *            - list of new Individuals
+     *
+     * Crosses over two Individuals (parents) and makes two new Individuals
+     * (children)
+     *
+     * @param firstParent - first parent
+     * @param secondParent - second parent
+     * @param newIndividuals - list of new Individuals
      */
     public void onePointWithTwoChildrenCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
         Individual firstChild = new Individual(firstParent.getChromosomeLength());
@@ -113,14 +112,12 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual (child)
-     * 
-     * @param firstParent
-     *            - first parent
-     * @param secondParent
-     *            - second parent
-     * @param newIndividuals
-     *            - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual
+     * (child)
+     *
+     * @param firstParent - first parent
+     * @param secondParent - second parent
+     * @param newIndividuals - list of new Individuals
      */
     public void onePointWithOneChildCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
         Individual child = new Individual(firstParent.getChromosomeLength());
@@ -132,14 +129,12 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual (child)
-     * 
-     * @param firstParent
-     *            - first parent
-     * @param secondParent
-     *            - second parent
-     * @param newIndividuals
-     *            - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual
+     * (child)
+     *
+     * @param firstParent - first parent
+     * @param secondParent - second parent
+     * @param newIndividuals - list of new Individuals
      */
     public void uniformCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
         Individual child = new Individual(firstParent.getChromosomeLength());
@@ -150,14 +145,12 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual (child)
-     * 
-     * @param firstParent
-     *            - first parent
-     * @param secondParent
-     *            - second parent
-     * @param newIndividuals
-     *            - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual
+     * (child)
+     *
+     * @param firstParent - first parent
+     * @param secondParent - second parent
+     * @param newIndividuals - list of new Individuals
      */
     public void weightedUniformCrossingOver(Individual firstParent, Individual secondParent, LinkedList<Individual> newIndividuals) {
         Individual child = new Individual(firstParent.getChromosomeLength());
