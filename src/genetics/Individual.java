@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public class Individual implements Comparable<Individual> {
 
-    private final byte[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
+    private final int[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
     private int activeGenesAmount; // amount of vertices in subgraph
     private double fitness; // shows how well individual is adopted in population
 
@@ -24,7 +24,7 @@ public class Individual implements Comparable<Individual> {
     public Individual(int graphSize, int kCliqueSize) {
         // wyjatki?!
         this.activeGenesAmount = kCliqueSize;
-        chromosome = new byte[graphSize];
+        chromosome = new int[graphSize];
         LinkedList<Integer> helpList = new LinkedList<>();
         for (int i = 0; i < graphSize; i++) {
             helpList.add(i);
@@ -68,7 +68,7 @@ public class Individual implements Comparable<Individual> {
      */
     public Individual(int chromosomeLength) {
         this.activeGenesAmount = 0;
-        this.chromosome = new byte[chromosomeLength];
+        this.chromosome = new int[chromosomeLength];
         this.fitness = 0.0;
     }
 
@@ -88,7 +88,7 @@ public class Individual implements Comparable<Individual> {
      *            - index of gene
      * @return value of gene: 0 - not exists, 1 - exists
      */
-    public byte getValueOfGene(int geneIndex) {
+    public int getValueOfGene(int geneIndex) {
         return chromosome[geneIndex];
     }
 
@@ -106,7 +106,7 @@ public class Individual implements Comparable<Individual> {
      * 
      * @return chromosome - table
      */
-    public byte[] getChromosome() {
+    public int[] getChromosome() {
         return chromosome;
     }
 
@@ -117,7 +117,7 @@ public class Individual implements Comparable<Individual> {
      *            - index of gene
      * @return value of gene
      */
-    public byte getGene(int geneIndex) {
+    public int getGene(int geneIndex) {
         return chromosome[geneIndex];
     }
 
@@ -170,7 +170,7 @@ public class Individual implements Comparable<Individual> {
      * @param value
      *            - value to set
      */
-    public void setGene(int geneIndex, byte value) {
+    public void setGene(int geneIndex, int value) {
         if (chromosome[geneIndex] != value && value == 1) {
             activeGenesAmount++;
         } else if (chromosome[geneIndex] != value && value == 0) {
