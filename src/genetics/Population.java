@@ -1,13 +1,14 @@
 package genetics;
 
+import exceptions.GeneticAlgorithmException;
+import graph.GraphRepresentation;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Random;
-
-import graph.GraphRepresentation;
 
 /**
  * @author Krzysztof Spytkowski
@@ -28,9 +29,18 @@ public class Population {
      *            - graph's size (amount of vertices)
      * @param kCliqueSize
      *            - k-clique size (amount of vertices)
+     * @throws GeneticAlgorithmException
      */
-    public Population(int individualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) {
-        // populacja musi miec individualsAmount > 1
+    public Population(int individualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
+        if (individualsAmount < 1) {
+            throw new GeneticAlgorithmException("Population has to have more than 0 individuals");
+        }
+        if (graphSize < 1) {
+            throw new GeneticAlgorithmException("Graph has to have more than 0 vertices");
+        }
+        if (kCliqueSize > graphSize) {
+            throw new GeneticAlgorithmException("Size of k-clique cannot be more than size of main graph");
+        }
         this.graph = graph;
         this.demandedIndividualsAmount = individualsAmount;
         individuals = new LinkedList<>();
@@ -42,15 +52,19 @@ public class Population {
     /**
      * Constructor - creates blank new population (without any Individual)
      * 
-     * @param individualsAmount
+     * @param demandedIndividualsAmount
      *            - amount of individuals that population should have
      * @param kCliqueSize
      *            - size of k-clique
+     * @throws GeneticAlgorithmException
      */
-    public Population(int individualsAmount, GraphRepresentation graph, int kCliqueSize) {
+    public Population(int demandedIndividualsAmount, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
+        if (demandedIndividualsAmount < 1) {
+            throw new GeneticAlgorithmException("Population has to have ultimately more than 0 individuals");
+        }
         this.graph = graph;
         individuals = new LinkedList<>();
-        this.demandedIndividualsAmount = individualsAmount;
+        this.demandedIndividualsAmount = demandedIndividualsAmount;
     }
 
     /**
@@ -136,11 +150,11 @@ public class Population {
     /**
      * Removes worst individuals from population
      * 
-     * @param howMuchToRemove
+     * @param howManyToRemove
      *            - shows how many individuals should be removed (in percentage)
      */
-    public void removeWorstIndividuals(double howMuchToRemove) {
-        int toRemove = (int) (howMuchToRemove * getActualIndividualsAmount());
+    public void removeWorstIndividuals(double howManyToRemove) {
+        int toRemove = (int) (howManyToRemove * getActualIndividualsAmount());
         Collections.sort(individuals);
         for (int i = 0; i < toRemove; i++) {
             individuals.removeFirst();

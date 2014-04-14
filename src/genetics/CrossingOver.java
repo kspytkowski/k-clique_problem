@@ -2,6 +2,8 @@ package genetics;
 
 import java.util.Random;
 
+import exceptions.GeneticAlgorithmException;
+
 /**
  * @author Krzysztof Spytkowski
  * @date 7 kwi 2014
@@ -16,8 +18,12 @@ public class CrossingOver {
      * 
      * @param crossingOverProbability
      *            - probability of crossing-over
+     * @throws GeneticAlgorithmException
      */
-    public CrossingOver(double crossingOverProbability) {
+    public CrossingOver(double crossingOverProbability) throws GeneticAlgorithmException {
+        if (crossingOverProbability < 0 || crossingOverProbability > 1) {
+            throw new GeneticAlgorithmException("Probability of crossing-over should be more than 0 and less than 1");
+        }
         this.crossingOverProbability = crossingOverProbability;
     }
 
@@ -35,8 +41,12 @@ public class CrossingOver {
      * 
      * @param crossingOverProbability
      *            - individuals' crossing-over probability
+     * @throws GeneticAlgorithmException
      */
-    public void setCrossingOverProbability(double crossingOverProbability) {
+    public void setCrossingOverProbability(double crossingOverProbability) throws GeneticAlgorithmException {
+        if (crossingOverProbability < 0 || crossingOverProbability > 1) {
+            throw new GeneticAlgorithmException("Probability of crossing-over should be more than 0 and less than 1");
+        }
         this.crossingOverProbability = crossingOverProbability;
     }
 
@@ -45,8 +55,9 @@ public class CrossingOver {
      * 
      * @param crossingOverType
      *            - type of crossing-over
+     * @throws GeneticAlgorithmException
      */
-    public Population crossOver(CrossingOverType crossingOverType, Population population) {
+    public Population crossOver(CrossingOverType crossingOverType, Population population) throws GeneticAlgorithmException {
         // jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza => zostawic to tak?!
         int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
         Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());

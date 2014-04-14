@@ -2,6 +2,8 @@ package genetics;
 
 import java.util.Random;
 
+import exceptions.GeneticAlgorithmException;
+
 /**
  * @author Krzysztof Spytkowski
  * @date 7 kwi 2014
@@ -14,8 +16,12 @@ public class Mutation {
      * Constructor
      * 
      * @param mutationProbability
+     * @throws GeneticAlgorithmException
      */
-    public Mutation(double mutationProbability) {
+    public Mutation(double mutationProbability) throws GeneticAlgorithmException {
+        if (mutationProbability < 0 || mutationProbability > 1) {
+            throw new GeneticAlgorithmException("Probability of mutation should be more than 0 and less than 1");
+        }
         this.mutationProbability = mutationProbability;
     }
 
@@ -33,8 +39,12 @@ public class Mutation {
      * 
      * @param mutationProbability
      *            - individuals' mutation probability
+     * @throws GeneticAlgorithmException
      */
-    public void setMutationProbability(double mutationProbability) {
+    public void setMutationProbability(double mutationProbability) throws GeneticAlgorithmException {
+        if (mutationProbability < 0 || mutationProbability > 1) {
+            throw new GeneticAlgorithmException("Probability of mutation should be more than 0 and less than 1");
+        }
         this.mutationProbability = mutationProbability;
     }
 

@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import exceptions.GeneticAlgorithmException;
+
 /**
  * @author Krzysztof Spytkowski
  * @date 7 kwi 2014
@@ -21,8 +23,9 @@ public class Selection {
      * @param roulette
      *            - list with probabilities of individuals
      * @return new population
+     * @throws GeneticAlgorithmException
      */
-    private static Population createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) {
+    private static Population createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) throws GeneticAlgorithmException {
         Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
         individualsIterator = population.getIndividuals().iterator();
@@ -45,8 +48,9 @@ public class Selection {
      * @param population
      *            - population
      * @return new population (parents)
+     * @throws GeneticAlgorithmException
      */
-    public static Population rouletteWheelSelection(Population population) {
+    public static Population rouletteWheelSelection(Population population) throws GeneticAlgorithmException {
         double populationFitnessSum = population.fitnessSum();
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
         LinkedList<Double> rouletteWheel = new LinkedList<>();
@@ -79,8 +83,9 @@ public class Selection {
      * @param gameIndividualsAmount
      *            - amount of individuals taken part in every tournament (only one wins)
      * @return new population (parents)
+     * @throws GeneticAlgorithmException
      */
-    public static Population tournamentSelection(Population population, int gameIndividualsAmount) { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
+    public static Population tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
         // gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
         Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
         int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
@@ -105,8 +110,9 @@ public class Selection {
      * @param population
      *            - population
      * @return new population
+     * @throws GeneticAlgorithmException
      */
-    public static Population linearRankingSelection(Population population) {
+    public static Population linearRankingSelection(Population population) throws GeneticAlgorithmException {
         double populationFitnessSum = population.fitnessSum();
         Collections.sort(population.getIndividuals());
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();

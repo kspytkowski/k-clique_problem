@@ -1,5 +1,6 @@
 package graph;
 
+import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
@@ -12,7 +13,7 @@ public class MainTest {
     // tworzac individualse robimy to tak, ze te nowe sa lepsze/niegorszze od reszty populacji, ktora jest juz po krzyzowaniu,
     // a wiec jest gorsza... przez co rating ogolny nam sie nie polepsza :/
     // ODPAL, ŁADNIE POKAZUJE ZE W KAZDYM NOWYM POKOLENIU SUMA PRZYSTOSOWANIA OSOBNIKOW WZRASTA!
-    public static void main(String[] args) {
+    public static void main(String[] args) throws GeneticAlgorithmException {
         GraphRepresentation gr = null;
         try {
             gr = new GraphRepresentation(50, 1000, 20, false);
