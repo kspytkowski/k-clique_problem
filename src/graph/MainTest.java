@@ -42,9 +42,9 @@ public class MainTest {
             System.out.println("Iteracja " + i);
             population.dostosowanie();
             // System.out.println(population);
-            population = Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
+            Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
             // System.out.println(population);
-            population = crossingOver.crossOver(CrossingOverType.UNIFORMCROSSOVER, population);
+            crossingOver.crossOver(CrossingOverType.UNIFORMCROSSOVER, population);
 
             // System.out.println(population);
             // System.out.println(population + "BBBBBBBB");

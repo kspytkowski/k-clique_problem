@@ -17,7 +17,7 @@ import java.util.Random;
 public class Population {
 
     private GraphRepresentation graph; // main graph
-    private final LinkedList<Individual> individuals; // list of individuals
+    private LinkedList<Individual> individuals; // list of individuals
     private final int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
 
     /**
@@ -58,14 +58,14 @@ public class Population {
      *            - size of k-clique
      * @throws GeneticAlgorithmException
      */
-    public Population(int demandedIndividualsAmount, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
+    /*public Population(int demandedIndividualsAmount, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
         if (demandedIndividualsAmount < 1) {
             throw new GeneticAlgorithmException("Population has to have ultimately more than 0 individuals");
         }
         this.graph = graph;
         individuals = new LinkedList<>();
         this.demandedIndividualsAmount = demandedIndividualsAmount;
-    }
+    }*/
 
     /**
      * Getter
@@ -94,6 +94,16 @@ public class Population {
      */
     public LinkedList<Individual> getIndividuals() {
         return individuals;
+    }
+
+    /**
+     * Setter
+     * 
+     * @param individuals
+     *            - list of individuals
+     */
+    public void setIndividuals(LinkedList<Individual> individuals) {
+        this.individuals = individuals;
     }
 
     /**

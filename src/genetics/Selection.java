@@ -22,11 +22,25 @@ public class Selection {
      *            - population
      * @param roulette
      *            - list with probabilities of individuals
-     * @return new population
      * @throws GeneticAlgorithmException
      */
-    private static Population createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) throws GeneticAlgorithmException {
-        Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
+    private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) throws GeneticAlgorithmException {
+        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
+        // Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
+        // individualsIterator = population.getIndividuals().iterator();
+        // while (individualsIterator.hasNext()) {
+        // int i = 0;
+        // double actualRouletteWheelPoint = rand.nextDouble();
+        // Iterator<Double> rouletteWheelIterator = roulette.iterator();
+        // while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
+        // i++;
+        // }
+        // newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
+        // individualsIterator.next();
+        // }
+        // return newPopulation;
+
+        LinkedList<Individual> IndividualsList = new LinkedList<>();
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
         individualsIterator = population.getIndividuals().iterator();
         while (individualsIterator.hasNext()) {
@@ -36,10 +50,10 @@ public class Selection {
             while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
                 i++;
             }
-            newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
+            IndividualsList.add(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
             individualsIterator.next();
         }
-        return newPopulation;
+        population.setIndividuals(IndividualsList);
     }
 
     /**
@@ -47,10 +61,9 @@ public class Selection {
      * 
      * @param population
      *            - population
-     * @return new population (parents)
      * @throws GeneticAlgorithmException
      */
-    public static Population rouletteWheelSelection(Population population) throws GeneticAlgorithmException {
+    public static void rouletteWheelSelection(Population population) throws GeneticAlgorithmException {
         double populationFitnessSum = population.fitnessSum();
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
         LinkedList<Double> rouletteWheel = new LinkedList<>();
@@ -72,7 +85,7 @@ public class Selection {
         // individualsIterator.next();
         // }
         // return newPopulation;
-        return createPopulationUsingRoulette(population, rouletteWheel);
+        createPopulationUsingRoulette(population, rouletteWheel);
     }
 
     /**
@@ -82,16 +95,18 @@ public class Selection {
      *            - population
      * @param gameIndividualsAmount
      *            - amount of individuals taken part in every tournament (only one wins)
-     * @return new population (parents)
      * @throws GeneticAlgorithmException
      */
-    public static Population tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
-        // gameIndividualsAmount musi byc > 1 => turniej wygrawa jeden osobnik
-        Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
+    public static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
+        if (gameIndividualsAmount < 1 || gameIndividualsAmount > 4) {
+            throw new GeneticAlgorithmException("In tournament selection amount of individuals in game should be more than 1 and less than 5");
+        }
+        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
+        LinkedList<Individual> indiviualsList = new LinkedList<>();
         int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
         int i = 0;
         for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju, mozna w sumie ich nie brac pod uwage :) zalezy jak chcemy...
-            newPopulation.addIndividual(population.getIndividual(i));
+            indiviualsList.add(population.getIndividual(i));
         }
         Individual actualBestIndividual;
         for (; i < population.getActualIndividualsAmount(); i = i + gameIndividualsAmount) {
@@ -99,9 +114,9 @@ public class Selection {
             for (int j = i + 1; j < (i / gameIndividualsAmount + 1) * gameIndividualsAmount + restOfPopulation; j++) {
                 actualBestIndividual = Individual.isBetter(population.getIndividual(j), actualBestIndividual);
             }
-            newPopulation.addIndividual(actualBestIndividual);
+            indiviualsList.add(actualBestIndividual);
         }
-        return newPopulation;
+        population.setIndividuals(indiviualsList);
     }
 
     /**
@@ -109,10 +124,9 @@ public class Selection {
      * 
      * @param population
      *            - population
-     * @return new population
      * @throws GeneticAlgorithmException
      */
-    public static Population linearRankingSelection(Population population) throws GeneticAlgorithmException {
+    public static void linearRankingSelection(Population population) throws GeneticAlgorithmException {
         double populationFitnessSum = population.fitnessSum();
         Collections.sort(population.getIndividuals());
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
@@ -124,6 +138,6 @@ public class Selection {
             rankingWheel.add(lastFitness);
             lastIndex++;
         }
-        return createPopulationUsingRoulette(population, rankingWheel);
+        createPopulationUsingRoulette(population, rankingWheel);
     }
 }
