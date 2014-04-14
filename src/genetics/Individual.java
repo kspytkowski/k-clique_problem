@@ -22,8 +22,7 @@ public class Individual implements Comparable<Individual> {
      *            - k-clique size (amount of vertices)
      */
     public Individual(int graphSize, int kCliqueSize) {
-        // TO DO! wyjatek! subgraph nie moze byc > niz graph
-        // a na cholere ci wyjątek, zrob zwykle zabezpieczenia.
+        // wyjatki?!
         this.activeGenesAmount = kCliqueSize;
         chromosome = new byte[graphSize];
         LinkedList<Integer> helpList = new LinkedList<>();
@@ -36,9 +35,16 @@ public class Individual implements Comparable<Individual> {
             chromosome[k] = 1;
             helpList.remove((Integer) k);
         }
-        /*
-         * To TEST VERSION chromosome = new byte[graphSize]; Random rand = new Random(); for (int i = 0; i < graphSize; i++) { if (rand.nextBoolean()) { chromosome[i] = 1; this.activeGenesAmount++; } }
-         */
+        // TO TEST VERSION
+        // chromosome = new byte[graphSize];
+        // Random rand = new Random();
+        // for (int i = 0; i < graphSize; i++) {
+        // if (rand.nextBoolean()) {
+        // chromosome[i] = 1;
+        // this.activeGenesAmount++;
+        // }
+        // }
+
     }
 
     /**

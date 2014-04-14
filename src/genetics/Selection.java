@@ -25,21 +25,6 @@ public class Selection {
      * @throws GeneticAlgorithmException
      */
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) throws GeneticAlgorithmException {
-        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
-        // Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
-        // individualsIterator = population.getIndividuals().iterator();
-        // while (individualsIterator.hasNext()) {
-        // int i = 0;
-        // double actualRouletteWheelPoint = rand.nextDouble();
-        // Iterator<Double> rouletteWheelIterator = roulette.iterator();
-        // while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
-        // i++;
-        // }
-        // newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
-        // individualsIterator.next();
-        // }
-        // return newPopulation;
-
         LinkedList<Individual> IndividualsList = new LinkedList<>();
         Iterator<Individual> individualsIterator = population.getIndividuals().iterator();
         individualsIterator = population.getIndividuals().iterator();
@@ -72,19 +57,6 @@ public class Selection {
             lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
             rouletteWheel.add(lastFitness);
         }
-        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
-        // individualsIterator = population.getIndividuals().iterator();
-        // while (individualsIterator.hasNext()) {
-        // int i = 0;
-        // double actualRouletteWheelPoint = rand.nextDouble();
-        // Iterator<Double> rouletteWheelIterator = rouletteWheel.iterator();
-        // while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
-        // i++;
-        // }
-        // newPopulation.addIndividual(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
-        // individualsIterator.next();
-        // }
-        // return newPopulation;
         createPopulationUsingRoulette(population, rouletteWheel);
     }
 
@@ -101,7 +73,6 @@ public class Selection {
         if (gameIndividualsAmount < 1 || gameIndividualsAmount > 4) {
             throw new GeneticAlgorithmException("In tournament selection amount of individuals in game should be more than 1 and less than 5");
         }
-        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
         LinkedList<Individual> indiviualsList = new LinkedList<>();
         int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
         int i = 0;

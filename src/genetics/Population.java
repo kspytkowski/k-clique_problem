@@ -16,14 +16,15 @@ import java.util.Random;
  */
 public class Population {
 
-    private GraphRepresentation graph; // main graph
+    private final GraphRepresentation graph; // main graph
     private LinkedList<Individual> individuals; // list of individuals
     private final int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population => od teraz pokazuje ile POWINNO byc a nie ile jest, ile jest to ind.getSize()
+    private final Random rand = new Random(); // object that creates random numbers
 
     /**
      * Constructor
      * 
-     * @param individualsAmount
+     * @param demandedIndividualsAmount
      *            - initially amount of individuals
      * @param graphSize
      *            - graph's size (amount of vertices)
@@ -31,8 +32,8 @@ public class Population {
      *            - k-clique size (amount of vertices)
      * @throws GeneticAlgorithmException
      */
-    public Population(int individualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
-        if (individualsAmount < 1) {
+    public Population(int demandedIndividualsAmount, int graphSize, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
+        if (demandedIndividualsAmount < 1) {
             throw new GeneticAlgorithmException("Population has to have more than 0 individuals");
         }
         if (graphSize < 1) {
@@ -42,30 +43,12 @@ public class Population {
             throw new GeneticAlgorithmException("Size of k-clique cannot be more than size of main graph");
         }
         this.graph = graph;
-        this.demandedIndividualsAmount = individualsAmount;
+        this.demandedIndividualsAmount = demandedIndividualsAmount;
         individuals = new LinkedList<>();
-        for (int i = 0; i < individualsAmount; i++) {
+        for (int i = 0; i < demandedIndividualsAmount; i++) {
             individuals.add(new Individual(graphSize, kCliqueSize));
         }
     }
-
-    /**
-     * Constructor - creates blank new population (without any Individual)
-     * 
-     * @param demandedIndividualsAmount
-     *            - amount of individuals that population should have
-     * @param kCliqueSize
-     *            - size of k-clique
-     * @throws GeneticAlgorithmException
-     */
-    /*public Population(int demandedIndividualsAmount, GraphRepresentation graph, int kCliqueSize) throws GeneticAlgorithmException {
-        if (demandedIndividualsAmount < 1) {
-            throw new GeneticAlgorithmException("Population has to have ultimately more than 0 individuals");
-        }
-        this.graph = graph;
-        individuals = new LinkedList<>();
-        this.demandedIndividualsAmount = demandedIndividualsAmount;
-    }*/
 
     /**
      * Getter
@@ -125,16 +108,6 @@ public class Population {
     }
 
     /**
-     * Setter
-     * 
-     * @param graph
-     *            - graph to set
-     */
-    public void setGraphRepresentation(GraphRepresentation graph) {
-        this.graph = graph;
-    }
-
-    /**
      * Counts individuals' fitness sum
      * 
      * @return individuals' fitness sum
@@ -178,7 +151,6 @@ public class Population {
      *            - individual
      */
     public void addIndividual(Individual i) { // w losowe miejsce => teraz dziala zbieznosc :D
-        Random rand = new Random();
         individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
     }
 

@@ -61,33 +61,32 @@ public class CrossingOver {
     public void crossOver(CrossingOverType crossingOverType, Population population) throws GeneticAlgorithmException {
         // jezeli bedzie nieparzysta liczba individualsow to zwroci populacje o jeden mniejsza => zostawic to tak?!
         int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
-        // Population newPopulation = new Population(population.getDemandedIndividualsAmount(), population.getGraphRepresentation(), population.getKCliqueSize());
-        LinkedList<Individual> IndividualsList = new LinkedList<>();
+        LinkedList<Individual> newIndividualsList = new LinkedList<>();
         for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
             Individual firstParent = population.getIndividual(i);
             Individual secondParent = population.getIndividual(i + 1);
             if (crossingOverProbability > rand.nextDouble()) {
                 switch (crossingOverType) {
                 case ONEPOINTWITHTWOCHILDREN:
-                    onePointWithTwoChildrenCrossingOver(firstParent, secondParent, IndividualsList);
+                    onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
                 case ONEPOINTWITHONECHILD:
-                    onePointWithOneChildCrossingOver(firstParent, secondParent, IndividualsList);
+                    onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
                 case UNIFORMCROSSOVER:
-                    uniformCrossingOver(firstParent, secondParent, IndividualsList);
+                    uniformCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
                 case WEIGHTEDUNIFORMCROSSOVER:
-                    weightedUniformCrossingOver(firstParent, secondParent, IndividualsList);
+                    weightedUniformCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
                 }
 
             } else {
-                IndividualsList.add(firstParent);
-                IndividualsList.add(secondParent);
+                newIndividualsList.add(firstParent);
+                newIndividualsList.add(secondParent);
             }
         }
-        population.setIndividuals(IndividualsList);
+        population.setIndividuals(newIndividualsList);
     }
 
     /**

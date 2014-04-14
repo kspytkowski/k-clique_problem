@@ -16,6 +16,7 @@ public class Mutation {
      * Constructor
      * 
      * @param mutationProbability
+     *            - probability of mutation
      * @throws GeneticAlgorithmException
      */
     public Mutation(double mutationProbability) throws GeneticAlgorithmException {
