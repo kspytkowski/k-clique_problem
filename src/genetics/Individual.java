@@ -3,7 +3,14 @@ package genetics;
 import java.util.LinkedList;
 import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
-import java.util.Map;
+
+/* TODO
+no ten tego
+fitness, ale nie wiem gdzie
+dynamiczne zmniejszanie liczby grup
+spięcie tego razem
+też może wpadnę na uczelnię wcześniej, jak się zbiorę i nauczę
+*/
 
 // jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
 /**
