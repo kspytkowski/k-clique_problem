@@ -1,23 +1,18 @@
 package genetics;
 
+import exceptions.GeneticAlgorithmException;
 import java.util.LinkedList;
 import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
+import graph.GraphRepresentation;
 
-/* TODO
- no ten tego
- fitness, ale nie wiem gdzie
- dynamiczne zmniejszanie liczby grup
- spięcie tego razem
- też może wpadnę na uczelnię wcześniej, jak się zbiorę i nauczę
- */
-// jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
 /**
  * @author Krzysztof Spytkowski
  * @date 29 mar 2014
  */
 public class Individual implements Comparable<Individual> {
 
+    private GraphRepresentation graph = null;
     private int[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
     private int activeGenesAmount; // amount of vertices in subgraph
     private double fitness; // shows how well individual is adopted in population
@@ -72,10 +67,11 @@ public class Individual implements Comparable<Individual> {
      * thrown when number of groups is bigger than graph size, because it
      * doesn't really make sense
      */
-    public Individual(int graphSize, int numberOfGroups, boolean nextVersion) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
+    public Individual(int graphSize, int numberOfGroups, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
         if (numberOfGroups > graphSize) {// not nice, may couse some stupid things
             throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
         }
+        this.graph = graph;
         numberOfSubgraphs = numberOfGroups;
         chromosome = new int[graphSize];
         Random rand = new Random();
@@ -236,37 +232,94 @@ public class Individual implements Comparable<Individual> {
     }
 
     /**
-     * Function changes genes in chromosome that in result subgraph with
-     * the biggest amount of vertexes is labeled as 0 and so on
+     * Determines the fitness of group in chromosome
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return fi
+     * tness of subgraph
      */
-    public void relabelIndividual() {
-        LinkedList<Integer> amountOfVertexesInGroup = new LinkedList<>();
-        int[] chromosomeTemp = new int[chromosome.length];
-        for (int i = 0; i < numberOfSubgraphs; i++) {
-            amountOfVertexesInGroup.addLast(0);
+    public double determineFitness(int group) throws GeneticAlgorithmException {
+        if (group < 0 || group >= numberOfSubgraphs) {
+            throw new GeneticAlgorithmException("Group index out of range: " + group + " " + numberOfSubgraphs);
         }
-        for (int i : chromosome) {
-            amountOfVertexesInGroup.set(i, amountOfVertexesInGroup.get(i) + 1);
-        }
-        int k = 0, temp;
-        for (Integer i = chromosome.length; i > 0; i--) {
-            while ((temp = amountOfVertexesInGroup.indexOf(i)) != -1) {
-                amountOfVertexesInGroup.set(temp, -1);
-                for (int j = 0; j < chromosome.length; j++) {
-                    if (chromosome[j] == temp) {
-                        chromosomeTemp[j] = k;
+        LinkedList<Integer> vertexes = getVertexesInGroup(group);
+        double k = vertexes.size(), e = 0, isKlique = 0;
+        if (k > 1) {
+            for (int i = 0; i < k; i++) {
+                for (int j = i + 1; j < k; j++) {
+                    if (graph.isNeighbor(vertexes.get(i) + 1, vertexes.get(j) + 1)) {
+                        e++;
                     }
                 }
-                k++;
             }
+            System.out.println("vert " + k + " edges " + e);
+            if (e / (k * (k - 1) / 2) == 1) {
+                isKlique = 1;
+            }
+            return k > graph.getKCliqueSize() ? 0.5 * (e / (k * (k - 1) / 2) + isKlique * graph.getKCliqueSize() / k)
+                    : 0.5 * (e / (k * (k - 1) / 2) + isKlique * k / graph.getKCliqueSize());
+        } else {
+            return 0;
         }
-        chromosome = chromosomeTemp;
+    }
+
+    /**
+     * Determines the fitness of chromosome.
+     */
+    public void determineIndividualFitness() throws GeneticAlgorithmException {
+        double max = 0;
+        for (int i = 0; i < numberOfSubgraphs; i++) {
+            double temp = determineFitness(i);
+            if (temp > max)
+                max = temp;
+        }
+        setFitness(max);
     }
     
     /**
+     * Function changes genes in chromosome that in result subgraph with the
+     * biggest amount of vertexes is labeled as 0 and so on.
+     */
+    public void relabelIndividual() throws GeneticAlgorithmException {
+        LinkedList<Double> amountOfVertexesInGroup = new LinkedList<>();
+        LinkedList<Integer> groupsInOrderOfFitness = new LinkedList<>();
+        int[] chromosomeTemp = new int[chromosome.length];
+        amountOfVertexesInGroup.addLast(determineFitness(0));
+        System.out.println(0 + " " + determineFitness(0));
+        groupsInOrderOfFitness.addFirst(0);
+        for (int i = 1; i < numberOfSubgraphs; i++) {
+            boolean added = false;
+            double tempFitness = determineFitness(i);
+            System.out.println(i + " " + tempFitness);
+            for (int j = 0; j < amountOfVertexesInGroup.size() && !added; j++) {
+                if (tempFitness > amountOfVertexesInGroup.get(j)) {
+                    amountOfVertexesInGroup.add(j, tempFitness);
+                    groupsInOrderOfFitness.add(j, i);
+                    added = true;
+                }
+            }
+            if (!added) {
+                amountOfVertexesInGroup.addLast(tempFitness);
+                groupsInOrderOfFitness.addLast(i);
+            }
+        }
+        System.out.println(groupsInOrderOfFitness);
+        int k = 0;
+        for (Integer i : groupsInOrderOfFitness) {
+            for (int j = 0; j < chromosome.length; j++) {
+                if (chromosome[j] == i) {
+                    chromosomeTemp[j] = k;
+                }
+            }
+            k++;
+        }
+        chromosome = chromosomeTemp;
+    }
+
+    /**
      * Removes group containg the smallest amount of vertices.
      */
-    public void removeWorstGroup() {
+    public void removeWorstGroup() throws GeneticAlgorithmException {
         int max = 0;
         for (int i = chromosome.length - 1; i > 0; i--) {
             if (chromosome[i] > max) {
@@ -280,6 +333,49 @@ public class Individual implements Comparable<Individual> {
             }
         }
         relabelIndividual();
+    }
+
+    /**
+     * Counts amount of vertexes in given group
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return am
+     * ount
+     * @throws GeneticAlgorithmException
+     */
+    private int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
+        if (group < 0 || group >= numberOfSubgraphs) {
+            throw new GeneticAlgorithmException("Group index out of range: " + group);
+        }
+        int k = 0;
+        for (int i : chromosome) {
+            if (i == group) {
+                k++;
+            }
+        }
+        return k;
+    }
+
+    /**
+     * Returns list of vertexes' indexes in given group
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return li
+     * st
+     * @throws GeneticAlgorithmException
+     */
+    private LinkedList<Integer> getVertexesInGroup(int group) throws GeneticAlgorithmException {
+        if (group < 0 || group >= numberOfSubgraphs) {
+            throw new GeneticAlgorithmException("Group index out of range: " + group);
+        }
+        LinkedList<Integer> vertexes = new LinkedList<>();
+        int k = 0;
+        for (int i = 0; i < chromosome.length; i++) {
+            if (chromosome[i] == group) {
+                vertexes.addLast(i);
+            }
+        }
+        return vertexes;
     }
 
     /**
