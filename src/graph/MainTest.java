@@ -2,11 +2,15 @@ package graph;
 
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
+import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
+import genetics.Individual;
 import genetics.Mutation;
 import genetics.Population;
 import genetics.Selection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainTest {
 
@@ -67,5 +71,13 @@ public class MainTest {
         // System.out.println(population);
         // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
         System.out.println(population);
+        try {
+            Individual a = new Individual(10, 4, true);
+            System.out.println(a);
+            a.repairIndividual();
+            System.out.println(a);
+        } catch (NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung ex) {
+            Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
