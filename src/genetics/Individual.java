@@ -19,7 +19,7 @@ też może wpadnę na uczelnię wcześniej, jak się zbiorę i nauczę
  */
 public class Individual implements Comparable<Individual> {
 
-    private final int[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
+    private int[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
     private int activeGenesAmount; // amount of vertices in subgraph
     private double fitness; // shows how well individual is adopted in population
     private int numberOfSubgraphs; // actual number of groups in chromosome
@@ -244,10 +244,9 @@ public class Individual implements Comparable<Individual> {
      */
     public void repairIndividual() {
         LinkedList<Integer> amountOfVertexesInGroup = new LinkedList<>();
-        LinkedList<Integer> amountOfVertexesInGroupInProperOrder = new LinkedList<>();
+        int[] chromosomeTemp = new int[chromosome.length];
         for (int i = 0; i < numberOfSubgraphs; i++) {
-            amountOfVertexesInGroup.add(i, 0);
-            amountOfVertexesInGroupInProperOrder.add(i, 0);
+            amountOfVertexesInGroup.addLast(0);
         }
         for (int i : chromosome) {
             amountOfVertexesInGroup.set(i, amountOfVertexesInGroup.get(i) + 1);
@@ -255,21 +254,16 @@ public class Individual implements Comparable<Individual> {
         int k = 0, temp;
         for (Integer i = chromosome.length; i > 0; i--) {
             while ((temp = amountOfVertexesInGroup.indexOf(i)) != -1) {
-                amountOfVertexesInGroupInProperOrder.set(k++, i);
                 amountOfVertexesInGroup.set(temp, -1);
+                for (int j = 0; j < chromosome.length; j++) {
+                    if (chromosome[j] == temp) {
+                        chromosomeTemp[j] = k;
+                    }
+                }
+                k++;
             }
         }
-
-        k = 0;
-        Integer indexOfSubgraph = 0;
-        int range = 0;
-        for (Integer i : amountOfVertexesInGroupInProperOrder) {
-            range += i;
-            for (; k < range; k++) {
-                chromosome[k] = indexOfSubgraph;
-            }
-            indexOfSubgraph++;
-        }
+        chromosome = chromosomeTemp;
     }
 
     /**
