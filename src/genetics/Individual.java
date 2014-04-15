@@ -5,13 +5,12 @@ import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 
 /* TODO
-no ten tego
-fitness, ale nie wiem gdzie
-dynamiczne zmniejszanie liczby grup
-spięcie tego razem
-też może wpadnę na uczelnię wcześniej, jak się zbiorę i nauczę
-*/
-
+ no ten tego
+ fitness, ale nie wiem gdzie
+ dynamiczne zmniejszanie liczby grup
+ spięcie tego razem
+ też może wpadnę na uczelnię wcześniej, jak się zbiorę i nauczę
+ */
 // jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
 /**
  * @author Krzysztof Spytkowski
@@ -69,13 +68,11 @@ public class Individual implements Comparable<Individual> {
      *
      * @param graphSize - graph's size (amount of vertices)
      * @param numberOfGroups - number of subgraphs
-     * @throws
-     * NoPossibilityToCreateIndividualWithGivenParameters
-     * - excetion thrown when number of groups is bigger than graph size,
-     * because it doesn't really make sense
+     * @throws NoPossibilityToCreateIndividualWithGivenParameters - excetion
+     * thrown when number of groups is bigger than graph size, because it
+     * doesn't really make sense
      */
     public Individual(int graphSize, int numberOfGroups, boolean nextVersion) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
-        //this.activeGenesAmount = 0; // not needed at all
         if (numberOfGroups > graphSize) {// not nice, may couse some stupid things
             throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
         }
@@ -239,10 +236,10 @@ public class Individual implements Comparable<Individual> {
     }
 
     /**
-     * Function sorts/changes genes in chromosome that in result subgraph with
+     * Function changes genes in chromosome that in result subgraph with
      * the biggest amount of vertexes is labeled as 0 and so on
      */
-    public void repairIndividual() {
+    public void relabelIndividual() {
         LinkedList<Integer> amountOfVertexesInGroup = new LinkedList<>();
         int[] chromosomeTemp = new int[chromosome.length];
         for (int i = 0; i < numberOfSubgraphs; i++) {
@@ -265,22 +262,24 @@ public class Individual implements Comparable<Individual> {
         }
         chromosome = chromosomeTemp;
     }
-
+    
     /**
-     * Removes group containg the smallest amount of vertices Use only on
-     * repaired individual!
+     * Removes group containg the smallest amount of vertices.
      */
     public void removeWorstGroup() {
-        numberOfSubgraphs--;
-        boolean flag = true;
-        for (int i = chromosome.length - 1; i > 0 && flag; i--) {
-            if (chromosome[i] == numberOfSubgraphs) {
-                chromosome[i]--;
-            } else {
-                flag = false;
+        int max = 0;
+        for (int i = chromosome.length - 1; i > 0; i--) {
+            if (chromosome[i] > max) {
+                max = chromosome[i];
             }
         }
-        repairIndividual();
+        numberOfSubgraphs = max;
+        for (int i = chromosome.length - 1; i > 0; i--) {
+            if (chromosome[i] == numberOfSubgraphs) {
+                chromosome[i]--;
+            }
+        }
+        relabelIndividual();
     }
 
     /**
