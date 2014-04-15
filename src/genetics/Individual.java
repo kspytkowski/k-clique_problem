@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
 
+
+// jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
+
 /**
  * @author Krzysztof Spytkowski
  * @date 29 mar 2014
@@ -216,7 +219,16 @@ public class Individual implements Comparable<Individual> {
      * @param geneIndex - index of gene to inverse
      */
     public void inverseGene(int geneIndex) {
-        setGene(geneIndex, (chromosome[geneIndex] == 0) ? (byte) 1 : (byte) 0);
+        setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
+    }
+    
+    /**
+     * Mutates gene - change gene to any other possible (from 0 to numberOfSubgraphs - 1)
+     *
+     * @param geneIndex - index of gene to inverse
+     */
+    public void mutateGene(int geneIndex) {
+        setGene(geneIndex, new Random().nextInt(numberOfSubgraphs));
     }
 
     /**
