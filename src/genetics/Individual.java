@@ -5,9 +5,7 @@ import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
 import java.util.Map;
 
-
 // jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
-
 /**
  * @author Krzysztof Spytkowski
  * @date 29 mar 2014
@@ -222,18 +220,19 @@ public class Individual implements Comparable<Individual> {
     public void inverseGene(int geneIndex) {
         setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
     }
-    
+
     /**
-     * Mutates gene - change gene to any other possible (from 0 to numberOfSubgraphs - 1)
+     * Mutates gene - change gene to any other possible (from 0 to
+     * numberOfSubgraphs - 1)
      *
      * @param geneIndex - index of gene to mutate
      */
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, new Random().nextInt(numberOfSubgraphs));
     }
-    
+
     /**
-     * Function sorts/changes genes in chromosome that in result subgraph with 
+     * Function sorts/changes genes in chromosome that in result subgraph with
      * the biggest amount of vertexes is labeled as 0 and so on
      */
     public void repairIndividual() {
@@ -253,7 +252,7 @@ public class Individual implements Comparable<Individual> {
                 amountOfVertexesInGroup.set(temp, -1);
             }
         }
-        
+
         k = 0;
         Integer indexOfSubgraph = 0;
         int range = 0;
@@ -264,6 +263,23 @@ public class Individual implements Comparable<Individual> {
             }
             indexOfSubgraph++;
         }
+    }
+
+    /**
+     * Removes group containg the smallest amount of vertices Use only on
+     * repaired individual!
+     */
+    public void removeWorstGroup() {
+        numberOfSubgraphs--;
+        boolean flag = true;
+        for (int i = chromosome.length - 1; i > 0 && flag; i--) {
+            if (chromosome[i] == numberOfSubgraphs) {
+                chromosome[i]--;
+            } else {
+                flag = false;
+            }
+        }
+        repairIndividual();
     }
 
     /**

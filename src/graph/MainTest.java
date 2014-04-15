@@ -76,6 +76,8 @@ public class MainTest {
             System.out.println(a);
             a.repairIndividual();
             System.out.println(a);
+            a.removeWorstGroup();
+            System.out.println(a);
         } catch (NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         }
