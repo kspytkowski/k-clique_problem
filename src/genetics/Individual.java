@@ -3,6 +3,7 @@ package genetics;
 import java.util.LinkedList;
 import java.util.Random;
 import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
+import java.util.Map;
 
 
 // jest idea, żeby wrzucić tego głupiego rand do jakiegoś interfejsu, bo mnie denerwuje już 
@@ -225,10 +226,44 @@ public class Individual implements Comparable<Individual> {
     /**
      * Mutates gene - change gene to any other possible (from 0 to numberOfSubgraphs - 1)
      *
-     * @param geneIndex - index of gene to inverse
+     * @param geneIndex - index of gene to mutate
      */
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, new Random().nextInt(numberOfSubgraphs));
+    }
+    
+    /**
+     * Function sorts/changes genes in chromosome that in result subgraph with 
+     * the biggest amount of vertexes is labeled as 0 and so on
+     */
+    public void repairIndividual() {
+        LinkedList<Integer> amountOfVertexesInGroup = new LinkedList<>();
+        LinkedList<Integer> amountOfVertexesInGroupInProperOrder = new LinkedList<>();
+        for (int i = 0; i < numberOfSubgraphs; i++) {
+            amountOfVertexesInGroup.add(i, 0);
+            amountOfVertexesInGroupInProperOrder.add(i, 0);
+        }
+        for (int i : chromosome) {
+            amountOfVertexesInGroup.set(i, amountOfVertexesInGroup.get(i) + 1);
+        }
+        int k = 0, temp;
+        for (Integer i = chromosome.length; i > 0; i--) {
+            while ((temp = amountOfVertexesInGroup.indexOf(i)) != -1) {
+                amountOfVertexesInGroupInProperOrder.set(k++, i);
+                amountOfVertexesInGroup.set(temp, -1);
+            }
+        }
+        
+        k = 0;
+        Integer indexOfSubgraph = 0;
+        int range = 0;
+        for (Integer i : amountOfVertexesInGroupInProperOrder) {
+            range += i;
+            for (; k < range; k++) {
+                chromosome[k] = indexOfSubgraph;
+            }
+            indexOfSubgraph++;
+        }
     }
 
     /**
