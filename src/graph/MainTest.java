@@ -2,7 +2,7 @@ package graph;
 
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
-import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
+import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
 import genetics.Individual;
@@ -78,7 +78,7 @@ public class MainTest {
             System.out.println(a);
             a.removeWorstGroup();
             System.out.println(a);
-        } catch (NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung ex) {
+        } catch (NoPossibilityToCreateIndividualWithGivenParameters ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

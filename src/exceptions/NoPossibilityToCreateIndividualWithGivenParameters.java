@@ -9,14 +9,14 @@ package exceptions;
  *
  * @author wukat
  */
-public class NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung extends Exception {
+public class NoPossibilityToCreateIndividualWithGivenParameters extends Exception {
     
     private static final long serialVersionUID = 1L; // default serial version
 
     /**
      * Constructor
      */
-    public NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung() {
+    public NoPossibilityToCreateIndividualWithGivenParameters() {
     }
 
     /**
@@ -25,7 +25,7 @@ public class NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChang
      * @param message
      *            - information about exception
      */
-    public NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung(String message) {
+    public NoPossibilityToCreateIndividualWithGivenParameters(String message) {
         super(message);
     }
 
@@ -35,7 +35,7 @@ public class NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChang
      * @param cause
      *            - cause of exception
      */
-    public NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung(Throwable cause) {
+    public NoPossibilityToCreateIndividualWithGivenParameters(Throwable cause) {
         super(cause);
     }
 
@@ -47,7 +47,7 @@ public class NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChang
      * @param cause
      *            - cause of exception
      */
-    public NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung(String message, Throwable cause) {
+    public NoPossibilityToCreateIndividualWithGivenParameters(String message, Throwable cause) {
         super(message, cause);
     }
 }

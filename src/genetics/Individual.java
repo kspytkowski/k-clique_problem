@@ -2,7 +2,7 @@ package genetics;
 
 import java.util.LinkedList;
 import java.util.Random;
-import exceptions.NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung;
+import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 
 /* TODO
 no ten tego
@@ -70,14 +70,14 @@ public class Individual implements Comparable<Individual> {
      * @param graphSize - graph's size (amount of vertices)
      * @param numberOfGroups - number of subgraphs
      * @throws
-     * NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung
+     * NoPossibilityToCreateIndividualWithGivenParameters
      * - excetion thrown when number of groups is bigger than graph size,
      * because it doesn't really make sense
      */
-    public Individual(int graphSize, int numberOfGroups, boolean nextVersion) throws NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung { // next version - added temporarily, only to change signature
+    public Individual(int graphSize, int numberOfGroups, boolean nextVersion) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
         //this.activeGenesAmount = 0; // not needed at all
         if (numberOfGroups > graphSize) {// not nice, may couse some stupid things
-            throw new NoPossibilityToCreateIndividualWhichYoudLikeToCreateAndICannotChangeItSoIThrowAnExceptionAndIThinkYouWillLikeItBecauseIDontHaveAnythingBetterToDoItsOnly2OClockNightIsYoung("Number of groups too big");
+            throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
         }
         numberOfSubgraphs = numberOfGroups;
         chromosome = new int[graphSize];
