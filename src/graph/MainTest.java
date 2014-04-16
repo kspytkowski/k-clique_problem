@@ -3,12 +3,15 @@ package graph;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
+import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
 import genetics.Individual;
 import genetics.Mutation;
 import genetics.Population;
 import genetics.Selection;
+
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,7 +20,7 @@ public class MainTest {
     // tworzac individualse robimy to tak, ze te nowe sa lepsze/niegorszze od reszty populacji, ktora jest juz po krzyzowaniu,
     // a wiec jest gorsza... przez co rating ogolny nam sie nie polepsza :/
     // ODPAL, ŁADNIE POKAZUJE ZE W KAZDYM NOWYM POKOLENIU SUMA PRZYSTOSOWANIA OSOBNIKOW WZRASTA!
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException {
 //        GraphRepresentation gr = null;
 //        try {
 //            gr = new GraphRepresentation(50, 1000, 20, false);
@@ -72,12 +75,28 @@ public class MainTest {
 //        // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
 //        System.out.println(population);
         try {
-            Individual a = new Individual(10, 2, new GraphRepresentation(10, 45, 5, true));
+            GraphRepresentation graph = new GraphRepresentation(10, 20, 5, true);
+            Individual a = new Individual(10, 3, graph);
+            System.out.println("----------------------");
+            System.out.println(graph);
+            System.out.println("----------------------");
             System.out.println(a);
+            System.out.println("----------------------");
             a.relabelIndividual();
+            System.out.println("----------------------");
             System.out.println(a);
+            System.out.println("----------------------");
             a.removeWorstGroup();
+            System.out.println("----------------------");
             System.out.println(a);
+            System.out.println("----------------------");
+            a.determineIndividualFitness();
+            System.out.println("----------------------");
+            System.out.println(a);
+            System.out.println("----------------------");
+            System.out.println("----------------------");
+            GraphRepresentation graph2 = new GraphRepresentation("graph", 3);
+            System.out.println(graph2);
         } catch (NoPossibilityToCreateIndividualWithGivenParameters | NoPossibilityToCreateGraphException | GeneticAlgorithmException ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         }

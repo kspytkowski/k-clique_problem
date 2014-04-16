@@ -1,11 +1,17 @@
 package graph;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
 import exceptions.NoPossibilityToCreateGraphException;
+import exceptions.ProblemWithReadingGraphFromFileException;
 
 /**
  * @author Krzysztof Spytkowski
@@ -14,7 +20,7 @@ import exceptions.NoPossibilityToCreateGraphException;
 public class GraphRepresentation {
 
     private static final Random rand = new Random(); // object that generates random numbers
-    private final Graph<Integer, String> graph; // graph
+    private Graph<Integer, String> graph; // graph
     private final int kCliqueSize; // size of K-Clique
 
     /**
@@ -56,6 +62,60 @@ public class GraphRepresentation {
         } else {
             LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
             fillGraphWithEdges(graph, edgesList, 0, edges);
+        }
+    }
+
+    /**
+     * Constructor - read graph from file
+     * 
+     * @param filePath
+     *            - path to file
+     * @param kCliqueSize
+     *            - k-clique size
+     * @throws ProblemWithReadingGraphFromFileException
+     * @throws NoPossibilityToCreateGraphException
+     */
+    public GraphRepresentation(String filePath, int kCliqueSize) throws ProblemWithReadingGraphFromFileException, NoPossibilityToCreateGraphException {
+        this.kCliqueSize = kCliqueSize;
+        File file = new File(filePath);
+        if (file.exists() == false) {
+            throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " doesn't exist");
+        } else if (file.isDirectory() == true) {
+            throw new ProblemWithReadingGraphFromFileException("Given path pointed into folder instead of a file");
+        } else if (file.isHidden() == true) {
+            throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " is hidden");
+        } else if (file.canRead() == false) {
+            throw new ProblemWithReadingGraphFromFileException("Cannot read from file - permission denied");
+        }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            int verticesAmount = Integer.parseInt(bufferedReader.readLine());
+            if (verticesAmount < 1) {
+                throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
+            }
+            graph = createGraphVertices(verticesAmount);
+            int edgesAmount = Integer.parseInt(bufferedReader.readLine());
+            if (edgesAmount < 0) {
+                throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
+            }
+            if (edgesAmount > (verticesAmount * (verticesAmount - 1) / 2)) {
+                throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
+            }
+            for (int i = 1; i <= edgesAmount; i++) {
+                String line = bufferedReader.readLine();
+                String[] splitted = line.split(" ");
+                int firstVertex = Integer.parseInt(splitted[0]);
+                int secondVertex = Integer.parseInt(splitted[1]);
+                if (firstVertex < 1 || secondVertex < 1 || firstVertex >= secondVertex || firstVertex > verticesAmount || secondVertex > verticesAmount) {
+                    throw new ProblemWithReadingGraphFromFileException("File format is wrong");
+                }
+                graph.addEdge("EDGE" + i, Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]));
+            }
+        } catch (NumberFormatException e) {
+            throw new ProblemWithReadingGraphFromFileException("File format is wrong");
+        } catch (FileNotFoundException e) {
+            // code unreachable?! sprawdzilem wyzej ze istnieje
+        } catch (IOException e) {
+            throw new ProblemWithReadingGraphFromFileException("For some reason cannot read graph from file");
         }
     }
 
