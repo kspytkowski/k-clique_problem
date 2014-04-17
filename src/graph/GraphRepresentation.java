@@ -105,7 +105,10 @@ public class GraphRepresentation {
                 String[] splitted = line.split(" ");
                 int firstVertex = Integer.parseInt(splitted[0]);
                 int secondVertex = Integer.parseInt(splitted[1]);
-                if (firstVertex < 1 || secondVertex < 1 || firstVertex >= secondVertex || firstVertex > verticesAmount || secondVertex > verticesAmount) {
+                if (firstVertex < 1 || secondVertex < 1 || firstVertex > verticesAmount || secondVertex > verticesAmount) {
+                    throw new ProblemWithReadingGraphFromFileException("It is impossible to creat graph with given vertices and edges");
+                }
+                if (firstVertex >= secondVertex) {
                     throw new ProblemWithReadingGraphFromFileException("File format is wrong");
                 }
                 graph.addEdge("EDGE" + i, Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]));
