@@ -146,7 +146,7 @@ public class GraphRepresentation {
         if (graph == null) {
             throw new GeneticAlgorithmException("There is no graph to write to file");
         }
-        try (FileWriter fileWriter = new FileWriter(path + "/" + fileName)) {
+        try (FileWriter fileWriter = new FileWriter(path + File.separatorChar + fileName)) {
             fileWriter.write(graph.getVertexCount() + "\n");
             fileWriter.write(graph.getEdgeCount() + "\n");
             for (int i = 1; i <= graph.getEdgeCount(); i++) {
