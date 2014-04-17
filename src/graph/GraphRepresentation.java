@@ -125,7 +125,17 @@ public class GraphRepresentation {
         }
     }
 
-    public void writeGraphToFile(String path, String fileName) throws ProblemWithReadingGraphFromFileException, GeneticAlgorithmException, IOException {
+    /**
+     * Writes graph to file
+     * 
+     * @param path
+     *            - path
+     * @param fileName
+     *            - name of file
+     * @throws ProblemWithReadingGraphFromFileException
+     * @throws GeneticAlgorithmException
+     */
+    public void writeGraphToFile(String path, String fileName) throws ProblemWithReadingGraphFromFileException, GeneticAlgorithmException {
         File file = new File(path);
         if (file.isDirectory() == false) {
             throw new ProblemWithReadingGraphFromFileException("Given path doesn't point into folder");
@@ -136,10 +146,7 @@ public class GraphRepresentation {
         if (graph == null) {
             throw new GeneticAlgorithmException("There is no graph to write to file");
         }
-        System.out.println(path);
-      //  FileWriter fileWriter2 = new FileWriter(file);
         try (FileWriter fileWriter = new FileWriter(path + "/" + fileName)) {
-            System.out.println("!!!!!!!!!!!!!!!!");
             fileWriter.write(graph.getVertexCount() + "\n");
             fileWriter.write(graph.getEdgeCount() + "\n");
             for (int i = 1; i <= graph.getEdgeCount(); i++) {
