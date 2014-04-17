@@ -97,6 +97,7 @@ public class MainTest {
             System.out.println("----------------------");
             GraphRepresentation graph2 = new GraphRepresentation("graph", 3);
             System.out.println(graph2);
+            graph.writeGraphToFile("/home/krzysztof/workspace/k-clique_problem", "graph");
         } catch (NoPossibilityToCreateIndividualWithGivenParameters | NoPossibilityToCreateGraphException | GeneticAlgorithmException ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.SparseGraph;
+import edu.uci.ics.jung.graph.util.Pair;
+import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 
@@ -81,7 +84,7 @@ public class GraphRepresentation {
         if (file.exists() == false) {
             throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " doesn't exist");
         } else if (file.isDirectory() == true) {
-            throw new ProblemWithReadingGraphFromFileException("Given path pointed into folder instead of a file");
+            throw new ProblemWithReadingGraphFromFileException("Given path points into folder instead of a file");
         } else if (file.isHidden() == true) {
             throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " is hidden");
         } else if (file.canRead() == false) {
@@ -119,6 +122,33 @@ public class GraphRepresentation {
             // code unreachable?! sprawdzilem wyzej ze istnieje
         } catch (IOException e) {
             throw new ProblemWithReadingGraphFromFileException("For some reason cannot read graph from file");
+        }
+    }
+
+    public void writeGraphToFile(String path, String fileName) throws ProblemWithReadingGraphFromFileException, GeneticAlgorithmException, IOException {
+        File file = new File(path);
+        if (file.isDirectory() == false) {
+            throw new ProblemWithReadingGraphFromFileException("Given path doesn't point into folder");
+        }
+        if (file.canWrite() == false) {
+            throw new ProblemWithReadingGraphFromFileException("Cannot write to this folder - permission denied");
+        }
+        if (graph == null) {
+            throw new GeneticAlgorithmException("There is no graph to write to file");
+        }
+        System.out.println(path);
+      //  FileWriter fileWriter2 = new FileWriter(file);
+        try (FileWriter fileWriter = new FileWriter(path + "/" + fileName)) {
+            System.out.println("!!!!!!!!!!!!!!!!");
+            fileWriter.write(graph.getVertexCount() + "\n");
+            fileWriter.write(graph.getEdgeCount() + "\n");
+            for (int i = 1; i <= graph.getEdgeCount(); i++) {
+                Pair<Integer> vertices = graph.getEndpoints("EDGE" + i);
+                fileWriter.write(vertices.getFirst() + " ");
+                fileWriter.write(vertices.getSecond() + "\n");
+            }
+        } catch (IOException e) {
+            throw new ProblemWithReadingGraphFromFileException("For some reason cannot write graph to file");
         }
     }
 
