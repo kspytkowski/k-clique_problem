@@ -12,12 +12,16 @@ import graph.GraphRepresentation;
  */
 public class Individual implements Comparable<Individual> {
 
-    private GraphRepresentation graph = null;
-    private int[] chromosome; // table of subgraph's vertices (0 - not exists, 1 - exists)
+    private GraphRepresentation graph = null; // main graph
+    private int[] chromosome; // table of subgraph's vertices
     private int activeGenesAmount; // amount of vertices in subgraph
     private double fitness; // shows how well individual is adopted in population
     private int numberOfSubgraphs; // actual number of groups in chromosome
 
+    public GraphRepresentation getGraph() {
+        return graph;
+    }
+    
     /**
      * Constructor - creates subgraph that has size of kCliqueSize - chooses
      * appropriate amount of genes (vertices) and puts them into chromosome
@@ -26,24 +30,25 @@ public class Individual implements Comparable<Individual> {
      * @param graphSize - graph's size (amount of vertices)
      * @param kCliqueSize - k-clique size (amount of vertices)
      */
-    public Individual(int graphSize, int kCliqueSize) {
+    public Individual(GraphRepresentation graph, int kCliqueSize) {
         // wyjatki?!
+        this.graph = graph;
         this.activeGenesAmount = kCliqueSize;
-        chromosome = new int[graphSize];
+        chromosome = new int[graph.getGraph().getVertexCount()];
         LinkedList<Integer> helpList = new LinkedList<>();
-        for (int i = 0; i < graphSize; i++) {
+        for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             helpList.add(i);
         }
         Random rand = new Random();
         for (int i = 0; i < kCliqueSize; i++) {
-            int k = helpList.get(rand.nextInt(graphSize - i));
+            int k = helpList.get(rand.nextInt(graph.getGraph().getVertexCount() - i));
             chromosome[k] = 1;
             helpList.remove((Integer) k);
         }
         // TO TEST VERSION
-        // chromosome = new byte[graphSize];
+        // chromosome = new byte[graph.getGraph().getVertexCount()];
         // Random rand = new Random();
-        // for (int i = 0; i < graphSize; i++) {
+        // for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
         // if (rand.nextBoolean()) {
         // chromosome[i] = 1;
         // this.activeGenesAmount++;
@@ -61,21 +66,21 @@ public class Individual implements Comparable<Individual> {
      * a vertex and value assigned to vertex indicates to subgraph which
      * contains this vertex
      *
-     * @param graphSize - graph's size (amount of vertices)
+     * @param graphSize - graph's size (amount of vertices) - usunalem ten parametr, graph wie ile ma wierzcholkow => potem jeszcze to lekko zmienie
      * @param numberOfGroups - number of subgraphs
      * @throws NoPossibilityToCreateIndividualWithGivenParameters - excetion
      * thrown when number of groups is bigger than graph size, because it
      * doesn't really make sense
      */
-    public Individual(int graphSize, int numberOfGroups, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
-        if (numberOfGroups > graphSize) {// not nice, may couse some stupid things
+    public Individual(int numberOfGroups, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
+        if (numberOfGroups > graph.getGraph().getVertexCount()) {// not nice, may couse some stupid things
             throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
         }
         this.graph = graph;
         numberOfSubgraphs = numberOfGroups;
-        chromosome = new int[graphSize];
+        chromosome = new int[graph.getGraph().getVertexCount()];
         Random rand = new Random();
-        for (int i = 0; i < graphSize; i++) {
+        for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             chromosome[i] = rand.nextInt(numberOfGroups); // groups coded from 0 to numberOfGroups - 1
         }
     }
@@ -86,6 +91,7 @@ public class Individual implements Comparable<Individual> {
      * @param i - individual
      */
     public Individual(Individual i) {
+        // do calkowitej zmiany!!!!!!!!1
         this.activeGenesAmount = i.getActiveGenesAmount();
         this.chromosome = i.chromosome.clone();
         this.fitness = i.getFitness();
@@ -97,11 +103,13 @@ public class Individual implements Comparable<Individual> {
      * @param chromosomeLength - amount of genes
      *
      */
-    public Individual(int chromosomeLength) {
+    /*public Individual(int chromosomeLength) {
+        // do calkowitej zmiany!!!!!! => np. grafp tez trza skopiowac
+        this.graph = 
         this.activeGenesAmount = 0;
         this.chromosome = new int[chromosomeLength];
         this.fitness = 0.0;
-    }
+    }*/
 
     /**
      * Getter
@@ -203,7 +211,7 @@ public class Individual implements Comparable<Individual> {
      * @param geneIndex - index of gene
      * @param value - value to set
      */
-    public void setGene(int geneIndex, int value) {
+    public void setGene(int geneIndex, int value) { 
         if (chromosome[geneIndex] != value && value == 1) {
             activeGenesAmount++;
         } else if (chromosome[geneIndex] != value && value == 0) {

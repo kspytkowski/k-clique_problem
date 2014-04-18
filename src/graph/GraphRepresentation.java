@@ -24,10 +24,10 @@ public class GraphRepresentation {
 
     private static final Random rand = new Random(); // object that generates random numbers
     private Graph<Integer, String> graph; // graph
-    private final int kCliqueSize; // size of K-Clique
+    private final int kCliqueSize; // size of K-Clique => we try find this k-clique in graph
 
     /**
-     * Constructor - creates random sparse graph
+     * Constructor - creates random sparse graph with given parameters
      * 
      * @param vertices
      *            - amount of vertices
@@ -35,6 +35,8 @@ public class GraphRepresentation {
      *            - amount of edges
      * @param kCliqueSize
      *            - k-clique size (amount of vertices)
+     * @param shouldBeKClique
+     *            - says if creating graph has to contain k-clique with kCliqueSize
      * @throws NoPossibilityToCreateGraphException
      */
     public GraphRepresentation(int vertices, int edges, int kCliqueSize, boolean shouldBeKClique) throws NoPossibilityToCreateGraphException {
@@ -69,7 +71,7 @@ public class GraphRepresentation {
     }
 
     /**
-     * Constructor - read graph from file
+     * Constructor - reads graph from file
      * 
      * @param filePath
      *            - path to file

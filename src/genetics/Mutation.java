@@ -59,26 +59,7 @@ public class Mutation {
         Random rand = new Random();
         for (int i = 0; i < population.getActualIndividualsAmount(); i++) {
             if (rand.nextDouble() < mutationProbability) {
-                Individual ind = population.getIndividual(i);
-                ind.inverseGene(rand.nextInt(ind.getChromosomeLength()));
-            }
-        }
-    }
-    
-    /* TODO it should be one function or something, I don't want to change whole code */
-    
-    /* uses mutateGene instead of inverse */
-    /**
-     * Makes small mutations among individuals (changes some genes in their chromosome)
-     * 
-     * @param population
-     *            - population
-     */
-    public void mutate(Population population, boolean newVersion) {
-        Random rand = new Random();
-        for (int i = 0; i < population.getActualIndividualsAmount(); i++) {
-            if (rand.nextDouble() < mutationProbability) {
-                Individual ind = population.getIndividual(i);
+                AbstractIndividual ind = population.getIndividual(i);
                 ind.mutateGene(rand.nextInt(ind.getChromosomeLength()));
             }
         }
