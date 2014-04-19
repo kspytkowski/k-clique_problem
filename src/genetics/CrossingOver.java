@@ -62,7 +62,6 @@ public class CrossingOver {
      */
     public void crossOver(CrossingOverType crossingOverType, Population population) throws GeneticAlgorithmException {
         int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
-        // int amountOfIndividualsToCrossOver = population.getActualIndividualsAmount(); // Wojtek, powinienem cie skrzywdzic za to...
         LinkedList<AbstractIndividual> newIndividualsList = new LinkedList<>();
         for (int i = 0; i < amountOfIndividualsToCrossOver; i = i + 2) {
             AbstractIndividual firstParent = population.getIndividual(i);
@@ -87,8 +86,8 @@ public class CrossingOver {
                 newIndividualsList.add(secondParent);
             }
         }
-        if (population.getActualIndividualsAmount() % 2 == 1) // jezeli nieparzysta liczba to dodaje ostatniego osobnika do nowej listy
-            newIndividualsList.add(population.getIndividual(population.getActualIndividualsAmount() - 1));
+        if (population.getActualIndividualsAmount() % 2 == 1)
+            newIndividualsList.add(population.getIndividual(population.getActualIndividualsAmount() - 1)); // amoże by go tak podmienić na losowego?
         population.setIndividuals(newIndividualsList);
     }
 
