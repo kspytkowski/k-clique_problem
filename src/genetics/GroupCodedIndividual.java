@@ -12,7 +12,7 @@ import java.util.Random;
  * @modified Krzysztof Spytkowski
  * @date 18 kwi 2014
  */
-public class GroupCodedIndividual extends AbstractIndividual {
+public final class GroupCodedIndividual extends AbstractIndividual {
 
     private int numberOfSubgraphs; // actual number of groups in chromosome
 
@@ -149,6 +149,7 @@ public class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Removes group containing the smallest amount of vertices.
+     * After this function invoke relabelIndividual or determineIndividualFitness.
      */
     public void removeWorstGroup() throws GeneticAlgorithmException {
         int max = 0;
@@ -163,7 +164,6 @@ public class GroupCodedIndividual extends AbstractIndividual {
                 chromosome[i]--;
             }
         }
-        relabelIndividual(); // Wojtek, tu lepiej dac determineIndividualFitness (bedzieodrazu relabeling i liczenie nowego przystosowania)
     }
 
     /**
@@ -200,7 +200,6 @@ public class GroupCodedIndividual extends AbstractIndividual {
             throw new GeneticAlgorithmException("Group index out of range: " + group);
         }
         LinkedList<Integer> vertexes = new LinkedList<>();
-        // int k = 0; => po co to skoro nie uzywasz?
         for (int i = 0; i < chromosome.length; i++) {
             if (chromosome[i] == group) {
                 vertexes.addLast(i);
