@@ -66,65 +66,40 @@ public class MainTestNowy {
    //     System.out.println(population);
         // dla 1000 pokolen
         
-        LinkedList<Double> best = new LinkedList<>();
-        LinkedList<Double> worst = new LinkedList<>();
-        LinkedList<Double> average = new LinkedList<>();
-        best.add(0,0.);
-        worst.add(0,0.);
-        average.add(0,0.);
-        
         
         Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
         Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
         Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");
         
        
-        bestIndividualChart.showFrame();
-     //   bestIndividualChart.actualizeChart(0.);
-        averageFitnessChart.showFrame();
-    //    averageFitnessChart.actualizeChart(0.);
-        worstIndividualChart.showFrame();
-    //    worstIndividualChart.actualizeChart(0.);
+        ChartFrame bestIndividualFrame = bestIndividualChart.getChartFrame();
+        bestIndividualFrame.setVisible(true);
+        bestIndividualFrame.setSize(500, 400);
+        ChartFrame averageFitnessFrame = averageFitnessChart.getChartFrame();
+        averageFitnessFrame.setVisible(true);
+        averageFitnessFrame.setSize(500, 400);
+        ChartFrame worstIndividualFrame = worstIndividualChart.getChartFrame();
+        worstIndividualFrame.setVisible(true);
+        worstIndividualFrame.setSize(500, 400);
         
       //  frame1.
         
         for (int i = 0; i < 100; i++) {
             System.out.println("Iteracja " + i);
+            
+            
+            
             bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
             averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
             worstIndividualChart.actualizeChart(population.findWorstAdoptedIndividual().getFitness());
             
-     //       population.dostosowanie();
-      //       System.out.println("QQQQQQQQQ" + population);
-            Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
-     //        System.out.println("QQQQQQQQQ" + population);
-      //      population.dostosowanie();
-     //       population.dostosowanie();
-  /*          for (int j = 0; j < population.getActualIndividualsAmount(); j++) {
-                ((GroupCodedIndividual) (population.getIndividual(j))).relabelIndividual();
-            }*/
+            
+            
+            Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie ro
              crossingOver.crossOver(CrossingOverType.ONEPOINTWITHTWOCHILDREN, population);
-  /*           for (int j = 0; j < population.getActualIndividualsAmount(); j++) {
-                 ((GroupCodedIndividual) (population.getIndividual(j))).relabelIndividual();
-             }*/
-            // System.out.println(population);
-            // System.out.println(population + "BBBBBBBB");
-             mutation.mutate(population); // mutuj losowe
-            // System.out.println(population + "CCCCCCCCCCc");
-           // population.dostosowanie();
-           // population.napraw();
-      //      population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
-            // System.out.println(population + "AAAAAAAAAA");
-     //        population.dostosowanie();
              population.removeWorstIndividuals(0.1);
-            // System.out.println(population);
-   //          population.dostosowanie();
             population.keepConstantPopulationSize();
-   //         population.dostosowanie();
-            // System.out.println(population);
             population.printDostatosowanie();
-  //          population.findbest();
-   //         System.out.println(population);
         }
         
 
