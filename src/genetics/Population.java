@@ -213,25 +213,39 @@ public class Population {
     }
 
     // tylko do pomocy, trzeba cos konkretnego napisac...
-    public void printDostatosowanie() {
+    public double printDostatosowanie() {
         // tylko w celach testowych, zeby sie w mainie pokazalo
         double populationFitnessSum = 0;
         Iterator<AbstractIndividual> individualsIterator = getIndividuals().iterator();
         while (individualsIterator.hasNext()) {
             populationFitnessSum += individualsIterator.next().getFitness();
         }
-        System.out.println(populationFitnessSum);
+        return populationFitnessSum;
     }
 
     // tylko do pomocy
-    public void findbest() {
+    public AbstractIndividual findBestAdoptedIndividual() {
         AbstractIndividual act = individuals.get(0);
         for (int i = 1; i < individuals.size(); i++) {
             if (individuals.get(i).getFitness() > act.getFitness()) {
                 act = individuals.get(i);
             }
         }
-        System.out.println(act.getFitness());
-        System.out.println(act);
+        return act;
     }
+    
+    public AbstractIndividual findWorstAdoptedIndividual() {
+        AbstractIndividual act = individuals.get(0);
+        for (int i = 1; i < individuals.size(); i++) {
+            if (individuals.get(i).getFitness() < act.getFitness()) {
+                act = individuals.get(i);
+            }
+        }
+        return act;
+    }
+    
+    public double averageIndividualsFitness() {
+        return printDostatosowanie() / getActualIndividualsAmount();
+    }
+    
 }

@@ -1,21 +1,24 @@
 package graph;
 
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.jfree.chart.ChartFrame;
+
+import GUI.Chart;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
-import genetics.GroupCodedIndividual;
 import genetics.Individual;
 import genetics.IndividualType;
 import genetics.Mutation;
 import genetics.Population;
 import genetics.Selection;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainTestNowy {
 
@@ -54,7 +57,7 @@ public class MainTestNowy {
         CrossingOver crossingOver = new CrossingOver(0.6);
         Mutation mutation = new Mutation(0.0007);
         //GroupCodedIndividual.setNumberOfSubgraphs(8); 
-        Population population = new Population(600, gr, IndividualType.BINARYCODEDINDIVIDUAL);
+        Population population = new Population(60, gr, IndividualType.BINARYCODEDINDIVIDUAL);
      //   Population population = new Population(600, gr, IndividualType.BINARYCODEDINDIVIDUAL);
    //     Population population = new Population(3, 10, gra, 6, IndividualType.GROUPCODEDINDIVIDUAL);
         // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
@@ -62,8 +65,35 @@ public class MainTestNowy {
     //    population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
    //     System.out.println(population);
         // dla 1000 pokolen
-        for (int i = 0; i < 900; i++) {
+        
+        LinkedList<Double> best = new LinkedList<>();
+        LinkedList<Double> worst = new LinkedList<>();
+        LinkedList<Double> average = new LinkedList<>();
+        best.add(0,0.);
+        worst.add(0,0.);
+        average.add(0,0.);
+        
+        
+        Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
+        Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
+        Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");
+        
+       
+        bestIndividualChart.showFrame();
+     //   bestIndividualChart.actualizeChart(0.);
+        averageFitnessChart.showFrame();
+    //    averageFitnessChart.actualizeChart(0.);
+        worstIndividualChart.showFrame();
+    //    worstIndividualChart.actualizeChart(0.);
+        
+      //  frame1.
+        
+        for (int i = 0; i < 100; i++) {
             System.out.println("Iteracja " + i);
+            bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
+            averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
+            worstIndividualChart.actualizeChart(population.findWorstAdoptedIndividual().getFitness());
+            
      //       population.dostosowanie();
       //       System.out.println("QQQQQQQQQ" + population);
             Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie rodzicow (posrednie)
@@ -93,14 +123,18 @@ public class MainTestNowy {
    //         population.dostosowanie();
             // System.out.println(population);
             population.printDostatosowanie();
-            population.findbest();
+  //          population.findbest();
    //         System.out.println(population);
         }
+        
+
+       
+        
   //      population.dostosowanie();
     //     System.out.println(population);
         // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
     //    System.out.println(population);
-        try {
+  /*      try {
             GraphRepresentation graph = new GraphRepresentation(10, 20, 5, true);
             Individual a = new Individual(10, graph);
             System.out.println("----------------------");
@@ -126,6 +160,6 @@ public class MainTestNowy {
             graph.writeGraphToFile("/home/krzysztof/workspace/k-clique_problem", "graph");
         } catch (NoPossibilityToCreateIndividualWithGivenParameters | NoPossibilityToCreateGraphException | GeneticAlgorithmException ex) {
             Logger.getLogger(MainTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 }
