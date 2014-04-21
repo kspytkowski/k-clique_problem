@@ -245,7 +245,7 @@ public class Population {
     }
     
     public double averageIndividualsFitness() {
-        return printDostatosowanie() / getActualIndividualsAmount();
+        return printDostatosowanie() / getActualIndividualsAmount(); // a co to jest..?
     }
     
 }
