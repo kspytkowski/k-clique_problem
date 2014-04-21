@@ -93,7 +93,7 @@ public class CrossingOver {
             }
         }
         if (population.getActualIndividualsAmount() % 2 == 1)
-            newIndividualsList.add(population.getIndividual(population.getActualIndividualsAmount() - 1)); // amoże by go tak podmienić na losowego?
+            newIndividualsList.add(population.getIndividual(population.getActualIndividualsAmount() - 1)); // amoże by go tak podmienić na losowego? można, bo zawsze przeżywa.
         population.setIndividuals(newIndividualsList);
     }
 
