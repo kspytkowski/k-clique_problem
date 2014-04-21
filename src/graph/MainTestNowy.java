@@ -12,6 +12,7 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import genetics.AbstractIndividual;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
 import genetics.Individual;
@@ -34,7 +35,9 @@ public class MainTestNowy {
         GraphRepresentation gr = null;
         try {
             //gr = new GraphRepresentation("graph", 4);
-            gr = new GraphRepresentation(128, 2326, 67, true);
+           // gr = new GraphRepresentation(128, 2326, 67, true);
+            gr = new GraphRepresentation(64, 300, 20, true);
+//            gr = new GraphRepresentation(10, 6, 3, true);
  //           System.out.println(gr);
         } catch (NoPossibilityToCreateGraphException e) {
             // TODO Auto-generated catch block
@@ -57,7 +60,7 @@ public class MainTestNowy {
         CrossingOver crossingOver = new CrossingOver(0.6);
         Mutation mutation = new Mutation(0.0007);
         //GroupCodedIndividual.setNumberOfSubgraphs(8); 
-        Population population = new Population(60, gr, IndividualType.BINARYCODEDINDIVIDUAL);
+        Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,6);
      //   Population population = new Population(600, gr, IndividualType.BINARYCODEDINDIVIDUAL);
    //     Population population = new Population(3, 10, gra, 6, IndividualType.GROUPCODEDINDIVIDUAL);
         // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
@@ -65,7 +68,6 @@ public class MainTestNowy {
     //    population.dostosowanie(); // oblicz przystosowanie kazdego osobnika
    //     System.out.println(population);
         // dla 1000 pokolen
-        
         
         Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
         Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
@@ -84,9 +86,9 @@ public class MainTestNowy {
         
       //  frame1.
         
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 1000; i++) {
             System.out.println("Iteracja " + i);
-            
+            System.out.println(population.findBestAdoptedIndividual());
             
             
             bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
@@ -96,7 +98,7 @@ public class MainTestNowy {
             
             
             Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie ro
-             crossingOver.crossOver(CrossingOverType.ONEPOINTWITHTWOCHILDREN, population);
+             crossingOver.crossOver(CrossingOverType.TWOPOINTSWITHTWOCHILDREN, population);
              population.removeWorstIndividuals(0.1);
             population.keepConstantPopulationSize();
             population.printDostatosowanie();
