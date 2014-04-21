@@ -187,6 +187,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      *
      * @return true if there were at least 2 groups and one was removed
      */
+    @Override
     public boolean removeWorstGroupAndSplitIntoOthers() {
         Random rand = new Random();
         numberOfSubgraphs = getRealNumberOfSubgraphs();
@@ -195,6 +196,11 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                 if (chromosome[i] == numberOfSubgraphs - 1) {
                     chromosome[i] = rand.nextInt(numberOfSubgraphs);
                 }
+            }
+            try {
+                relabelIndividual();
+            } catch (GeneticAlgorithmException ex) {
+                Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
         }
