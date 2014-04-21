@@ -116,9 +116,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * 18 /*graph.getKCliqueSize()*/ / k) * 0.5
+            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getKCliqueSize() / k) * 0.5
                     + 0.2 / (1 + Math.exp(differenceBetweenSizes))
-                    : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / 18 /*graph.getKCliqueSize()*/) * 0.5
+                    : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getKCliqueSize()) * 0.5
                     + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         } else {
             return 0;
