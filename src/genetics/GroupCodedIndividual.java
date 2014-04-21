@@ -40,9 +40,14 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             chromosome[i] = rand.nextInt(numberOfSubgraphs); // groups coded from 0 to numberOfGroups - 1
         }
+        try {
+            relabelIndividual();
+        } catch (GeneticAlgorithmException ex) {
+            Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
+        }
         if (getRealNumberOfSubgraphs() < numberOfSubgraphs) {
             try {
-                repair();
+                repair(); 
             } catch (GeneticAlgorithmException ex) {
                 Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -108,15 +113,13 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                     }
                 }
             }
-            //
-            //System.out.println("vert " + k + " edges " + e);
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getKCliqueSize() / k) * 0.4
-                    + 0.4 / (1 + Math.exp(differenceBetweenSizes))
-                    : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getKCliqueSize()) * 0.4
-                    + 0.4 / (1 + Math.exp(differenceBetweenSizes));
+            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * 18 /*graph.getKCliqueSize()*/ / k) * 0.5
+                    + 0.2 / (1 + Math.exp(differenceBetweenSizes))
+                    : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / 18 /*graph.getKCliqueSize()*/) * 0.5
+                    + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         } else {
             return 0;
         }
@@ -131,12 +134,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         LinkedList<Integer> groupsInOrderOfFitness = new LinkedList<>();
         int[] chromosomeTemp = new int[chromosome.length];
         fitnessOfExeryGroup.addLast(determineFitness(0));
-        // System.out.println(0 + " " + determineFitness(0));
         groupsInOrderOfFitness.addFirst(0);
         for (int i = 1; i < numberOfSubgraphs; i++) {
             boolean added = false;
             double tempFitness = determineFitness(i);
-            //System.out.println(i + " " + tempFitness);
             for (int j = 0; j < fitnessOfExeryGroup.size() && !added; j++) {
                 if (tempFitness > fitnessOfExeryGroup.get(j)) {
                     fitnessOfExeryGroup.add(j, tempFitness);
@@ -149,7 +150,6 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                 groupsInOrderOfFitness.addLast(i);
             }
         }
-        // System.out.println(groupsInOrderOfFitness);
         int k = 0;
         for (Integer i : groupsInOrderOfFitness) {
             for (int j = 0; j < chromosome.length; j++) {
@@ -163,7 +163,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes group containing the smallest amount of vertices. After this
+     * Removes the least fit group. After this
      * function invoke relabelIndividual or determineIndividualFitness.
      *
      * @return true if there were at least 2 groups and one was removed
@@ -174,6 +174,26 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             for (int i = chromosome.length - 1; i > 0; i--) {
                 if (chromosome[i] == numberOfSubgraphs - 1) {
                     chromosome[i]--;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Removes the least fit group and splits vertexes randomly to other groups. After this
+     * function invoke relabelIndividual or determineIndividualFitness.
+     *
+     * @return true if there were at least 2 groups and one was removed
+     */
+    public boolean removeWorstGroupAndSplitIntoOthers() {
+        Random rand = new Random();
+        numberOfSubgraphs = getRealNumberOfSubgraphs();
+        if (numberOfSubgraphs > 1) {
+            for (int i = chromosome.length - 1; i > 0; i--) {
+                if (chromosome[i] == numberOfSubgraphs - 1) {
+                    chromosome[i] = rand.nextInt(numberOfSubgraphs);
                 }
             }
             return true;
