@@ -71,8 +71,14 @@ public class CrossingOver {
                 case ONEPOINTWITHTWOCHILDREN:
                     onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
+                case TWOPOINTSWITHTWOCHILDREN:
+                    twoPointsWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
                 case ONEPOINTWITHONECHILD:
                     onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case TWOPOINTSWITHONECHILD:
+                    twoPointsWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
                     break;
                 case UNIFORMCROSSOVER:
                     uniformCrossingOver(firstParent, secondParent, newIndividualsList);
@@ -133,6 +139,51 @@ public class CrossingOver {
         newIndividuals.add(child);
     }
 
+    /**
+     * 
+     * Crosses over two Individuals (parents) and makes two new Individuals (children)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
+     */
+    public void twoPointsWithOneChildCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
+        AbstractIndividual firstChild = firstParent.createIndividual(firstParent);
+        int splitPoint = rand.nextInt(firstChild.getChromosomeLength() / 2);
+        int secondSplitPoint = rand.nextInt(firstChild.getChromosomeLength() / 2) + firstChild.getChromosomeLength() / 2;
+        for (int j = 0; j < firstChild.getChromosomeLength(); j++) {
+            firstChild.setGene(j, j < splitPoint || j >= secondSplitPoint ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
+        }
+        newIndividuals.add(firstChild);
+    }
+    
+    /**
+     * 
+     * Crosses over two Individuals (parents) and makes two new Individuals (children)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
+     */
+    public void twoPointsWithTwoChildrenCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
+        AbstractIndividual firstChild = firstParent.createIndividual(firstParent);
+        AbstractIndividual secondChild = secondParent.createIndividual(secondParent);
+        int splitPoint = rand.nextInt(firstChild.getChromosomeLength() / 2);
+        int secondSplitPoint = rand.nextInt(firstChild.getChromosomeLength() / 2) + firstChild.getChromosomeLength() / 2;
+        for (int j = 0; j < firstChild.getChromosomeLength(); j++) {
+            firstChild.setGene(j, j < splitPoint || j >= secondSplitPoint ? firstParent.getValueOfGene(j) : secondParent.getValueOfGene(j));
+            secondChild.setGene(j, j < splitPoint || j >= secondSplitPoint ? secondParent.getValueOfGene(j) : firstParent.getValueOfGene(j));
+        }
+        newIndividuals.add(firstChild);
+        newIndividuals.add(secondChild);
+    }
+    
     /**
      * Crosses over two Individuals (parents) and makes one new Individual (child)
      * 
