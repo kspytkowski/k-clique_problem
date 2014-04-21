@@ -94,7 +94,7 @@ public class MainTestNowy {
             if (i % 50 == 0) {
                 basic--;
                 for (AbstractIndividual a : population.getIndividuals())
-                     a.removeWorstGroupAndSplitIntoOthers();
+                     a.removeWorstGroup();
                 GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
                 System.out.println(a.getNumberOfSubgraphs());
                 System.out.println(a.getRealNumberOfSubgraphs());
@@ -113,7 +113,7 @@ public class MainTestNowy {
             
             
             Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie ro
-             crossingOver.crossOver(CrossingOverType.ONEPOINTWITHTWOCHILDREN, population);
+             crossingOver.crossOver(CrossingOverType.TWOPOINTSWITHTWOCHILDREN, population);
              population.removeWorstIndividuals(0.1);
             population.keepConstantPopulationSize();
             population.printDostatosowanie();

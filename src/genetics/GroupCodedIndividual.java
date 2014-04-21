@@ -47,7 +47,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         }
         if (getRealNumberOfSubgraphs() < numberOfSubgraphs) {
             try {
-                repair(); 
+                repair();
             } catch (GeneticAlgorithmException ex) {
                 Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -163,8 +163,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes the least fit group. After this
-     * function invoke relabelIndividual or determineIndividualFitness.
+     * Removes the least fit group. After this function invoke relabelIndividual
+     * or determineIndividualFitness.
      *
      * @return true if there were at least 2 groups and one was removed
      */
@@ -180,27 +180,23 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         }
         return false;
     }
-    
+
     /**
-     * Removes the least fit group and splits vertexes randomly to other groups. After this
-     * function invoke relabelIndividual or determineIndividualFitness.
+     * Removes the least fit group and splits vertexes randomly to other groups.
+     * After this function invoke relabelIndividual or
+     * determineIndividualFitness.
      *
      * @return true if there were at least 2 groups and one was removed
      */
     @Override
     public boolean removeWorstGroupAndSplitIntoOthers() {
         Random rand = new Random();
-        numberOfSubgraphs = getRealNumberOfSubgraphs();
+        numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
         if (numberOfSubgraphs > 1) {
             for (int i = chromosome.length - 1; i > 0; i--) {
-                if (chromosome[i] == numberOfSubgraphs - 1) {
+                if (chromosome[i] == numberOfSubgraphs) {
                     chromosome[i] = rand.nextInt(numberOfSubgraphs);
                 }
-            }
-            try {
-                relabelIndividual();
-            } catch (GeneticAlgorithmException ex) {
-                Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
             }
             return true;
         }
@@ -236,7 +232,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             repair();
         }
         //TODO
-        
+
     }
 
     /**
