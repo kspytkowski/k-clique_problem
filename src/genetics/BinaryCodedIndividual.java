@@ -12,7 +12,7 @@ import java.util.Random;
 public class BinaryCodedIndividual extends AbstractIndividual {
 
     private int activeGenesAmount; // amount of vertices in subgraph
-
+public boolean removeWorstGroupAndSplitIntoOthers() {return true;}
     /**
      * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
      * 
