@@ -15,11 +15,13 @@ import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.AbstractIndividual;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
+import genetics.GroupCodedIndividual;
 import genetics.Individual;
 import genetics.IndividualType;
 import genetics.Mutation;
 import genetics.Population;
 import genetics.Selection;
+import static java.lang.Thread.sleep;
 
 public class MainTestNowy {
 
@@ -35,8 +37,8 @@ public class MainTestNowy {
         GraphRepresentation gr = null;
         try {
             //gr = new GraphRepresentation("graph", 4);
-           // gr = new GraphRepresentation(128, 2326, 67, true);
-            gr = new GraphRepresentation(64, 300, 20, true);
+            gr = new GraphRepresentation(128, 2326, 67, true);
+//            gr = new GraphRepresentation(64, 300, 20, true);
 //            gr = new GraphRepresentation(10, 6, 3, true);
  //           System.out.println(gr);
         } catch (NoPossibilityToCreateGraphException e) {
@@ -60,7 +62,7 @@ public class MainTestNowy {
         CrossingOver crossingOver = new CrossingOver(0.6);
         Mutation mutation = new Mutation(0.0007);
         //GroupCodedIndividual.setNumberOfSubgraphs(8); 
-        Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,6);
+        Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
      //   Population population = new Population(600, gr, IndividualType.BINARYCODEDINDIVIDUAL);
    //     Population population = new Population(3, 10, gra, 6, IndividualType.GROUPCODEDINDIVIDUAL);
         // przy tak duzej liczbie osobnikow radze zakomentowac ponizsza linijke!
@@ -85,11 +87,24 @@ public class MainTestNowy {
         worstIndividualFrame.setSize(500, 400);
         
       //  frame1.
-        
+        int basic = 22;
         for (int i = 0; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-            
+            if (i % 50 == 0) {
+                basic--;
+                for (AbstractIndividual a : population.getIndividuals())
+                     a.removeWorstGroupAndSplitIntoOthers();
+                GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
+                System.out.println(a.getNumberOfSubgraphs());
+                System.out.println(a.getRealNumberOfSubgraphs());
+                population.setNumberOfGroups(basic);
+                try {
+                    sleep(10000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainTestNowy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             
             bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
             averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
@@ -98,7 +113,7 @@ public class MainTestNowy {
             
             
             Selection.rouletteWheelSelection(population); // dokonaj selekcji, stworz pokolenie ro
-             crossingOver.crossOver(CrossingOverType.TWOPOINTSWITHTWOCHILDREN, population);
+             crossingOver.crossOver(CrossingOverType.ONEPOINTWITHTWOCHILDREN, population);
              population.removeWorstIndividuals(0.1);
             population.keepConstantPopulationSize();
             population.printDostatosowanie();
