@@ -169,7 +169,7 @@ public class Population {
 
     /**
      * Keeps constant amount of individuals in population (adds random
-     * individuals on random positions in list)
+     * individuals on random positions in list).
      */
     public void keepConstantPopulationSize() {
         while (individuals.size() < demandedIndividualsAmount) {
@@ -196,7 +196,7 @@ public class Population {
     }
 
     /**
-     * Removes worst individuals from population
+     * Removes worst individuals from population.
      *
      * @param howManyToRemove - shows how many individuals should be removed (in
      * percentage)
@@ -210,7 +210,7 @@ public class Population {
     }
 
     /**
-     * Adds individual to population
+     * Adds individual to population.
      *
      * @param i - individual
      */
@@ -219,7 +219,7 @@ public class Population {
     }
 
     /**
-     * Returns actual amount of individuals in population
+     * Returns actual amount of individuals in population.
      *
      * @return amount of individuals
      */
@@ -269,7 +269,7 @@ public class Population {
     }
     
     public double averageIndividualsFitness() {
-        return printDostatosowanie() / getActualIndividualsAmount(); // a co to jest..?
+        return printDostatosowanie() / getActualIndividualsAmount();
     }
     
 }
