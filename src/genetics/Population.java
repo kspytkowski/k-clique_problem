@@ -157,6 +157,15 @@ public class Population {
         }
         return sum;
     }
+    
+    /**
+     * Invokes counting every individual's fitness.
+     */
+    public void determineEveryIndividualFitness() throws GeneticAlgorithmException {
+        for (AbstractIndividual ind : individuals) {
+            ind.determineIndividualFitness();
+        }
+    }
 
     /**
      * Keeps constant amount of individuals in population (adds random
