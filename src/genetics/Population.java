@@ -169,6 +169,12 @@ public class Population {
                 e.printStackTrace();
             }
         }
+        if (individuals.size() > demandedIndividualsAmount) {
+            Collections.sort(individuals);
+            while(individuals.size() > demandedIndividualsAmount) {
+                individuals.removeFirst();
+            }
+        }
     }
 
     /**

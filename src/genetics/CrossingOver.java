@@ -91,6 +91,8 @@ public class CrossingOver {
                 newIndividualsList.add(firstParent);
                 newIndividualsList.add(secondParent);
             }
+            newIndividualsList.add(firstParent); //NOWE!
+            newIndividualsList.add(secondParent); //NOWE!
         }
         if (population.getActualIndividualsAmount() % 2 == 1)
             newIndividualsList.add(population.getIndividual(population.getActualIndividualsAmount() - 1)); // amoże by go tak podmienić na losowego? można, bo zawsze przeżywa.

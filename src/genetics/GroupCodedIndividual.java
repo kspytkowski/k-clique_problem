@@ -19,15 +19,14 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     private int numberOfSubgraphs; // number of groups that should be in chromosome
 
     /**
-     * Constructor - creates graph (maximum size), every index in chromosome is
-     * a vertex and value assigned to vertex indicates to subgraph which
-     * contains this vertex
-     *
-     * @param numberOfSubgraphs - amount of groups (subgraphs)
-     * @param graph - main graph
-     * @throws NoPossibilityToCreateIndividualWithGivenParameters - exception
-     * thrown when number of groups is bigger than graph size, because it
-     * doesn't really make sense
+     * Constructor - creates graph (maximum size), every index in chromosome is a vertex and value assigned to vertex indicates to subgraph which contains this vertex
+     * 
+     * @param numberOfSubgraphs
+     *            - amount of groups (subgraphs)
+     * @param graph
+     *            - main graph
+     * @throws NoPossibilityToCreateIndividualWithGivenParameters
+     *             - exception thrown when number of groups is bigger than graph size, because it doesn't really make sense
      */
     public GroupCodedIndividual(int numberOfSubgraphs, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
         this.graph = graph;
@@ -47,13 +46,13 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         }
         if (getRealNumberOfSubgraphs() < numberOfSubgraphs) {
             try {
-                repair(); 
+                repair();
             } catch (GeneticAlgorithmException ex) {
                 Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         try { // krzysiek dodal => relabelujemy i liczymy przystosowanie
-            // to ma być w obu przypadkach w krzyzowaniu, na pewno nie tu, nie w set i nie w mutowaniu
+              // to ma być w obu przypadkach w krzyzowaniu, na pewno nie tu, nie w set i nie w mutowaniu
             determineIndividualFitness();
         } catch (GeneticAlgorithmException e) {
             // TODO Auto-generated catch block
@@ -63,8 +62,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Copy constructor
-     *
-     * @param i - individual
+     * 
+     * @param i
+     *            - individual
      */
     public GroupCodedIndividual(GroupCodedIndividual i) {
         this.graph = i.getGraph();
@@ -75,7 +75,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Getter of number of subgraphs (groups)
-     *
+     * 
      * @return number of groups
      */
     public int getNumberOfSubgraphs() {
@@ -84,8 +84,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Setter
-     *
-     * @param numberOfSubgraphs - number of subgraphs
+     * 
+     * @param numberOfSubgraphs
+     *            - number of subgraphs
      */
     public void setNumberOfSubgraphs(int numberOfSubgraphs) {
         this.numberOfSubgraphs = numberOfSubgraphs;
@@ -93,10 +94,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Determines the fitness of group in chromosome
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return fi
-     * tness of subgraph
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return fi tness of subgraph
      */
     public double determineFitness(int group) throws GeneticAlgorithmException {
         if (group < 0 || group >= numberOfSubgraphs) {
@@ -116,18 +117,14 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getKCliqueSize() / k) * 0.5
-                    + 0.2 / (1 + Math.exp(differenceBetweenSizes))
-                    : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getKCliqueSize()) * 0.5
-                    + 0.2 / (1 + Math.exp(differenceBetweenSizes));
+            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         } else {
             return 0;
         }
     }
 
     /**
-     * Function changes genes in chromosome that in result subgraph with the
-     * biggest amount of vertexes is labeled as 0 and so on.
+     * Function changes genes in chromosome that in result subgraph with the biggest amount of vertexes is labeled as 0 and so on.
      */
     public void relabelIndividual() throws GeneticAlgorithmException {
         LinkedList<Double> fitnessOfExeryGroup = new LinkedList<>();
@@ -163,9 +160,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes the least fit group. After this
-     * function invoke relabelIndividual or determineIndividualFitness.
-     *
+     * Removes the least fit group. After this function invoke relabelIndividual or determineIndividualFitness.
+     * 
      * @return true if there were at least 2 groups and one was removed
      */
     public boolean removeWorstGroup() {
@@ -180,11 +176,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         }
         return false;
     }
-    
+
     /**
-     * Removes the least fit group and splits vertexes randomly to other groups. After this
-     * function invoke relabelIndividual or determineIndividualFitness.
-     *
+     * Removes the least fit group and splits vertexes randomly to other groups. After this function invoke relabelIndividual or determineIndividualFitness.
+     * 
      * @return true if there were at least 2 groups and one was removed
      */
     public boolean removeWorstGroupAndSplitIntoOthers() {
@@ -202,9 +197,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Reapirs chromosome - every group has to have at least 1 element works
-     * only on relabelled chromosome
-     *
+     * Reapirs chromosome - every group has to have at least 1 element works only on relabelled chromosome
+     * 
      * @return true if operation was possible
      * @throws GeneticAlgorithmException
      */
@@ -229,13 +223,13 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         if (getRealNumberOfSubgraphs() < numberOfSubgraphs) {
             repair();
         }
-        //TODO
-        
+        // TODO
+
     }
 
     /**
      * Changes group assigned to vertex from from group to to group
-     *
+     * 
      * @param from
      * @param to
      */
@@ -251,7 +245,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts number of groups in graph (after relabelling)
-     *
+     * 
      * @return real number of groups
      */
     public int getRealNumberOfSubgraphs() {
@@ -266,10 +260,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts amount of vertexes in given group
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return am
-     * ount of vertexes in given group
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return am ount of vertexes in given group
      * @throws GeneticAlgorithmException
      */
     private int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
@@ -287,7 +281,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts amount of vertexes in every group
-     *
+     * 
      * @return list containing amount of vertexes in everys group
      * @throws GeneticAlgorithmException
      */
@@ -301,10 +295,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Returns list of vertexes' indexes in given group
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return li
-     * st of vertexes' indexes in given group
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return li st of vertexes' indexes in given group
      * @throws GeneticAlgorithmException
      */
     private LinkedList<Integer> getVertexesInGroup(int group) throws GeneticAlgorithmException {
@@ -344,7 +338,19 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     @Override
     public void mutateGene(int geneIndex) {
         // setGene(geneIndex, new Random().nextInt(numberOfSubgraphs)); // krzysiek => zmienilem na ponizsza linijke
-        chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
+        // chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
+
+        try { // => NOWE!
+            if (getAmountOfVertexesInGroup(0) < graph.getKCliqueSize()) {
+                chromosome[geneIndex] = 0;
+            } else {
+                chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
+            }
+        } catch (GeneticAlgorithmException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+
         try { // krzysiek dodal, skoro mutujemy, to odrazu relabelujmy i liczmy nowe przystosowanie
             determineIndividualFitness();
         } catch (GeneticAlgorithmException e) {
