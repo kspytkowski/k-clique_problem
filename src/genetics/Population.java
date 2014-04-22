@@ -22,10 +22,6 @@ public class Population {
     private IndividualType individualType; // type of individual
     private int numberOfGroups; // number of groups in individual (when group coding)...
 
-    public void setNumberOfGroups(int numberOfGroups) {
-        this.numberOfGroups = numberOfGroups;
-    }
-
     /**
      * Constructor (for binary coded individuals)
      *
@@ -94,6 +90,15 @@ public class Population {
         return individuals.get(index);
     }
 
+    /**
+     * Setter 
+     * 
+     * @param numberOfGroups - important while creating new individuals in group encoding
+     */
+    public void setNumberOfGroups(int numberOfGroups) {
+        this.numberOfGroups = numberOfGroups;
+    }
+    
     /**
      * Getter
      *
