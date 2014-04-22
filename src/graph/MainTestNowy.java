@@ -1,6 +1,10 @@
 package graph;
 
+import static java.lang.Thread.sleep;
+
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jfree.chart.ChartFrame;
 
@@ -9,8 +13,10 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import genetics.AbstractIndividual;
 import genetics.CrossingOver;
 import genetics.CrossingOverType;
+import genetics.GroupCodedIndividual;
 import genetics.IndividualType;
 import genetics.Mutation;
 import genetics.Population;
@@ -34,7 +40,8 @@ public class MainTestNowy {
         Mutation mutation = new Mutation(0.05);
         Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
         // Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
-
+        // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
+        
         Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
         Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
         Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");
@@ -48,11 +55,27 @@ public class MainTestNowy {
         ChartFrame worstIndividualFrame = worstIndividualChart.getChartFrame();
         worstIndividualFrame.setVisible(true);
         worstIndividualFrame.setSize(500, 400);
-
+        
+        int basic = 22;
         for (int i = 0; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-
+            
+            if (i % 50 == 0) {
+                basic--;
+                for (AbstractIndividual a : population.getIndividuals())
+                     a.removeWorstGroup();
+                GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
+                System.out.println(a.getNumberOfSubgraphs());
+                System.out.println(a.getRealNumberOfSubgraphs());
+                population.setNumberOfGroups(basic);
+                try {
+                    sleep(10000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(MainTestNowy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
             bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
             averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
             worstIndividualChart.actualizeChart(population.findWorstAdoptedIndividual().getFitness());

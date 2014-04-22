@@ -22,6 +22,12 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
     public abstract void determineIndividualFitness() throws GeneticAlgorithmException;
 
     /**
+     *
+     * @return
+     */
+    public abstract boolean removeWorstGroupAndSplitIntoOthers();
+    public abstract boolean removeWorstGroup();
+    /**
      * Creates new individual which is the same as given in parameter
      * 
      * @param individual
