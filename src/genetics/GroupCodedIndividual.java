@@ -160,16 +160,12 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-<<<<<<< HEAD
-     * Removes the least fit group. After this function invoke relabelIndividual or determineIndividualFitness.
-     * 
-=======
      * Removes the least fit group. After this function invoke relabelIndividual
      * or determineIndividualFitness.
      *
->>>>>>> b22b7929d29345fccf6c6779394347785b7a4261
      * @return true if there were at least 2 groups and one was removed
      */
+    @Override
     public boolean removeWorstGroup() {
         numberOfSubgraphs = getRealNumberOfSubgraphs();
         if (numberOfSubgraphs > 1) {
@@ -184,15 +180,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-<<<<<<< HEAD
-     * Removes the least fit group and splits vertexes randomly to other groups. After this function invoke relabelIndividual or determineIndividualFitness.
-     * 
-=======
      * Removes the least fit group and splits vertexes randomly to other groups.
      * After this function invoke relabelIndividual or
      * determineIndividualFitness.
      *
->>>>>>> b22b7929d29345fccf6c6779394347785b7a4261
      * @return true if there were at least 2 groups and one was removed
      */
     @Override
