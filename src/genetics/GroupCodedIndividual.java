@@ -167,10 +167,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      */
     @Override
     public boolean removeWorstGroup() {
-        numberOfSubgraphs = getRealNumberOfSubgraphs();
-        if (numberOfSubgraphs > 1) {
+        if (numberOfSubgraphs > 2) {
+            numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
             for (int i = chromosome.length - 1; i > 0; i--) {
-                if (chromosome[i] == numberOfSubgraphs - 1) {
+                if (chromosome[i] == numberOfSubgraphs) {
                     chromosome[i]--;
                 }
             }
@@ -180,20 +180,20 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes the least fit group and splits vertexes randomly to other groups.
+     * Removes the least fit group and splits vertexes randomly to other groups (but not to 0 group).
      * After this function invoke relabelIndividual or
-     * determineIndividualFitness.
+     * determineIndividualFitness. Before also relabel.
      *
      * @return true if there were at least 2 groups and one was removed
      */
     @Override
     public boolean removeWorstGroupAndSplitIntoOthers() {
         Random rand = new Random();
-        numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
-        if (numberOfSubgraphs > 1) {
+        if (numberOfSubgraphs > 2) {
+            numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
             for (int i = chromosome.length - 1; i > 0; i--) {
                 if (chromosome[i] == numberOfSubgraphs) {
-                    chromosome[i] = rand.nextInt(numberOfSubgraphs);
+                    chromosome[i] = rand.nextInt(numberOfSubgraphs - 1) + 1;
                 }
             }
             return true;

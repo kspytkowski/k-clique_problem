@@ -12,13 +12,23 @@ import java.util.Random;
 public class BinaryCodedIndividual extends AbstractIndividual {
 
     private int activeGenesAmount; // amount of vertices in subgraph
-public boolean removeWorstGroupAndSplitIntoOthers() {return true;}
-public boolean removeWorstGroup() {return true;}
+
+    @Override
+    public boolean removeWorstGroupAndSplitIntoOthers() {
+        return true;
+    }
+
+    @Override
+    public boolean removeWorstGroup() {
+        return true;
+    }
+
     /**
-     * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
-     * 
-     * @param graphSize
-     *            - graph's size (amount of vertices)
+     * Constructor - creates subgraph that has size of kCliqueSize - chooses
+     * appropriate amount of genes (vertices) and puts them into chromosome
+     * (table)
+     *
+     * @param graphSize - graph's size (amount of vertices)
      */
     public BinaryCodedIndividual(GraphRepresentation graph) {
         // wyjatki?! => gdy graph jest nullem?
@@ -50,9 +60,8 @@ public boolean removeWorstGroup() {return true;}
 
     /**
      * Copy constructor
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public BinaryCodedIndividual(BinaryCodedIndividual i) {
         this.graph = i.getGraph();
@@ -63,7 +72,7 @@ public boolean removeWorstGroup() {return true;}
 
     /**
      * Getter
-     * 
+     *
      * @return amount of active genes
      */
     public int getActiveGenesAmount() {
@@ -87,7 +96,7 @@ public boolean removeWorstGroup() {return true;}
         double czyJestKKlika = 0.0;
         if (getActiveGenesAmount() != 0 && getActiveGenesAmount() != 1) {
             czyJestKKlika = (double) lol / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getKCliqueSize())) / graph.getKCliqueSize();
-         //   czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
+            //   czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
         }
         lol2 = czyJestKKlika;
         setFitness(lol2);
