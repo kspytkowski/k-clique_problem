@@ -36,10 +36,10 @@ public class MainTestNowy {
             e.printStackTrace();
         }
 
-        CrossingOver crossingOver = new CrossingOver(0.6);
-        Mutation mutation = new Mutation(0.05);
+//        CrossingOver crossingOver = new CrossingOver(0.6);
+//        Mutation mutation = new Mutation(0.05);
         Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
-        // Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
+//        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
         Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
@@ -56,23 +56,28 @@ public class MainTestNowy {
         worstIndividualFrame.setVisible(true);
         worstIndividualFrame.setSize(500, 400);
         
-        int basic = 22;
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             
-            if (i % 50 == 0) {
-                basic--;
-                for (AbstractIndividual a : population.getIndividuals())
-                     a.removeWorstGroup();
-                GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
-                System.out.println(a.getNumberOfSubgraphs());
-                System.out.println(a.getRealNumberOfSubgraphs());
-                population.setNumberOfGroups(basic);
-                try {
-                    sleep(10000);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(MainTestNowy.class.getName()).log(Level.SEVERE, null, ex);
+            if (i % 100 == 0) {
+                for (AbstractIndividual ind : population.getIndividuals()){
+                    System.out.println(ind);
+                }
+                population.singleLifeCycle(true, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
+//                if (basic > 1) basic--;
+//                for (AbstractIndividual a : population.getIndividuals())
+//                     a.removeWorstGroup();
+//                GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
+//                System.out.println(a.getNumberOfSubgraphs());
+//                System.out.println(a.getRealNumberOfSubgraphs());
+//                population.setNumberOfGroups(basic);
+            } else {
+                population.singleLifeCycle(false, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
+            }
+            if (i % 100 == 1) {
+                for (AbstractIndividual ind : population.getIndividuals()){
+                    System.out.println(ind);
                 }
             }
             
@@ -80,16 +85,8 @@ public class MainTestNowy {
             averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
             worstIndividualChart.actualizeChart(population.findWorstAdoptedIndividual().getFitness());
 
-            Selection.rouletteWheelSelection(population);
-
-            crossingOver.crossOver(CrossingOverType.ONEPOINTWITHTWOCHILDREN, population);
-
-            mutation.mutate(population);
-
-            population.removeWorstIndividuals(0.7); // MUSIMY TAK DUZO USUWAC, zeby populacja z iteracji na iteracje nie rosła,
-                                                    // potem sie zmieni odpowiednio keepConstantPopulationSize() zeby o to dbała
-            population.keepConstantPopulationSize();
-            population.printDostatosowanie();
+            
+            
 
         }
         // try {

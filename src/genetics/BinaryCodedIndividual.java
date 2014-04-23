@@ -110,7 +110,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     @Override
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
-        determineIndividualFitness();
+        //determineIndividualFitness();
     }
 
     @Override
@@ -121,8 +121,8 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;
-        if (geneIndex == getChromosomeLength() - 1) {
-            determineIndividualFitness();
-        }
+//        if (geneIndex == getChromosomeLength() - 1) {
+//            determineIndividualFitness();
+//        }
     }
 }

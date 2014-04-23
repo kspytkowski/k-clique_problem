@@ -77,6 +77,25 @@ public class Population {
         }
     }
 
+    public void singleLifeCycle(boolean specialYear, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability) throws GeneticAlgorithmException {
+        if (specialYear && numberOfGroups > 2) {
+            determineEveryIndividualFitness();
+            removeWorstGroupInGroupEncoding();
+            numberOfGroups--;
+            determineEveryIndividualFitness();
+            System.out.println(numberOfGroups);
+        }
+        Selection.rouletteWheelSelection(this);
+        CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
+        Mutation.mutate(this, mutationProbability);
+
+        determineEveryIndividualFitness();
+        this.removeWorstIndividuals(0.7); // MUSIMY TAK DUZO USUWAC, zeby populacja z iteracji na iteracje nie rosła,
+        // potem sie zmieni odpowiednio keepConstantPopulationSize() zeby o to dbała
+        this.keepConstantPopulationSize();
+        this.printDostatosowanie();
+    }
+
     /**
      * Getter
      *
@@ -91,14 +110,15 @@ public class Population {
     }
 
     /**
-     * Setter 
-     * 
-     * @param numberOfGroups - important while creating new individuals in group encoding
+     * Setter
+     *
+     * @param numberOfGroups - important while creating new individuals in group
+     * encoding
      */
     public void setNumberOfGroups(int numberOfGroups) {
         this.numberOfGroups = numberOfGroups;
     }
-    
+
     /**
      * Getter
      *
@@ -157,13 +177,22 @@ public class Population {
         }
         return sum;
     }
-    
+
     /**
      * Invokes counting every individual's fitness.
      */
     public void determineEveryIndividualFitness() throws GeneticAlgorithmException {
         for (AbstractIndividual ind : individuals) {
             ind.determineIndividualFitness();
+        }
+    }
+
+    /**
+     * Invokes removing worst group on every individual.
+     */
+    public void removeWorstGroupInGroupEncoding() throws GeneticAlgorithmException {
+        for (AbstractIndividual ind : individuals) {
+            ind.removeWorstGroup();
         }
     }
 
@@ -189,7 +218,7 @@ public class Population {
         }
         if (individuals.size() > demandedIndividualsAmount) {
             Collections.sort(individuals);
-            while(individuals.size() > demandedIndividualsAmount) {
+            while (individuals.size() > demandedIndividualsAmount) {
                 individuals.removeFirst();
             }
         }
@@ -257,7 +286,7 @@ public class Population {
         }
         return act;
     }
-    
+
     public AbstractIndividual findWorstAdoptedIndividual() {
         AbstractIndividual act = individuals.get(0);
         for (int i = 1; i < individuals.size(); i++) {
@@ -267,9 +296,9 @@ public class Population {
         }
         return act;
     }
-    
+
     public double averageIndividualsFitness() {
         return printDostatosowanie() / getActualIndividualsAmount();
     }
-    
+
 }
