@@ -24,11 +24,10 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Constructor - creates subgraph that has size of kCliqueSize - chooses
-     * appropriate amount of genes (vertices) and puts them into chromosome
-     * (table)
-     *
-     * @param graphSize - graph's size (amount of vertices)
+     * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
+     * 
+     * @param graphSize
+     *            - graph's size (amount of vertices)
      */
     public BinaryCodedIndividual(GraphRepresentation graph) {
         // wyjatki?! => gdy graph jest nullem?
@@ -60,8 +59,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     /**
      * Copy constructor
-     *
-     * @param i - individual
+     * 
+     * @param i
+     *            - individual
      */
     public BinaryCodedIndividual(BinaryCodedIndividual i) {
         this.graph = i.getGraph();
@@ -72,7 +72,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     /**
      * Getter
-     *
+     * 
      * @return amount of active genes
      */
     public int getActiveGenesAmount() {
@@ -96,7 +96,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         double czyJestKKlika = 0.0;
         if (getActiveGenesAmount() != 0 && getActiveGenesAmount() != 1) {
             czyJestKKlika = (double) lol / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getKCliqueSize())) / graph.getKCliqueSize();
-            //   czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
+            // czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
         }
         lol2 = czyJestKKlika;
         setFitness(lol2);
@@ -110,7 +110,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     @Override
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
-        //determineIndividualFitness();
+        // determineIndividualFitness();
     }
 
     @Override
@@ -121,8 +121,8 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;
-//        if (geneIndex == getChromosomeLength() - 1) {
-//            determineIndividualFitness();
-//        }
+        // if (geneIndex == getChromosomeLength() - 1) {
+        // determineIndividualFitness();
+        // }
     }
 }

@@ -24,12 +24,15 @@ import genetics.Selection;
 
 public class MainTestNowy {
 
+    // TO DO musimy ustawic tak zeby zawsze jakas czesc np. 10% dmandenAmount nowych osobnikow sie dodawalo do populacji,
+    // a potem dopiero kasowac jak jest za duzo
+    
     public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException, GeneticAlgorithmException, NoPossibilityToCreateIndividualWithGivenParameters {
 
         GraphRepresentation gr = null;
         try {
             // gr = new GraphRepresentation("graph", 4);
-            gr = new GraphRepresentation(128, 2326, 67, true);
+            gr = new GraphRepresentation(128, 5326, 67, true);
             // gr = new GraphRepresentation(64, 300, 20, true);
             // gr = new GraphRepresentation(10, 6, 3, true);
         } catch (NoPossibilityToCreateGraphException e) {
@@ -42,28 +45,28 @@ public class MainTestNowy {
 //        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
-        Chart bestIndividualChart = new Chart("K-clique solver", "Przystosowanie najlepszego osobnika w populacji", "Iteracja", "Przystosowanie");
-        Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
-        Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");
+        Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
+   /*     Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
+        Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");*/
 
-        ChartFrame bestIndividualFrame = bestIndividualChart.getChartFrame();
-        bestIndividualFrame.setVisible(true);
-        bestIndividualFrame.setSize(500, 400);
-        ChartFrame averageFitnessFrame = averageFitnessChart.getChartFrame();
+        ChartFrame myFrame = myChart.getChartFrame();
+        myFrame.setVisible(true);
+        myFrame.setSize(500, 400);
+     /*   ChartFrame averageFitnessFrame = averageFitnessChart.getChartFrame();
         averageFitnessFrame.setVisible(true);
         averageFitnessFrame.setSize(500, 400);
         ChartFrame worstIndividualFrame = worstIndividualChart.getChartFrame();
         worstIndividualFrame.setVisible(true);
-        worstIndividualFrame.setSize(500, 400);
+        worstIndividualFrame.setSize(500, 400);*/
         
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 0; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             
             if (i % 100 == 0) {
-                for (AbstractIndividual ind : population.getIndividuals()){
-                    System.out.println(ind);
-                }
+              //  for (AbstractIndividual ind : population.getIndividuals()){
+              //      System.out.println(ind);
+              //  }
                 population.singleLifeCycle(true, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
 //                if (basic > 1) basic--;
 //                for (AbstractIndividual a : population.getIndividuals())
@@ -75,15 +78,16 @@ public class MainTestNowy {
             } else {
                 population.singleLifeCycle(false, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
             }
-            if (i % 100 == 1) {
-                for (AbstractIndividual ind : population.getIndividuals()){
-                    System.out.println(ind);
-                }
-            }
+         //   if (i % 100 == 1) {
+         //       for (AbstractIndividual ind : population.getIndividuals()){
+         //           System.out.println(ind);
+         //       }
+        //    }
             
-            bestIndividualChart.actualizeChart(population.findBestAdoptedIndividual().getFitness());
-            averageFitnessChart.actualizeChart(population.averageIndividualsFitness());
-            worstIndividualChart.actualizeChart(population.findWorstAdoptedIndividual().getFitness());
+            myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());
+            myChart.addNewValueToAverageSeries(i,population.averageIndividualsFitness());
+            myChart.addNewValueToWorstSeries(i,population.findWorstAdoptedIndividual().getFitness());
+            myChart.repaintChart();
 
             
             
