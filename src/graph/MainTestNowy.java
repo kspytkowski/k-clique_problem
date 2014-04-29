@@ -32,7 +32,7 @@ public class MainTestNowy {
         GraphRepresentation gr = null;
         try {
             // gr = new GraphRepresentation("graph", 4);
-            gr = new GraphRepresentation(128, 5326, 67, true);
+            gr = new GraphRepresentation(128, 2326, 67, true);
             // gr = new GraphRepresentation(64, 300, 20, true);
             // gr = new GraphRepresentation(10, 6, 3, true);
         } catch (NoPossibilityToCreateGraphException e) {
@@ -59,7 +59,7 @@ public class MainTestNowy {
         worstIndividualFrame.setVisible(true);
         worstIndividualFrame.setSize(500, 400);*/
         
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             
