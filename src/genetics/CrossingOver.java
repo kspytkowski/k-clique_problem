@@ -11,45 +11,7 @@ import exceptions.GeneticAlgorithmException;
  */
 public class CrossingOver {
 
-    // private double crossingOverProbability; // individuals' crossing-over probability
     private static final Random rand = new Random(); // object that generates random numbers
-
-    // /**
-    // * Constructor
-    // *
-    // * @param crossingOverProbability
-    // * - probability of crossing-over
-    // * @throws GeneticAlgorithmException
-    // */
-    // public CrossingOver(double crossingOverProbability) throws GeneticAlgorithmException {
-    // if (crossingOverProbability < 0 || crossingOverProbability > 1) {
-    // throw new GeneticAlgorithmException("Probability of crossing-over should be more than 0 and less than 1");
-    // }
-    // this.crossingOverProbability = crossingOverProbability;
-    // }
-    //
-    // /**
-    // * Getter
-    // *
-    // * @return individuals' crossing-over probability
-    // */
-    // public double getCrossingOverProbability() {
-    // return crossingOverProbability;
-    // }
-    //
-    // /**
-    // * Setter
-    // *
-    // * @param crossingOverProbability
-    // * - individuals' crossing-over probability
-    // * @throws GeneticAlgorithmException
-    // */
-    // public void setCrossingOverProbability(double crossingOverProbability) throws GeneticAlgorithmException {
-    // if (crossingOverProbability < 0 || crossingOverProbability > 1) {
-    // throw new GeneticAlgorithmException("Probability of crossing-over should be more or equal to 0 and less or equal to 1");
-    // }
-    // this.crossingOverProbability = crossingOverProbability;
-    // }
 
     /**
      * Starts appropriate crossing-over
@@ -158,7 +120,7 @@ public class CrossingOver {
         }
         newIndividuals.add(firstChild);
     }
-
+    
     /**
      * 
      * Crosses over two Individuals (parents) and makes two new Individuals (children)
@@ -182,7 +144,7 @@ public class CrossingOver {
         newIndividuals.add(firstChild);
         newIndividuals.add(secondChild);
     }
-
+    
     /**
      * Crosses over two Individuals (parents) and makes one new Individual (child)
      * 
