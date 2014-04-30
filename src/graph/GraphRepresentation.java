@@ -36,7 +36,7 @@ public class GraphRepresentation {
      * @param searchedKCliqueSize
      *            - k-clique size (amount of vertices)
      * @param existedKCliqueSize
-     *            - minimum k-clique size (amount of vertices) that with exists in created graph
+     *            - minimum k-clique size (amount of vertices) that will exist in created graph
      * @throws NoPossibilityToCreateGraphException
      * @throws GeneticAlgorithmException
      */
