@@ -41,14 +41,9 @@ public class GraphRepresentation {
      * @throws GeneticAlgorithmException
      */
     public GraphRepresentation(int vertices, int edges, int searchedKCliqueSize, int existedKCliqueSize) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
-        if (vertices < 1) {
-            throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
-        }
-        if (edges < 0) {
-            throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
-        }
-        if (edges > (vertices * (vertices - 1) / 2)) {
-            throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
+        String problem;
+        if ((problem = checkPossibilityOfCreationNewGraph(vertices, edges)) != null) {
+            throw new NoPossibilityToCreateGraphException(problem);
         }
         if (searchedKCliqueSize > vertices) {
             throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
@@ -85,14 +80,9 @@ public class GraphRepresentation {
      * @throws GeneticAlgorithmException
      */
     public GraphRepresentation(int vertices, int edges, int searchedKCliqueSize) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
-        if (vertices < 1) {
-            throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
-        }
-        if (edges < 0) {
-            throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
-        }
-        if (edges > (vertices * (vertices - 1) / 2)) {
-            throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
+        String problem;
+        if ((problem = checkPossibilityOfCreationNewGraph(vertices, edges)) != null) {
+            throw new NoPossibilityToCreateGraphException(problem);
         }
         if (searchedKCliqueSize > vertices) {
             throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
@@ -103,49 +93,71 @@ public class GraphRepresentation {
         fillGraphWithEdges(graph, edgesList, 0, edges);
     }
 
-//    /**
-//     * Constructor - creates random sparse graph with given parameters
-//     * 
-//     * @param vertices
-//     *            - amount of vertices
-//     * @param edges
-//     *            - amount of edges
-//     * @param kCliqueSize
-//     *            - k-clique size (amount of vertices)
-//     * @param shouldBeKClique
-//     *            - says if creating graph has to contain k-clique with kCliqueSize
-//     * @throws NoPossibilityToCreateGraphException
-//     */
-//    public GraphRepresentation(int vertices, int edges, int kCliqueSize, boolean shouldBeKClique) throws NoPossibilityToCreateGraphException {
-//        if (vertices < 1) {
-//            throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
-//        }
-//        if (edges < 0) {
-//            throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
-//        }
-//        if (edges > (vertices * (vertices - 1) / 2)) {
-//            throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
-//        }
-//        this.searchedKCliqueSize = kCliqueSize;
-//        graph = createGraphVertices(vertices);
-//        if (shouldBeKClique) {
-//            LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
-//            int kCliqueEgdesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
-//            fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
-//            edgesList = new LinkedList<>();
-//            for (int i = 1; i <= vertices; i++) {
-//                for (int j = kCliqueSize + 1; j <= vertices; j++) {
-//                    if (i != j && i < j) {
-//                        edgesList.add(new Edge(i, j));
-//                    }
-//                }
-//            }
-//            fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
-//        } else {
-//            LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
-//            fillGraphWithEdges(graph, edgesList, 0, edges);
-//        }
-//    }
+    /**
+     * Checks if there is a possibility to create graph with given amount of vertices and edges
+     * 
+     * @param vertices
+     *            - amount of vertices
+     * @param edges
+     *            - amount of edges
+     * @return message with found problem or null if everything is ok
+     */
+    public String checkPossibilityOfCreationNewGraph(int vertices, int edges) {
+        if (vertices < 1) {
+            return "Amount of vertices cannot be less than 1";
+        }
+        if (edges < 0) {
+            return "Amount of edges cannot be less than 0";
+        }
+        if (edges > (vertices * (vertices - 1) / 2)) {
+            return "To many edges to generate graph";
+        }
+        return null;
+    }
+
+    // /**
+    // * Constructor - creates random sparse graph with given parameters
+    // *
+    // * @param vertices
+    // * - amount of vertices
+    // * @param edges
+    // * - amount of edges
+    // * @param kCliqueSize
+    // * - k-clique size (amount of vertices)
+    // * @param shouldBeKClique
+    // * - says if creating graph has to contain k-clique with kCliqueSize
+    // * @throws NoPossibilityToCreateGraphException
+    // */
+    // public GraphRepresentation(int vertices, int edges, int kCliqueSize, boolean shouldBeKClique) throws NoPossibilityToCreateGraphException {
+    // if (vertices < 1) {
+    // throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
+    // }
+    // if (edges < 0) {
+    // throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
+    // }
+    // if (edges > (vertices * (vertices - 1) / 2)) {
+    // throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
+    // }
+    // this.searchedKCliqueSize = kCliqueSize;
+    // graph = createGraphVertices(vertices);
+    // if (shouldBeKClique) {
+    // LinkedList<Edge> edgesList = createListWithPossibleEdges(kCliqueSize);
+    // int kCliqueEgdesAmount = kCliqueSize * (kCliqueSize - 1) / 2;
+    // fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
+    // edgesList = new LinkedList<>();
+    // for (int i = 1; i <= vertices; i++) {
+    // for (int j = kCliqueSize + 1; j <= vertices; j++) {
+    // if (i != j && i < j) {
+    // edgesList.add(new Edge(i, j));
+    // }
+    // }
+    // }
+    // fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
+    // } else {
+    // LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
+    // fillGraphWithEdges(graph, edgesList, 0, edges);
+    // }
+    // }
 
     /**
      * Constructor - reads graph from file

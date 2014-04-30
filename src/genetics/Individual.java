@@ -21,14 +21,14 @@ public class Individual implements Comparable<Individual> {
     public GraphRepresentation getGraph() {
         return graph;
     }
-    
+
     /**
-     * Constructor - creates subgraph that has size of kCliqueSize - chooses
-     * appropriate amount of genes (vertices) and puts them into chromosome
-     * (table)
-     *
-     * @param graphSize - graph's size (amount of vertices)
-     * @param kCliqueSize - k-clique size (amount of vertices)
+     * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
+     * 
+     * @param graphSize
+     *            - graph's size (amount of vertices)
+     * @param kCliqueSize
+     *            - k-clique size (amount of vertices)
      */
     public Individual(GraphRepresentation graph, int kCliqueSize) {
         // wyjatki?!
@@ -62,15 +62,14 @@ public class Individual implements Comparable<Individual> {
     /* please, don't really care about it, I can be serious */
     /* sometimes */
     /**
-     * Constructor - creates graph (maximum size), every index in chromosome is
-     * a vertex and value assigned to vertex indicates to subgraph which
-     * contains this vertex
-     *
-     * @param graphSize - graph's size (amount of vertices) - usunalem ten parametr, graph wie ile ma wierzcholkow => potem jeszcze to lekko zmienie
-     * @param numberOfGroups - number of subgraphs
-     * @throws NoPossibilityToCreateIndividualWithGivenParameters - excetion
-     * thrown when number of groups is bigger than graph size, because it
-     * doesn't really make sense
+     * Constructor - creates graph (maximum size), every index in chromosome is a vertex and value assigned to vertex indicates to subgraph which contains this vertex
+     * 
+     * @param graphSize
+     *            - graph's size (amount of vertices) - usunalem ten parametr, graph wie ile ma wierzcholkow => potem jeszcze to lekko zmienie
+     * @param numberOfGroups
+     *            - number of subgraphs
+     * @throws NoPossibilityToCreateIndividualWithGivenParameters
+     *             - excetion thrown when number of groups is bigger than graph size, because it doesn't really make sense
      */
     public Individual(int numberOfGroups, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
         if (numberOfGroups > graph.getGraph().getVertexCount()) {// not nice, may couse some stupid things
@@ -87,8 +86,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Copy constructor
-     *
-     * @param i - individual
+     * 
+     * @param i
+     *            - individual
      */
     public Individual(Individual i) {
         // do calkowitej zmiany!!!!!!!!1
@@ -99,21 +99,18 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Constructor - creates blank Individual (all genes are 0)
-     *
-     * @param chromosomeLength - amount of genes
-     *
+     * 
+     * @param chromosomeLength
+     *            - amount of genes
+     * 
      */
-    /*public Individual(int chromosomeLength) {
-        // do calkowitej zmiany!!!!!! => np. grafp tez trza skopiowac
-        this.graph = 
-        this.activeGenesAmount = 0;
-        this.chromosome = new int[chromosomeLength];
-        this.fitness = 0.0;
-    }*/
+    /*
+     * public Individual(int chromosomeLength) { // do calkowitej zmiany!!!!!! => np. grafp tez trza skopiowac this.graph = this.activeGenesAmount = 0; this.chromosome = new int[chromosomeLength]; this.fitness = 0.0; }
+     */
 
     /**
      * Getter
-     *
+     * 
      * @return length of chromosome
      */
     public int getChromosomeLength() {
@@ -122,8 +119,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter
-     *
-     * @param index - index of gene
+     * 
+     * @param index
+     *            - index of gene
      * @return value of gene: 0 - not exists, 1 - exists
      */
     public int getValueOfGene(int geneIndex) {
@@ -132,7 +130,7 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter
-     *
+     * 
      * @return amount of active genes
      */
     public int getActiveGenesAmount() {
@@ -141,7 +139,7 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter of number of subgraphs (groups)
-     *
+     * 
      * @return number of groups
      */
     public int getNumberOfSubgraphs() {
@@ -150,7 +148,7 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter
-     *
+     * 
      * @return chromosome - table
      */
     public int[] getChromosome() {
@@ -159,8 +157,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter
-     *
-     * @param geneIndex - index of gene
+     * 
+     * @param geneIndex
+     *            - index of gene
      * @return value of gene
      */
     public int getGene(int geneIndex) {
@@ -169,7 +168,7 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Getter
-     *
+     * 
      * @return fitness
      */
     public double getFitness() {
@@ -178,8 +177,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Setter
-     *
-     * @param fitness - fitness
+     * 
+     * @param fitness
+     *            - fitness
      */
     public void setFitness(double fitness) {
         this.fitness = fitness;
@@ -187,8 +187,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Removes gene - makes 0 form 1 in chromosome
-     *
-     * @param geneIndex - index of gene to remove
+     * 
+     * @param geneIndex
+     *            - index of gene to remove
      */
     public void removeGene(int geneIndex) {
         chromosome[geneIndex] = 0;
@@ -197,8 +198,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Adds gene - makes 1 form 0 in chromosome
-     *
-     * @param geneIndex - index of gene to remove
+     * 
+     * @param geneIndex
+     *            - index of gene to remove
      */
     public void addGene(int geneIndex) {
         chromosome[geneIndex] = 1;
@@ -207,11 +209,13 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Sets new value to gene to use in byte coding case
-     *
-     * @param geneIndex - index of gene
-     * @param value - value to set
+     * 
+     * @param geneIndex
+     *            - index of gene
+     * @param value
+     *            - value to set
      */
-    public void setGene(int geneIndex, int value) { 
+    public void setGene(int geneIndex, int value) {
         if (chromosome[geneIndex] != value && value == 1) {
             activeGenesAmount++;
         } else if (chromosome[geneIndex] != value && value == 0) {
@@ -222,18 +226,19 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Inverses gene - makes 0 form 1 or 1 from 0 in chromosome
-     *
-     * @param geneIndex - index of gene to inverse
+     * 
+     * @param geneIndex
+     *            - index of gene to inverse
      */
     public void inverseGene(int geneIndex) {
         setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
     }
 
     /**
-     * Mutates gene - change gene to any other possible (from 0 to
-     * numberOfSubgraphs - 1)
-     *
-     * @param geneIndex - index of gene to mutate
+     * Mutates gene - change gene to any other possible (from 0 to numberOfSubgraphs - 1)
+     * 
+     * @param geneIndex
+     *            - index of gene to mutate
      */
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, new Random().nextInt(numberOfSubgraphs));
@@ -241,10 +246,10 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Determines the fitness of group in chromosome
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return fi
-     * tness of subgraph
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return fi tness of subgraph
      */
     public double determineFitness(int group) throws GeneticAlgorithmException {
         if (group < 0 || group >= numberOfSubgraphs) {
@@ -264,8 +269,7 @@ public class Individual implements Comparable<Individual> {
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getsearchedKCliqueSize() ? 0.5 * (e / (k * (k - 1) / 2) + isKlique * graph.getsearchedKCliqueSize() / k)
-                    : 0.5 * (e / (k * (k - 1) / 2) + isKlique * k / graph.getsearchedKCliqueSize());
+            return k > graph.getsearchedKCliqueSize() ? 0.5 * (e / (k * (k - 1) / 2) + isKlique * graph.getsearchedKCliqueSize() / k) : 0.5 * (e / (k * (k - 1) / 2) + isKlique * k / graph.getsearchedKCliqueSize());
         } else {
             return 0;
         }
@@ -283,10 +287,9 @@ public class Individual implements Comparable<Individual> {
         }
         setFitness(max);
     }
-    
+
     /**
-     * Function changes genes in chromosome that in result subgraph with the
-     * biggest amount of vertexes is labeled as 0 and so on.
+     * Function changes genes in chromosome that in result subgraph with the biggest amount of vertexes is labeled as 0 and so on.
      */
     public void relabelIndividual() throws GeneticAlgorithmException {
         LinkedList<Double> amountOfVertexesInGroup = new LinkedList<>();
@@ -345,10 +348,10 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Counts amount of vertexes in given group
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return am
-     * ount
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return am ount
      * @throws GeneticAlgorithmException
      */
     private int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
@@ -366,10 +369,10 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Returns list of vertexes' indexes in given group
-     *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return li
-     * st
+     * 
+     * @param group
+     *            - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return li st
      * @throws GeneticAlgorithmException
      */
     private LinkedList<Integer> getVertexesInGroup(int group) throws GeneticAlgorithmException {
@@ -388,8 +391,9 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Compares two individuals - better individual has better fitness
-     *
-     * @param i - individual
+     * 
+     * @param i
+     *            - individual
      */
     @Override
     public int compareTo(Individual i) {
@@ -401,9 +405,11 @@ public class Individual implements Comparable<Individual> {
 
     /**
      * Checks if "second" individual is better than "first" individual
-     *
-     * @param first - first individual to compare to
-     * @param second - second individual to compare to
+     * 
+     * @param first
+     *            - first individual to compare to
+     * @param second
+     *            - second individual to compare to
      * @return true if second individual is better, false otherwise
      */
     public static Individual isBetter(Individual first, Individual second) {

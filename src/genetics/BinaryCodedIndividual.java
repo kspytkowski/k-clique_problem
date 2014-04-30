@@ -30,7 +30,6 @@ public class BinaryCodedIndividual extends AbstractIndividual {
      *            - graph's size (amount of vertices)
      */
     public BinaryCodedIndividual(GraphRepresentation graph) {
-        // wyjatki?! => gdy graph jest nullem?
         this.graph = graph;
         this.activeGenesAmount = graph.getsearchedKCliqueSize();
         chromosome = new int[graph.getGraph().getVertexCount()];
@@ -54,7 +53,6 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         // this.activeGenesAmount++;
         // }
         // }
-
     }
 
     /**
@@ -110,7 +108,6 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     @Override
     public void mutateGene(int geneIndex) {
         setGene(geneIndex, (chromosome[geneIndex] == 0) ? 1 : 0);
-        // determineIndividualFitness();
     }
 
     @Override
@@ -121,8 +118,5 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;
-        // if (geneIndex == getChromosomeLength() - 1) {
-        // determineIndividualFitness();
-        // }
     }
 }
