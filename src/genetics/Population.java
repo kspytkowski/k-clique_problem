@@ -100,7 +100,17 @@ public class Population {
         this.removeWorstIndividuals(0.7); // MUSIMY TAK DUZO USUWAC, zeby populacja z iteracji na iteracje nie rosła,
         // potem sie zmieni odpowiednio keepConstantPopulationSize() zeby o to dbała
         this.keepConstantPopulationSize();
-        this.printDostatosowanie();
+        this.getPopulationFitness();
+    }
+    
+    public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
+        Selection.linearRankingSelection(this);
+        CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
+        this.keepConstantPopulationSize(); 
+        Mutation.mutate(this, mutationProbability);
+        determineEveryIndividualFitness();
+        removeWorstIndividuals(toRemove);
+        this.keepConstantPopulationSize(); 
     }
 
     /**
@@ -210,6 +220,7 @@ public class Population {
      */
     public void keepConstantPopulationSize() {
         while (individuals.size() < demandedIndividualsAmount) {
+            //System.out.println("AA");
             try {
                 switch (individualType) {
                 case BINARYCODEDINDIVIDUAL:
@@ -225,11 +236,13 @@ public class Population {
             }
         }
         if (individuals.size() > demandedIndividualsAmount) {
+            //System.out.println("BB");
             Collections.sort(individuals);
             while (individuals.size() > demandedIndividualsAmount) {
                 individuals.removeFirst();
             }
         }
+        //System.out.println(individuals.size());
     }
 
     /**
@@ -265,18 +278,12 @@ public class Population {
         return individuals.size();
     }
 
-    @Override
-    public String toString() {
-        String s = "Population: \n";
-        for (AbstractIndividual ind : individuals) {
-            s += ind;
-        }
-        return s;
-    }
-
-    // tylko do pomocy, trzeba cos konkretnego napisac...
-    public double printDostatosowanie() {
-        // tylko w celach testowych, zeby sie w mainie pokazalo
+    /**
+     * Counts sum of individuals' fitnesses in population
+     * 
+     * @return population fitness
+     */
+    public double getPopulationFitness() {
         double populationFitnessSum = 0;
         Iterator<AbstractIndividual> individualsIterator = getIndividuals().iterator();
         while (individualsIterator.hasNext()) {
@@ -285,29 +292,51 @@ public class Population {
         return populationFitnessSum;
     }
 
-    // tylko do pomocy
+    /**
+     * Find individual that has highest fitness
+     * 
+     * @return found individual
+     */
     public AbstractIndividual findBestAdoptedIndividual() {
-        AbstractIndividual act = individuals.get(0);
+        AbstractIndividual actual = individuals.get(0);
         for (int i = 1; i < individuals.size(); i++) {
-            if (individuals.get(i).getFitness() > act.getFitness()) {
-                act = individuals.get(i);
+            if (individuals.get(i).getFitness() > actual.getFitness()) {
+                actual = individuals.get(i);
             }
         }
-        return act;
+        return actual;
     }
 
+    /**
+     * Find individual that has lowest fitness
+     * 
+     * @return found individual
+     */
     public AbstractIndividual findWorstAdoptedIndividual() {
-        AbstractIndividual act = individuals.get(0);
+        AbstractIndividual actual = individuals.get(0);
         for (int i = 1; i < individuals.size(); i++) {
-            if (individuals.get(i).getFitness() < act.getFitness()) {
-                act = individuals.get(i);
+            if (individuals.get(i).getFitness() < actual.getFitness()) {
+                actual = individuals.get(i);
             }
         }
-        return act;
+        return actual;
     }
 
+    /**
+     * Counts average individuals' fitness in population
+     * 
+     * @return average individuals' fitness
+     */
     public double averageIndividualsFitness() {
-        return printDostatosowanie() / getActualIndividualsAmount();
+        return getPopulationFitness() / getActualIndividualsAmount();
     }
 
+    @Override
+    public String toString() {
+        String s = "Population: \n";
+        for (AbstractIndividual ind : individuals) {
+            s += ind;
+        }
+        return s;
+    }
 }

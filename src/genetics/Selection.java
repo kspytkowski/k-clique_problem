@@ -52,8 +52,10 @@ public class Selection {
         double lastFitness = 0;
         while (individualsIterator.hasNext()) {
             lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
-            rouletteWheel.add(lastFitness);
+            rouletteWheel.addLast(lastFitness);
         }
+        rouletteWheel.removeLast(); // ponizej wyjasnienie
+        rouletteWheel.addLast(1.0); // zeby uniknac bledow spowodowanych przez zaokraglanie itd..
         createPopulationUsingRoulette(population, rouletteWheel);
     }
 
@@ -93,23 +95,21 @@ public class Selection {
      * @param population
      *            - population
      */
-    // NEED TO BE TESTED!
+    // NEED TO BE TESTED! wydaje sie teraz dzialac poprawnie
     public static void linearRankingSelection(Population population) {
-        // double populationFitnessSum = population.fitnessSum();
-        double lol = ((2 + population.getActualIndividualsAmount() - 1) / 2) * population.getActualIndividualsAmount();
+        double sumOfArithmeticSequence = ((double) (2 + population.getActualIndividualsAmount() - 1) / 2) * population.getActualIndividualsAmount();
         Collections.sort(population.getIndividuals());
         Iterator<AbstractIndividual> individualsIterator = population.getIndividuals().iterator();
         LinkedList<Double> rankingWheel = new LinkedList<>();
         double lastFitness = 0;
         double lastIndex = 0;
         while (individualsIterator.hasNext()) {
-            // lastFitness += (population.getActualIndividualsAmount() - lastIndex) / populationFitnessSum;
-            lastFitness += ++lastIndex / lol;
+            lastFitness += ++lastIndex / sumOfArithmeticSequence;
             rankingWheel.add(lastFitness);
-            // lastIndex++;
             individualsIterator.next();
         }
-        // System.out.println(rankingWheel);
+        rankingWheel.removeLast(); // ponizej wyjasnienie
+        rankingWheel.addLast(1.0); // zeby uniknac bledow spowodowanych przez zaokraglanie itd..
         createPopulationUsingRoulette(population, rankingWheel);
     }
 }

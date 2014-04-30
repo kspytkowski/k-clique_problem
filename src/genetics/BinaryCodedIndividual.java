@@ -77,27 +77,28 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         return activeGenesAmount;
     }
 
-    // calkowicie tymczasowa funkcja, moze jakis lepszy pomysl wpadnie....
     @Override
     public void determineIndividualFitness() {
-        int lol = 0;
+        int edgesAmount = 0;
         for (int i = 0; i < graph.getVertexCount(); i++) {
             if (getChromosome()[i] == 1) {
                 for (int k = i + 1; k <= graph.getVertexCount(); k++) {
                     if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 1) {
-                        lol += 1;
+                        edgesAmount += 1;
                     }
                 }
             }
         }
-        double lol2;
-        double czyJestKKlika = 0.0;
+        double isKClique = 0.0;
         if (getActiveGenesAmount() != 0 && getActiveGenesAmount() != 1) {
-            czyJestKKlika = (double) lol / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
-            // czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
+            isKClique = (double) edgesAmount / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
+            // int k = getActiveGenesAmount();
+            // double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
+            // double isKlique = 0.0; if (edgesAmount / (k * (k - 1) / 2) == 1) isKlique = 1;
+            // czyJestKKlika = k > graph.getsearchedKCliqueSize() ? 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * k /
+            // graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         }
-        lol2 = czyJestKKlika;
-        setFitness(lol2);
+        setFitness(isKClique);
     }
 
     @Override
