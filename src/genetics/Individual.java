@@ -264,8 +264,8 @@ public class Individual implements Comparable<Individual> {
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getKCliqueSize() ? 0.5 * (e / (k * (k - 1) / 2) + isKlique * graph.getKCliqueSize() / k)
-                    : 0.5 * (e / (k * (k - 1) / 2) + isKlique * k / graph.getKCliqueSize());
+            return k > graph.getsearchedKCliqueSize() ? 0.5 * (e / (k * (k - 1) / 2) + isKlique * graph.getsearchedKCliqueSize() / k)
+                    : 0.5 * (e / (k * (k - 1) / 2) + isKlique * k / graph.getsearchedKCliqueSize());
         } else {
             return 0;
         }

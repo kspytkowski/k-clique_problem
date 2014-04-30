@@ -32,14 +32,14 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     public BinaryCodedIndividual(GraphRepresentation graph) {
         // wyjatki?! => gdy graph jest nullem?
         this.graph = graph;
-        this.activeGenesAmount = graph.getKCliqueSize();
+        this.activeGenesAmount = graph.getsearchedKCliqueSize();
         chromosome = new int[graph.getGraph().getVertexCount()];
         LinkedList<Integer> helpList = new LinkedList<>();
         for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             helpList.add(i);
         }
         Random rand = new Random();
-        for (int i = 0; i < graph.getKCliqueSize(); i++) {
+        for (int i = 0; i < graph.getsearchedKCliqueSize(); i++) {
             int k = helpList.get(rand.nextInt(graph.getGraph().getVertexCount() - i));
             chromosome[k] = 1;
             helpList.remove((Integer) k);
@@ -95,7 +95,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         double lol2;
         double czyJestKKlika = 0.0;
         if (getActiveGenesAmount() != 0 && getActiveGenesAmount() != 1) {
-            czyJestKKlika = (double) lol / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getKCliqueSize())) / graph.getKCliqueSize();
+            czyJestKKlika = (double) lol / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
             // czyJestKKlika = (double) lol / ((graph.getKCliqueSize() * (graph.getKCliqueSize() - 1) / 2));
         }
         lol2 = czyJestKKlika;

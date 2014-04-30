@@ -7,10 +7,12 @@ import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import genetics.Individual;
 import graph.GraphRepresentation;
 import graph.GraphVisualisation;
+
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +20,9 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JPanel;
+
 import org.apache.commons.collections15.Transformer;
 
 /**
@@ -38,7 +42,13 @@ public class GraphPanel extends JPanel {
 	 */
 	public GraphPanel(JPanel containing) {
 		try {
-			graph = new GraphRepresentation(10, 7, 4, true).getGraph();
+			// graph = new GraphRepresentation(10, 7, 4, true).getGraph(); => mala zmiana, ta linijka == ponizszym szesciom
+		    try {
+                graph = new GraphRepresentation(10, 7, 4, 4).getGraph();
+            } catch (GeneticAlgorithmException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 		} catch (NoPossibilityToCreateGraphException ex) {
 			Logger.getLogger(KKliqueSolverGUI.class.getName()).log(Level.SEVERE, null, ex);
 		}

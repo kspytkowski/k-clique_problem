@@ -19,8 +19,6 @@ import org.jfree.data.xy.XYSeriesCollection;
  */
 public class Chart {
 
-    /* IT's beginning, still a lot to CHANGE! */
-
     private final JFreeChart jFreeChart; // chart
     private final XYSeries bestSeries; // series that keeps best Individual's fitness
     private final XYSeries averageSeries; // series that keeps average Individual's fitness

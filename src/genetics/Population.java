@@ -133,7 +133,7 @@ public class Population {
      * @return size of k-clique
      */
     public int getKCliqueSize() {
-        return graph.getKCliqueSize();
+        return graph.getsearchedKCliqueSize();
     }
 
     /**

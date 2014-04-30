@@ -1,10 +1,6 @@
 package graph;
 
-import static java.lang.Thread.sleep;
-
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.jfree.chart.ChartFrame;
 
@@ -13,14 +9,9 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import exceptions.ProblemWithReadingGraphFromFileException;
-import genetics.AbstractIndividual;
-import genetics.CrossingOver;
 import genetics.CrossingOverType;
-import genetics.GroupCodedIndividual;
 import genetics.IndividualType;
-import genetics.Mutation;
 import genetics.Population;
-import genetics.Selection;
 
 public class MainTestNowy {
 
@@ -32,7 +23,7 @@ public class MainTestNowy {
         GraphRepresentation gr = null;
         try {
             // gr = new GraphRepresentation("graph", 4);
-            gr = new GraphRepresentation(128, 2326, 67, true);
+            gr = new GraphRepresentation(128, 6326, 67, 50);
             // gr = new GraphRepresentation(64, 300, 20, true);
             // gr = new GraphRepresentation(10, 6, 3, true);
         } catch (NoPossibilityToCreateGraphException e) {
@@ -46,18 +37,10 @@ public class MainTestNowy {
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
         Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
-   /*     Chart averageFitnessChart = new Chart("K-clique solver", "Średnie przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
-        Chart worstIndividualChart = new Chart("K-clique solver", "Przystosowanie najgorszego osobnika w populacji", "Iteracja", "Przystosowanie");*/
 
         ChartFrame myFrame = myChart.getChartFrame();
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
-     /*   ChartFrame averageFitnessFrame = averageFitnessChart.getChartFrame();
-        averageFitnessFrame.setVisible(true);
-        averageFitnessFrame.setSize(500, 400);
-        ChartFrame worstIndividualFrame = worstIndividualChart.getChartFrame();
-        worstIndividualFrame.setVisible(true);
-        worstIndividualFrame.setSize(500, 400);*/
         
         for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);

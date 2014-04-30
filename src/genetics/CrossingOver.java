@@ -120,7 +120,7 @@ public class CrossingOver {
         }
         newIndividuals.add(firstChild);
     }
-    
+
     /**
      * 
      * Crosses over two Individuals (parents) and makes two new Individuals (children)
@@ -144,7 +144,7 @@ public class CrossingOver {
         newIndividuals.add(firstChild);
         newIndividuals.add(secondChild);
     }
-    
+
     /**
      * Crosses over two Individuals (parents) and makes one new Individual (child)
      * 

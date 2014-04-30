@@ -83,7 +83,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         }
         LinkedList<Integer> vertexes = getVertexesInGroup(group);
         double k = vertexes.size(), e = 0, isKlique = 0;
-        double differenceBetweenSizes = (k > graph.getKCliqueSize()) ? k - graph.getKCliqueSize() : graph.getKCliqueSize() - k;
+        double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
         if (k > 1) {
             for (int i = 0; i < k; i++) {
                 for (int j = i + 1; j < k; j++) {
@@ -95,7 +95,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             if (e / (k * (k - 1) / 2) == 1) {
                 isKlique = 1;
             }
-            return k > graph.getKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
+            return k > graph.getsearchedKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         } else {
             return 0;
         }
@@ -357,7 +357,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     @Override
     public void mutateGene(int geneIndex) {
         try {
-            if (getAmountOfVertexesInGroup(0) < graph.getKCliqueSize()) {
+            if (getAmountOfVertexesInGroup(0) < graph.getsearchedKCliqueSize()) {
                 chromosome[geneIndex] = 0;
             } else {
                 chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
