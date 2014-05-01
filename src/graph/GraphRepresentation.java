@@ -102,7 +102,7 @@ public class GraphRepresentation {
      *            - amount of edges
      * @return message with found problem or null if everything is ok
      */
-    public String checkPossibilityOfCreationNewGraph(int vertices, int edges) {
+    private String checkPossibilityOfCreationNewGraph(int vertices, int edges) {
         if (vertices < 1) {
             return "Amount of vertices cannot be less than 1";
         }
