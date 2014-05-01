@@ -1,40 +1,30 @@
 package genetics;
 
 import exceptions.GeneticAlgorithmException;
-import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import graph.GraphRepresentation;
 
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-/**
- * @author wukat
- * @modified Krzysztof Spytkowski
- * @date 18 kwi 2014
- */
 public final class GroupCodedIndividual extends AbstractIndividual {
 
     private int numberOfSubgraphs; // number of groups that should be in chromosome
     LinkedList<Double> fitnessOfEverySubgraph; // constains fitness of every subgraph
 
     /**
-     * Constructor - creates graph (maximum size), every index in chromosome is a vertex and value assigned to vertex indicates to subgraph which contains this vertex
-     * 
-     * @param numberOfSubgraphs
-     *            - amount of groups (subgraphs)
-     * @param graph
-     *            - main graph
-     * @throws NoPossibilityToCreateIndividualWithGivenParameters
-     *             - exception thrown when number of groups is bigger than graph size, because it doesn't really make sense
+     * Constructor - creates individual, every index in chromosome is
+     * a vertex and value assigned to vertex indicates to subgraph which
+     * contains this vertex
+     *
+     * @param numberOfSubgraphs - amount of groups (subgraphs)
+     * @param graph - main graph
      */
-    public GroupCodedIndividual(int numberOfSubgraphs, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
+    public GroupCodedIndividual(int numberOfSubgraphs, GraphRepresentation graph) {
+        if (numberOfSubgraphs > graph.getGraph().getVertexCount()) {
+            numberOfSubgraphs = graph.getGraph().getVertexCount();
+        }
         this.graph = graph;
         this.numberOfSubgraphs = numberOfSubgraphs;
-        if (numberOfSubgraphs > graph.getGraph().getVertexCount()) {// not nice, may couse some stupid things => masz racje, trzeba sie tego pozbyc... => mozna sprawdzenie wrzucic do population do konstruktora a stad wyrzucic :D
-            throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
-        }
         chromosome = new int[graph.getGraph().getVertexCount()];
         Random rand = new Random();
         for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
@@ -50,9 +40,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Copy constructor
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public GroupCodedIndividual(GroupCodedIndividual i) {
         this.graph = i.getGraph();
@@ -63,7 +52,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Getter of number of subgraphs (groups)
-     * 
+     *
      * @return number of groups
      */
     public int getNumberOfSubgraphs() {
@@ -72,10 +61,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Determines the fitness of group in chromosome
-     * 
-     * @param group
-     *            - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return fi tness of subgraph
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return fi
+     * tness of subgraph
      */
     public double determineFitness(int group) throws GeneticAlgorithmException {
         if (group < 0 || group >= numberOfSubgraphs) {
@@ -103,7 +92,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Sets list of fitnesses, every group has own fitness.
-     * 
+     *
      * @throws GeneticAlgorithmException
      */
     public void setFitnesses() throws GeneticAlgorithmException {
@@ -115,7 +104,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Function changes genes in chromosome that in result subgraph with the biggest amount of vertexes is labeled as 0 and so on.
+     * Function changes genes in chromosome that in result subgraph with the
+     * biggest amount of vertexes is labeled as 0 and so on.
      */
     public void relabelIndividual() throws GeneticAlgorithmException {
         LinkedList<Double> newFitnessOfEveryGroup = new LinkedList<>();
@@ -180,8 +170,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes the least fit group. After this function invoke relabelIndividual or determineIndividualFitness.
-     * 
+     * Removes the least fit group. After this function invoke relabelIndividual
+     * or determineIndividualFitness.
+     *
      * @return true if there were at least 2 groups and one was removed
      */
     @Override
@@ -199,8 +190,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Removes the least fit group and splits vertexes randomly to other groups (but not to 0 group). After this function invoke relabelIndividual or determineIndividualFitness. Before also relabel.
-     * 
+     * Removes the least fit group and splits vertexes randomly to other groups
+     * (but not to 0 group). After this function invoke relabelIndividual or
+     * determineIndividualFitness. Before also relabel.
+     *
      * @return true if there were at least 2 groups and one was removed
      */
     @Override
@@ -219,8 +212,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Reapirs chromosome - every group has to have at least 1 element works only on relabelled chromosome
-     * 
+     * Reapirs chromosome - every group has to have at least 1 element works
+     * only on relabelled chromosome
+     *
      * @return true if operation was possible
      * @throws GeneticAlgorithmException
      */
@@ -245,7 +239,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Changes group assigned to vertex from from group to to group
-     * 
+     *
      * @param from
      * @param to
      */
@@ -261,7 +255,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts number of groups in graph
-     * 
+     *
      * @return real number of groups
      */
     public int getRealNumberOfSubgraphs() {
@@ -276,10 +270,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts amount of vertexes in given group
-     * 
-     * @param group
-     *            - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return am ount of vertexes in given group
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return am
+     * ount of vertexes in given group
      * @throws GeneticAlgorithmException
      */
     private int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
@@ -297,7 +291,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Counts amount of vertexes in every group
-     * 
+     *
      * @return list containing amount of vertexes in everys group
      * @throws GeneticAlgorithmException
      */
@@ -311,10 +305,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Returns list of vertexes' indexes in given group
-     * 
-     * @param group
-     *            - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return li st of vertexes' indexes in given group
+     *
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
+     * @return li
+     * st of vertexes' indexes in given group
      * @throws GeneticAlgorithmException
      */
     private LinkedList<Integer> getVertexesInGroup(int group) throws GeneticAlgorithmException {

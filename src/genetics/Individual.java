@@ -3,9 +3,9 @@ package genetics;
 import exceptions.GeneticAlgorithmException;
 import java.util.LinkedList;
 import java.util.Random;
-import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import graph.GraphRepresentation;
 
+/* class out of use */
 /**
  * @author Krzysztof Spytkowski
  * @date 29 mar 2014
@@ -71,10 +71,7 @@ public class Individual implements Comparable<Individual> {
      * @throws NoPossibilityToCreateIndividualWithGivenParameters
      *             - excetion thrown when number of groups is bigger than graph size, because it doesn't really make sense
      */
-    public Individual(int numberOfGroups, GraphRepresentation graph) throws NoPossibilityToCreateIndividualWithGivenParameters { // next version - added temporarily, only to change signature
-        if (numberOfGroups > graph.getGraph().getVertexCount()) {// not nice, may couse some stupid things
-            throw new NoPossibilityToCreateIndividualWithGivenParameters("Number of groups too big");
-        }
+    public Individual(int numberOfGroups, GraphRepresentation graph) { 
         this.graph = graph;
         numberOfSubgraphs = numberOfGroups;
         chromosome = new int[graph.getGraph().getVertexCount()];

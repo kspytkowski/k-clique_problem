@@ -1,19 +1,5 @@
 package graph;
 
-import exceptions.GeneticAlgorithmException;
-import exceptions.NoPossibilityToCreateGraphException;
-import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
-import exceptions.ProblemWithReadingGraphFromFileException;
-import genetics.CrossingOver;
-import genetics.CrossingOverType;
-import genetics.Individual;
-import genetics.Mutation;
-import genetics.Population;
-import genetics.Selection;
-
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MainTest {
 

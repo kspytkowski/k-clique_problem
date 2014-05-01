@@ -7,7 +7,6 @@ import org.jfree.chart.ChartFrame;
 import GUI.Chart;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
-import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.CrossingOverType;
 import genetics.IndividualType;
@@ -19,7 +18,7 @@ public class MainTestNowy {
     // TO DO musimy ustawic tak zeby zawsze jakas czesc np. 10% dmandenAmount nowych osobnikow sie dodawalo do populacji,
     // a potem dopiero kasowac jak jest za duzo
     
-    public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException, GeneticAlgorithmException, NoPossibilityToCreateIndividualWithGivenParameters {
+    public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException, GeneticAlgorithmException{
 
         GraphRepresentation gr = null;
         try {

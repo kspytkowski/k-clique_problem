@@ -1,7 +1,6 @@
 package genetics;
 
 import exceptions.GeneticAlgorithmException;
-import exceptions.NoPossibilityToCreateIndividualWithGivenParameters;
 import graph.GraphRepresentation;
 
 import java.util.Collections;
@@ -24,13 +23,10 @@ public class Population {
 
     /**
      * Constructor (for binary coded individuals)
-     * 
-     * @param demandedIndividualsAmount
-     *            - initially amount of individuals
-     * @param graph
-     *            - main graph
-     * @param iT
-     *            - type of individual
+     *
+     * @param demandedIndividualsAmount - initially amount of individuals
+     * @param graph - main graph
+     * @param iT - type of individual
      * @throws GeneticAlgorithmException
      */
     public Population(int demandedIndividualsAmount, GraphRepresentation graph, IndividualType iT) throws GeneticAlgorithmException {
@@ -51,15 +47,11 @@ public class Population {
 
     /**
      * Constructor (for group coded individuals)
-     * 
-     * @param demandedIndividualsAmount
-     *            - initially amount of individuals
-     * @param graph
-     *            - main graph
-     * @param iT
-     *            - type of individual
-     * @param numberOfGroups
-     *            - number of groups in every GroupCodedIndividual
+     *
+     * @param demandedIndividualsAmount - initially amount of individuals
+     * @param graph - main graph
+     * @param iT - type of individual
+     * @param numberOfGroups - number of groups in every GroupCodedIndividual
      * @throws GeneticAlgorithmException
      */
     public Population(int demandedIndividualsAmount, GraphRepresentation graph, IndividualType iT, int numberOfGroups) throws GeneticAlgorithmException {
@@ -75,12 +67,7 @@ public class Population {
         this.demandedIndividualsAmount = demandedIndividualsAmount;
         individuals = new LinkedList<>();
         for (int i = 0; i < demandedIndividualsAmount; i++) {
-            try {
-                individuals.add(new GroupCodedIndividual(numberOfGroups, graph));
-            } catch (NoPossibilityToCreateIndividualWithGivenParameters e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            individuals.add(new GroupCodedIndividual(numberOfGroups, graph));
         }
     }
 
@@ -94,29 +81,28 @@ public class Population {
         }
         Selection.proceedSelection(selection, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
-        this.keepConstantPopulationSize(); 
+        this.keepConstantPopulationSize();
         Mutation.mutate(this, mutationProbability);
         determineEveryIndividualFitness();
         this.removeWorstIndividuals(0.7);
         this.keepConstantPopulationSize();
     }
-    
+
     //tia, o tym marzyłem - robimy klasę abstrakcyjną, zaślepki, a tu dalej wyspecjalizowane funkcje...
     public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
         Selection.proceedSelection(SelectionType.LINEARRANKINGSELECTION, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
-        this.keepConstantPopulationSize(); 
+        this.keepConstantPopulationSize();
         Mutation.mutate(this, mutationProbability);
         determineEveryIndividualFitness();
         removeWorstIndividuals(toRemove);
-        this.keepConstantPopulationSize(); 
+        this.keepConstantPopulationSize();
     }
 
     /**
      * Getter
-     * 
-     * @param index
-     *            - index of individual
+     *
+     * @param index - index of individual
      * @return individual on specified index or null, if index out of range
      */
     public AbstractIndividual getIndividual(int index) {
@@ -128,9 +114,9 @@ public class Population {
 
     /**
      * Setter
-     * 
-     * @param numberOfGroups
-     *            - important while creating new individuals in group encoding
+     *
+     * @param numberOfGroups - important while creating new individuals in group
+     * encoding
      */
     public void setNumberOfGroups(int numberOfGroups) {
         this.numberOfGroups = numberOfGroups;
@@ -138,7 +124,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return size of k-clique
      */
     public int getKCliqueSize() {
@@ -147,7 +133,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return list of individuals
      */
     public LinkedList<AbstractIndividual> getIndividuals() {
@@ -156,9 +142,8 @@ public class Population {
 
     /**
      * Setter
-     * 
-     * @param individuals
-     *            - list of individuals
+     *
+     * @param individuals - list of individuals
      */
     public void setIndividuals(LinkedList<AbstractIndividual> individuals) {
         this.individuals = individuals;
@@ -166,7 +151,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return amount of individuals that should be in population
      */
     public int getDemandedIndividualsAmount() {
@@ -175,7 +160,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return graph
      */
     public GraphRepresentation getGraphRepresentation() {
@@ -184,7 +169,7 @@ public class Population {
 
     /**
      * Counts individuals' fitness sum
-     * 
+     *
      * @return individuals' fitness sum
      */
     public double fitnessSum() {
@@ -215,23 +200,19 @@ public class Population {
     }
 
     /**
-     * Keeps constant amount of individuals in population (adds random individuals on random positions in list).
+     * Keeps constant amount of individuals in population (adds random
+     * individuals on random positions in list).
      */
     public void keepConstantPopulationSize() {
         while (individuals.size() < demandedIndividualsAmount) {
             //System.out.println("AA");
-            try {
-                switch (individualType) {
+            switch (individualType) {
                 case BINARYCODEDINDIVIDUAL:
                     addIndividual(new BinaryCodedIndividual(graph)); // dodajemy w losowe miejsce w liscie
                     break;
                 case GROUPCODEDINDIVIDUAL:
                     addIndividual(new GroupCodedIndividual(numberOfGroups, graph)); // dodajemy w losowe miejsce w liscie
                     break;
-                }
-            } catch (NoPossibilityToCreateIndividualWithGivenParameters e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
         if (individuals.size() > demandedIndividualsAmount) {
@@ -246,9 +227,9 @@ public class Population {
 
     /**
      * Removes worst individuals from population.
-     * 
-     * @param howManyToRemove
-     *            - shows how many individuals should be removed (in percentage)
+     *
+     * @param howManyToRemove - shows how many individuals should be removed (in
+     * percentage)
      */
     public void removeWorstIndividuals(double howManyToRemove) {
         int toRemove = (int) (howManyToRemove * getActualIndividualsAmount());
@@ -260,9 +241,8 @@ public class Population {
 
     /**
      * Adds individual to population.
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public void addIndividual(AbstractIndividual i) {
         individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
@@ -270,7 +250,7 @@ public class Population {
 
     /**
      * Returns actual amount of individuals in population.
-     * 
+     *
      * @return amount of individuals
      */
     public int getActualIndividualsAmount() {
@@ -279,7 +259,7 @@ public class Population {
 
     /**
      * Counts sum of individuals' fitnesses in population
-     * 
+     *
      * @return population fitness
      */
     public double getPopulationFitness() {
@@ -293,7 +273,7 @@ public class Population {
 
     /**
      * Find individual that has highest fitness
-     * 
+     *
      * @return found individual
      */
     public AbstractIndividual findBestAdoptedIndividual() {
@@ -308,7 +288,7 @@ public class Population {
 
     /**
      * Find individual that has lowest fitness
-     * 
+     *
      * @return found individual
      */
     public AbstractIndividual findWorstAdoptedIndividual() {
@@ -323,7 +303,7 @@ public class Population {
 
     /**
      * Counts average individuals' fitness in population
-     * 
+     *
      * @return average individuals' fitness
      */
     public double averageIndividualsFitness() {
