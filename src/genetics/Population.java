@@ -84,7 +84,7 @@ public class Population {
         }
     }
 
-    public void singleLifeCycle(boolean specialYear, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability) throws GeneticAlgorithmException {
+    public void singleLifeCycle(boolean specialYear, SelectionType selection, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
         if (specialYear && numberOfGroups > 2) {
             determineEveryIndividualFitness();
             removeWorstGroupInGroupEncoding();
@@ -92,19 +92,18 @@ public class Population {
             determineEveryIndividualFitness();
             System.out.println(numberOfGroups);
         }
-        Selection.rouletteWheelSelection(this);
+        Selection.proceedSelection(selection, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
+        this.keepConstantPopulationSize(); 
         Mutation.mutate(this, mutationProbability);
-
         determineEveryIndividualFitness();
-        this.removeWorstIndividuals(0.7); // MUSIMY TAK DUZO USUWAC, zeby populacja z iteracji na iteracje nie rosła,
-        // potem sie zmieni odpowiednio keepConstantPopulationSize() zeby o to dbała
+        this.removeWorstIndividuals(0.7);
         this.keepConstantPopulationSize();
-        this.getPopulationFitness();
     }
     
+    //tia, o tym marzyłem - robimy klasę abstrakcyjną, zaślepki, a tu dalej wyspecjalizowane funkcje...
     public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
-        Selection.linearRankingSelection(this);
+        Selection.proceedSelection(SelectionType.LINEARRANKINGSELECTION, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
         this.keepConstantPopulationSize(); 
         Mutation.mutate(this, mutationProbability);

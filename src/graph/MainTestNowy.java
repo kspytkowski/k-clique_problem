@@ -12,6 +12,7 @@ import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.CrossingOverType;
 import genetics.IndividualType;
 import genetics.Population;
+import genetics.SelectionType;
 
 public class MainTestNowy {
 
@@ -49,7 +50,7 @@ public class MainTestNowy {
               //  for (AbstractIndividual ind : population.getIndividuals()){
               //      System.out.println(ind);
               //  }
-                population.singleLifeCycle(true, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
+                population.singleLifeCycle(true, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
 //                if (basic > 1) basic--;
 //                for (AbstractIndividual a : population.getIndividuals())
 //                     a.removeWorstGroup();
@@ -58,7 +59,7 @@ public class MainTestNowy {
 //                System.out.println(a.getRealNumberOfSubgraphs());
 //                population.setNumberOfGroups(basic);
             } else {
-                population.singleLifeCycle(false, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05);
+                population.singleLifeCycle(false, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             }
             
             myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());

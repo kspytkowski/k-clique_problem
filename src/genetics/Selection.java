@@ -14,6 +14,23 @@ import exceptions.GeneticAlgorithmException;
 public class Selection {
 
     private static final Random rand = new Random(); // object that generates random numbers
+    
+    public static void proceedSelection(SelectionType which, Population population) {
+        switch (which) {
+            case ROULETTEWHEELSELECTION:
+                rouletteWheelSelection(population);
+                break;
+            case TOURNAMENTSELECTION:
+                try {
+                tournamentSelection(population, 2);}
+                catch (GeneticAlgorithmException e)
+                {}
+                break;
+            case LINEARRANKINGSELECTION:
+                linearRankingSelection(population);
+                break;
+        }
+    }
 
     /**
      * Creates new population according to given roulette with probability of choosing concrete individual
@@ -45,7 +62,7 @@ public class Selection {
      * @param population
      *            - population
      */
-    public static void rouletteWheelSelection(Population population) {
+    private static void rouletteWheelSelection(Population population) {
         double populationFitnessSum = population.fitnessSum();
         Iterator<AbstractIndividual> individualsIterator = population.getIndividuals().iterator();
         LinkedList<Double> rouletteWheel = new LinkedList<>();
@@ -68,7 +85,7 @@ public class Selection {
      *            - amount of individuals taken part in every tournament (only one wins)
      * @throws GeneticAlgorithmException
      */
-    public static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
+    private static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
         if (gameIndividualsAmount < 1 || gameIndividualsAmount > 4) {
             throw new GeneticAlgorithmException("In tournament selection amount of individuals in game should be more than 1 and less than 5");
         }
@@ -96,7 +113,7 @@ public class Selection {
      *            - population
      */
     // NEED TO BE TESTED! wydaje sie teraz dzialac poprawnie
-    public static void linearRankingSelection(Population population) {
+    private static void linearRankingSelection(Population population) {
         double sumOfArithmeticSequence = ((double) (2 + population.getActualIndividualsAmount() - 1) / 2) * population.getActualIndividualsAmount();
         Collections.sort(population.getIndividuals());
         Iterator<AbstractIndividual> individualsIterator = population.getIndividuals().iterator();
