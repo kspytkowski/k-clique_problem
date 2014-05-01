@@ -90,6 +90,7 @@ public class Selection {
      * tournament (only one wins)
      * @throws GeneticAlgorithmException
      */
+    // sugeruję ustawić na sztywno liczbę gier i pozbyć się wyjątku
     private static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
         if (gameIndividualsAmount < 1 || gameIndividualsAmount > 4) {
             throw new GeneticAlgorithmException("In tournament selection amount of individuals in game should be more than 1 and less than 5");
