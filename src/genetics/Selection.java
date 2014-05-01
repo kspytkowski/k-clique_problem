@@ -14,7 +14,13 @@ import exceptions.GeneticAlgorithmException;
 public class Selection {
 
     private static final Random rand = new Random(); // object that generates random numbers
-    
+
+    /**
+     * Invokes selection
+     *
+     * @param which - type of selection
+     * @param population - population
+     */
     public static void proceedSelection(SelectionType which, Population population) {
         switch (which) {
             case ROULETTEWHEELSELECTION:
@@ -22,9 +28,9 @@ public class Selection {
                 break;
             case TOURNAMENTSELECTION:
                 try {
-                tournamentSelection(population, 2);}
-                catch (GeneticAlgorithmException e)
-                {}
+                    tournamentSelection(population, 2);
+                } catch (GeneticAlgorithmException e) {
+                }
                 break;
             case LINEARRANKINGSELECTION:
                 linearRankingSelection(population);
@@ -33,12 +39,11 @@ public class Selection {
     }
 
     /**
-     * Creates new population according to given roulette with probability of choosing concrete individual
-     * 
-     * @param population
-     *            - population
-     * @param roulette
-     *            - list with probabilities of individuals
+     * Creates new population according to given roulette with probability of
+     * choosing concrete individual
+     *
+     * @param population - population
+     * @param roulette - list with probabilities of individuals
      */
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) {
         LinkedList<AbstractIndividual> IndividualsList = new LinkedList<>();
@@ -57,10 +62,10 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
-     * 
-     * @param population
-     *            - population
+     * Selects parents according to their fitness. The better individuals are,
+     * the more chances to be selected they have.
+     *
+     * @param population - population
      */
     private static void rouletteWheelSelection(Population population) {
         double populationFitnessSum = population.fitnessSum();
@@ -77,12 +82,12 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. Individuals are divided into small groups and from every group the best individual is selected.
-     * 
-     * @param population
-     *            - population
-     * @param gameIndividualsAmount
-     *            - amount of individuals taken part in every tournament (only one wins)
+     * Selects parents according to their fitness. Individuals are divided into
+     * small groups and from every group the best individual is selected.
+     *
+     * @param population - population
+     * @param gameIndividualsAmount - amount of individuals taken part in every
+     * tournament (only one wins)
      * @throws GeneticAlgorithmException
      */
     private static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
@@ -107,10 +112,10 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
-     * 
-     * @param population
-     *            - population
+     * Selects parents according to their fitness. The better individuals are,
+     * the more chances to be selected they have.
+     *
+     * @param population - population
      */
     // NEED TO BE TESTED! wydaje sie teraz dzialac poprawnie
     private static void linearRankingSelection(Population population) {
