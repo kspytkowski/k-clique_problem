@@ -55,7 +55,17 @@ public class Selection {
             while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
                 i++;
             }
-            IndividualsList.add(population.getIndividual(i)); // populacja rodzicow, Individualse moga sie powtarzac
+            // mozna by klonowac tylko te ktore juz sa, sprawdzac tylko referencje
+            // moze byloby optymalniej
+            // a mozliwe że przy binary moze sobie zostac jak bylo
+            switch (population.getIndividualType()) {
+                case BINARYCODEDINDIVIDUAL:
+                    IndividualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); // populacja rodzicow, Individualse moga sie powtarzac
+                    break;
+                case GROUPCODEDINDIVIDUAL:
+                    IndividualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
+                    break;
+            }
             individualsIterator.next();
         }
         population.setIndividuals(IndividualsList);

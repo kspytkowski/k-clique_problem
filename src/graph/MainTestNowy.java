@@ -9,6 +9,7 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import genetics.CrossingOverType;
+import genetics.GroupCodedIndividual;
 import genetics.IndividualType;
 import genetics.Population;
 import genetics.SelectionType;
@@ -30,7 +31,22 @@ public class MainTestNowy {
             e.printStackTrace();
         }
 
-        Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
+     /*   GroupCodedIndividual a = new GroupCodedIndividual(40, gr);
+        System.out.println(a);
+        for (int i = 0; i < 40; i++) {
+            System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
+        }
+        a.removeWorstGroup();
+        System.out.println(a);
+        for (int i = 0; i < 39; i++) {
+            System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
+        }
+        a.determineIndividualFitness();
+        System.out.println(a);
+        for (int i = 0; i < 39; i++) {
+            System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
+        }*/
+        Population population = new Population(5, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
 //        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
@@ -44,21 +60,14 @@ public class MainTestNowy {
         for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-            
+            for (int j = 0; j < 5; j++) {
+                System.out.print(population.getIndividual(j));
+            }
+            System.out.println();
             if (i % 100 == 0) {
-              //  for (AbstractIndividual ind : population.getIndividuals()){
-              //      System.out.println(ind);
-              //  }
-                population.singleLifeCycle(true, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
-//                if (basic > 1) basic--;
-//                for (AbstractIndividual a : population.getIndividuals())
-//                     a.removeWorstGroup();
-//                GroupCodedIndividual a = (GroupCodedIndividual) population.findBestAdoptedIndividual();
-//                System.out.println(a.getNumberOfSubgraphs());
-//                System.out.println(a.getRealNumberOfSubgraphs());
-//                population.setNumberOfGroups(basic);
+                population.singleLifeCycle(true, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             } else {
-                population.singleLifeCycle(false, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
+                population.singleLifeCycle(false, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             }
             
             myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());

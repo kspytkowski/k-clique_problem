@@ -134,6 +134,15 @@ public class Population {
     /**
      * Getter
      *
+     * @return type of individuals in population
+     */
+    public IndividualType getIndividualType() {
+        return individualType;
+    }
+
+    /**
+     * Getter
+     *
      * @return list of individuals
      */
     public LinkedList<AbstractIndividual> getIndividuals() {

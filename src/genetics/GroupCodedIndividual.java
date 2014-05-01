@@ -12,9 +12,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     LinkedList<Double> fitnessOfEverySubgraph; // constains fitness of every subgraph
 
     /**
-     * Constructor - creates individual, every index in chromosome is
-     * a vertex and value assigned to vertex indicates to subgraph which
-     * contains this vertex
+     * Constructor - creates individual, every index in chromosome is a vertex
+     * and value assigned to vertex indicates to subgraph which contains this
+     * vertex
      *
      * @param numberOfSubgraphs - amount of groups (subgraphs)
      * @param graph - main graph
@@ -30,7 +30,16 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             chromosome[i] = rand.nextInt(numberOfSubgraphs); // groups coded from 0 to numberOfGroups - 1
         }
-        try { // krzysiek dodal => relabelujemy i liczymy przystosowanie
+        /*System.out.println(this);
+         System.out.println("nowy");
+         for (int i = 0; i < 40; i++) {
+         try {
+         System.out.println(this.getAmountOfVertexesInGroup(i) + " " + determineFitnessOfSubrgaph(i));
+         } catch (GeneticAlgorithmException ex) {
+         Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         }*/
+        try {
             determineIndividualFitness();
         } catch (GeneticAlgorithmException e) {
             // TODO Auto-generated catch block
@@ -48,6 +57,12 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         this.numberOfSubgraphs = i.getNumberOfSubgraphs();
         this.chromosome = i.getChromosome().clone();
         this.fitness = i.getFitness();
+        try {
+            determineIndividualFitness();
+        } catch (GeneticAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -55,18 +70,18 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      *
      * @return number of groups
      */
-    public int getNumberOfSubgraphs() {
+    private int getNumberOfSubgraphs() {
         return numberOfSubgraphs;
     }
 
     /**
      * Determines the fitness of group in chromosome
      *
-     * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return fi
-     * tness of subgraph
+     * @param group - index of group, must be >= 0 and < numberOfSubgrphs;
+     * @return fit
+     * ness of subgraph
      */
-    public double determineFitness(int group) throws GeneticAlgorithmException {
+    public double determineFitnessOfSubrgaph(int group) throws GeneticAlgorithmException {
         if (group < 0 || group >= numberOfSubgraphs) {
             throw new GeneticAlgorithmException("Group index out of range: " + group + " " + numberOfSubgraphs);
         }
@@ -86,34 +101,36 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             }
             return k > graph.getsearchedKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         } else {
-            return 0;
+            if (k == 1) {
+                return 0;
+            } else {
+                return -1;
+            }
         }
     }
 
     /**
-     * Sets list of fitnesses, every group has own fitness.
+     * Determines and sets list of fitnesses, every group has own fitness.
      *
      * @throws GeneticAlgorithmException
      */
-    public void setFitnesses() throws GeneticAlgorithmException {
+    private void setDeterminedFitnessesOfEverySubgraph() throws GeneticAlgorithmException {
         LinkedList<Double> fitnessOfEveryGroup = new LinkedList<>();
         for (int i = 0; i < numberOfSubgraphs; i++) {
-            fitnessOfEveryGroup.addLast(determineFitness(i));
+            fitnessOfEveryGroup.addLast(determineFitnessOfSubrgaph(i));
         }
         fitnessOfEverySubgraph = fitnessOfEveryGroup;
     }
 
     /**
      * Function changes genes in chromosome that in result subgraph with the
-     * biggest amount of vertexes is labeled as 0 and so on.
+     * best fitness is labeled as 0 and so on.
      */
     public void relabelIndividual() throws GeneticAlgorithmException {
         LinkedList<Double> newFitnessOfEveryGroup = new LinkedList<>();
-        LinkedList<Double> fitnessOfEveryGroup = new LinkedList<>();
         LinkedList<Integer> groupsInOrderOfFitness = new LinkedList<>();
         int[] chromosomeTemp = new int[chromosome.length];
 
-        // new version
         for (int i = 0; i < fitnessOfEverySubgraph.size(); i++) {
             double max = -1;
             int index = -1;
@@ -137,35 +154,6 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             }
             k++;
         }
-
-        // fitnessOfEveryGroup.addLast(determineFitness(0));
-        // groupsInOrderOfFitness.addFirst(0);
-        // for (int i = 1; i < numberOfSubgraphs; i++) {
-        // boolean added = false;
-        // double tempFitness = determineFitness(i);
-        // for (int j = 0; j < fitnessOfEveryGroup.size() && !added; j++) {
-        // if (tempFitness > fitnessOfEveryGroup.get(j)) {
-        // fitnessOfEveryGroup.add(j, tempFitness);
-        // groupsInOrderOfFitness.add(j, i);
-        // added = true;
-        // }
-        // }
-        // if (!added) {
-        // fitnessOfEveryGroup.addLast(tempFitness);
-        // groupsInOrderOfFitness.addLast(i);
-        // }
-        // }
-        //
-        //
-        // int k = 0;
-        // for (Integer i : groupsInOrderOfFitness) {
-        // for (int j = 0; j < chromosome.length; j++) {
-        // if (chromosome[j] == i) {
-        // chromosomeTemp[j] = k;
-        // }
-        // }
-        // k++;
-        // }
         chromosome = chromosomeTemp;
     }
 
@@ -178,6 +166,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     @Override
     public boolean removeWorstGroup() {
         numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
+        //System.out.print(this);
+        // System.out.println(numberOfSubgraphs);
         if (numberOfSubgraphs > 1) {
             for (int i = chromosome.length - 1; i >= 0; i--) {
                 if (chromosome[i] == numberOfSubgraphs) {
@@ -200,7 +190,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     public boolean removeWorstGroupAndSplitIntoOthers() {
         Random rand = new Random();
         numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
-        if (numberOfSubgraphs > 2) {
+        if (numberOfSubgraphs > 1) {
             for (int i = chromosome.length - 1; i >= 0; i--) {
                 if (chromosome[i] == numberOfSubgraphs) {
                     chromosome[i] = rand.nextInt(numberOfSubgraphs - 1) + 1;
@@ -212,7 +202,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Reapirs chromosome - every group has to have at least 1 element works
+     * Repairs chromosome - every group has to have at least 1 element works
      * only on relabelled chromosome
      *
      * @return true if operation was possible
@@ -220,10 +210,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      */
     public boolean repair() throws GeneticAlgorithmException {
         LinkedList<Integer> amountOfVertexesInGroup = getAmountOfVertexesInEveryGroup();
-        if (amountOfVertexesInGroup.contains(0) && graph.getVertexCount() >= numberOfSubgraphs) {
+        if (amountOfVertexesInGroup.contains(0)) {
             int indexOfFirstEmptyGroup = amountOfVertexesInGroup.indexOf(0);
-            boolean flag = false;
             for (int i = indexOfFirstEmptyGroup; i < amountOfVertexesInGroup.size(); i++) {
+                boolean flag = false;
                 for (int j = indexOfFirstEmptyGroup - 1; j >= 0 && !flag; j--) {
                     if (amountOfVertexesInGroup.get(j) >= 2) {
                         changeVertexAssignedGroup(j, i);
@@ -243,9 +233,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * @param from
      * @param to
      */
-    public void changeVertexAssignedGroup(int from, int to) {
+    private void changeVertexAssignedGroup(int from, int to) {
         boolean flag = true;
-        for (int i = 0; i < chromosome.length && flag; i++) {
+        for (int i = chromosome.length - 1; i >= 0 && flag; i--) {
             if (chromosome[i] == from) {
                 chromosome[i] = to;
                 flag = false;
@@ -258,9 +248,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      *
      * @return real number of groups
      */
-    public int getRealNumberOfSubgraphs() {
+    private int getRealNumberOfSubgraphs() {
         int max = 0;
-        for (int i = chromosome.length - 1; i > 0; i--) {
+        for (int i = chromosome.length - 1; i >= 0; i--) {
             if (chromosome[i] > max) {
                 max = chromosome[i];
             }
@@ -276,7 +266,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * ount of vertexes in given group
      * @throws GeneticAlgorithmException
      */
-    private int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
+    public int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
         if (group < 0 || group >= numberOfSubgraphs) {
             throw new GeneticAlgorithmException("Group index out of range: " + group);
         }
@@ -329,9 +319,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      */
     @Override
     public void determineIndividualFitness() throws GeneticAlgorithmException {
-        setFitnesses();
-        // relabelIndividual();
-        // repair();
+        setDeterminedFitnessesOfEverySubgraph();
+        relabelIndividual();
+        repair();
+        setDeterminedFitnessesOfEverySubgraph();
         relabelIndividual();
         double max = -1;
         for (int i = 0; i < fitnessOfEverySubgraph.size(); i++) {
@@ -360,27 +351,22 @@ public final class GroupCodedIndividual extends AbstractIndividual {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        //
-        // try { // krzysiek dodal, skoro mutujemy, to odrazu relabelujmy i liczmy nowe przystosowanie
-        // determineIndividualFitness();
-        // } catch (GeneticAlgorithmException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
     }
 
     @Override
     public void setGene(int geneIndex, int value) {
         chromosome[geneIndex] = value;
-        // na pewno nie w tym miejscu
-        // if (geneIndex == getChromosomeLength() - 1) { // jezeli zmienilismy ostatni gen, to liczymy nowe przystosowanie (patrz krzyzowanie)
-        // try {
-        // determineIndividualFitness();
-        // } catch (GeneticAlgorithmException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // }
     }
 
+    @Override
+    public String toString() {
+        String s = "Individual: " + getRealNumberOfSubgraphs() + " " + getNumberOfSubgraphs() + " "
+                + chromosome + "\n " + this.hashCode() + "\n";
+        for (int i : chromosome) {
+            s += i;
+        }
+        s += " ";
+        s += fitness;
+        return s += "\n";
+    }
 }
