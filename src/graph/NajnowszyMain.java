@@ -35,6 +35,7 @@ public class NajnowszyMain {
         ChartFrame myFrame = myChart.getChartFrame();
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
+        myChart.repaintChart();
 
         for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
