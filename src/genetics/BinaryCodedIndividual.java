@@ -15,15 +15,11 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     @Override
     // there are only two groups in this type of coding so we do not need to remove anything
-    public boolean removeWorstGroupAndSplitIntoOthers() {
-        return true;
-    }
+    public void removeWorstGroupAndSplitIntoOthers() {}
 
     @Override
     // there are only two groups in this type of coding so we do not need to remove anything
-    public boolean removeWorstGroup() {
-        return true;
-    }
+    public void removeWorstGroup() {}
 
     /**
      * Constructor - creates subgraph that has size of kCliqueSize - chooses

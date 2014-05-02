@@ -13,7 +13,7 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
     protected double fitness; // shows how well individual is adopted in population
 
     /**
-     * Determines individual's fitness
+     * Determines individual's fitness.
      */
     public abstract void determineIndividualFitness();
 
@@ -21,13 +21,13 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
      * Applicable to groupCodedIndividual, removes group with the worst fitness
      * and randomly spreads vertexes from removed group into others.
      */
-    public abstract boolean removeWorstGroupAndSplitIntoOthers();
+    public abstract void removeWorstGroupAndSplitIntoOthers();
 
     /**
      * Applicable to groupCodedIndividual, removes group with the worst fitness
      * and assignes vertexes from removed group into second worst.
      */
-    public abstract boolean removeWorstGroup();
+    public abstract void removeWorstGroup();
 
     /**
      * Creates new individual which is the same as given in parameter

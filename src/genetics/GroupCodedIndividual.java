@@ -135,11 +135,9 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     /**
      * Removes the least fit group. After this function invoke relabelIndividual
      * or determineIndividualFitness.
-     *
-     * @return true if there were at least 2 groups and one was removed
      */
     @Override
-    public boolean removeWorstGroup() {
+    public void removeWorstGroup() {
         numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
         if (numberOfSubgraphs > 1) {
             for (int i = chromosome.length - 1; i >= 0; i--) {
@@ -147,20 +145,16 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                     chromosome[i]--;
                 }
             }
-            return true;
         }
-        return false;
     }
 
     /**
      * Removes the least fit group and splits vertexes randomly to other groups
      * (but not to 0 group). After this function invoke relabelIndividual or
      * determineIndividualFitness. Before also relabel.
-     *
-     * @return true if there were at least 2 groups and one was removed
      */
     @Override
-    public boolean removeWorstGroupAndSplitIntoOthers() {
+    public void removeWorstGroupAndSplitIntoOthers() {
         Random rand = new Random();
         numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
         if (numberOfSubgraphs > 1) {
@@ -169,18 +163,14 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                     chromosome[i] = rand.nextInt(numberOfSubgraphs - 1) + 1;
                 }
             }
-            return true;
         }
-        return false;
     }
 
     /**
      * Repairs chromosome - every group has to have at least 1 element works
-     * only on relabelled chromosome
-     *
-     * @return true if operation was possible
+     * only on relabelled chromosome.
      */
-    public boolean repair() {
+    public void repair() {
         LinkedList<Integer> amountOfVertexesInGroup = getAmountOfVertexesInEveryGroup();
         if (amountOfVertexesInGroup.contains(0)) {
             int indexOfFirstEmptyGroup = amountOfVertexesInGroup.indexOf(0);
@@ -194,9 +184,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                     }
                 }
             }
-            return true;
         }
-        return false;
     }
 
     /**
