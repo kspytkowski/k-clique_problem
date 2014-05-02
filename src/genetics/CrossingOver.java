@@ -3,11 +3,9 @@ package genetics;
 import java.util.LinkedList;
 import java.util.Random;
 
-import exceptions.GeneticAlgorithmException;
-
 /**
  * @author Krzysztof Spytkowski
- * @date 7 kwi 2014
+ * @date 7th April 2014
  */
 public class CrossingOver {
 
@@ -15,10 +13,13 @@ public class CrossingOver {
 
     /**
      * Starts appropriate crossing-over
-     *
-     * @param crossingOverType - type of crossing-over
-     * @param population - population
-     * @throws GeneticAlgorithmException
+     * 
+     * @param crossingOverType
+     *            - type of crossing-over
+     * @param population
+     *            - population
+     * @param crossingOverProbability
+     *            - probability od crossing-over
      */
     public static void crossOver(CrossingOverType crossingOverType, Population population, double crossingOverProbability) {
         int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
@@ -28,24 +29,24 @@ public class CrossingOver {
             AbstractIndividual secondParent = population.getIndividual(i + 1);
             if (crossingOverProbability > rand.nextDouble()) {
                 switch (crossingOverType) {
-                    case ONEPOINTWITHTWOCHILDREN:
-                        onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
-                    case TWOPOINTSWITHTWOCHILDREN:
-                        twoPointsWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
-                    case ONEPOINTWITHONECHILD:
-                        onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
-                    case TWOPOINTSWITHONECHILD:
-                        twoPointsWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
-                    case UNIFORMCROSSOVER:
-                        uniformCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
-                    case WEIGHTEDUNIFORMCROSSOVER:
-                        weightedUniformCrossingOver(firstParent, secondParent, newIndividualsList);
-                        break;
+                case ONEPOINTWITHTWOCHILDREN:
+                    onePointWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case TWOPOINTSWITHTWOCHILDREN:
+                    twoPointsWithTwoChildrenCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case ONEPOINTWITHONECHILD:
+                    onePointWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case TWOPOINTSWITHONECHILD:
+                    twoPointsWithOneChildCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case UNIFORMCROSSOVER:
+                    uniformCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
+                case WEIGHTEDUNIFORMCROSSOVER:
+                    weightedUniformCrossingOver(firstParent, secondParent, newIndividualsList);
+                    break;
                 }
             }
             newIndividualsList.add(firstParent);
@@ -58,13 +59,15 @@ public class CrossingOver {
     }
 
     /**
-     *
-     * Crosses over two Individuals (parents) and makes two new Individuals
-     * (children)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * 
+     * Crosses over two Individuals (parents) and makes two new Individuals (children)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void onePointWithTwoChildrenCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual firstChild = firstParent.createIndividual(firstParent);
@@ -79,12 +82,14 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual
-     * (child)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual (child)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void onePointWithOneChildCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual child = firstParent.createIndividual(firstParent);
@@ -96,13 +101,15 @@ public class CrossingOver {
     }
 
     /**
-     *
-     * Crosses over two Individuals (parents) and makes two new Individuals
-     * (children)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * 
+     * Crosses over two Individuals (parents) and makes two new Individuals (children)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void twoPointsWithOneChildCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual firstChild = firstParent.createIndividual(firstParent);
@@ -115,13 +122,15 @@ public class CrossingOver {
     }
 
     /**
-     *
-     * Crosses over two Individuals (parents) and makes two new Individuals
-     * (children)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * 
+     * Crosses over two Individuals (parents) and makes two new Individuals (children)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void twoPointsWithTwoChildrenCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual firstChild = firstParent.createIndividual(firstParent);
@@ -137,12 +146,14 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual
-     * (child)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual (child)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void uniformCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual child = firstParent.createIndividual(firstParent);
@@ -153,12 +164,14 @@ public class CrossingOver {
     }
 
     /**
-     * Crosses over two Individuals (parents) and makes one new Individual
-     * (child)
-     *
-     * @param firstParent - first parent
-     * @param secondParent - second parent
-     * @param newIndividuals - list of new Individuals
+     * Crosses over two Individuals (parents) and makes one new Individual (child)
+     * 
+     * @param firstParent
+     *            - first parent
+     * @param secondParent
+     *            - second parent
+     * @param newIndividuals
+     *            - list of new Individuals
      */
     public static void weightedUniformCrossingOver(AbstractIndividual firstParent, AbstractIndividual secondParent, LinkedList<AbstractIndividual> newIndividuals) {
         AbstractIndividual child = firstParent.createIndividual(firstParent);

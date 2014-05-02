@@ -7,18 +7,20 @@ import java.util.Random;
 
 /**
  * @author Krzysztof Spytkowski
- * @date 18 kwi 2014
+ * @date 18th April 2014
  */
 public class BinaryCodedIndividual extends AbstractIndividual {
 
     private int activeGenesAmount; // amount of vertices in subgraph
 
     @Override
+    // there are only two groups in this type of coding so we do not need to remove anything
     public boolean removeWorstGroupAndSplitIntoOthers() {
         return true;
     }
 
     @Override
+    // there are only two groups in this type of coding so we do not need to remove anything
     public boolean removeWorstGroup() {
         return true;
     }

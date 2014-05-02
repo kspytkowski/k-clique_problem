@@ -5,45 +5,45 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-import exceptions.GeneticAlgorithmException;
-
 /**
  * @author Krzysztof Spytkowski
- * @date 7 kwi 2014
+ * @modified wukat
+ * @date 7th April 2014
  */
 public class Selection {
 
+    private static final int gameIndividualsAmount = 3; // amount of individuals that take part in every tournament
     private static final Random rand = new Random(); // object that generates random numbers
 
     /**
      * Invokes selection
-     *
-     * @param which - type of selection
-     * @param population - population
+     * 
+     * @param selectionType
+     *            - type of selection
+     * @param population
+     *            - population
      */
-    public static void proceedSelection(SelectionType which, Population population) {
-        switch (which) {
-            case ROULETTEWHEELSELECTION:
-                rouletteWheelSelection(population);
-                break;
-            case TOURNAMENTSELECTION:
-                try {
-                    tournamentSelection(population, 2);
-                } catch (GeneticAlgorithmException e) {
-                }
-                break;
-            case LINEARRANKINGSELECTION:
-                linearRankingSelection(population);
-                break;
+    public static void proceedSelection(SelectionType selectionType, Population population) {
+        switch (selectionType) {
+        case ROULETTEWHEELSELECTION:
+            rouletteWheelSelection(population);
+            break;
+        case TOURNAMENTSELECTION:
+            tournamentSelection(population);
+            break;
+        case LINEARRANKINGSELECTION:
+            linearRankingSelection(population);
+            break;
         }
     }
 
     /**
-     * Creates new population according to given roulette with probability of
-     * choosing concrete individual
-     *
-     * @param population - population
-     * @param roulette - list with probabilities of individuals
+     * Creates new population according to given roulette with probability of choosing concrete individual
+     * 
+     * @param population
+     *            - population
+     * @param roulette
+     *            - list with probabilities of individuals
      */
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) {
         LinkedList<AbstractIndividual> individualsList = new LinkedList<>();
@@ -64,12 +64,12 @@ public class Selection {
             }
             if (flag) {
                 switch (population.getIndividualType()) {
-                    case BINARYCODEDINDIVIDUAL:
-                        individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); // populacja rodzicow, Individualse moga sie powtarzac
-                        break;
-                    case GROUPCODEDINDIVIDUAL:
-                        individualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
-                        break;
+                case BINARYCODEDINDIVIDUAL:
+                    individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); 
+                    break;
+                case GROUPCODEDINDIVIDUAL:
+                    individualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
+                    break;
                 }
             } else {
                 individualsList.add(population.getIndividual(i));
@@ -80,10 +80,10 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are,
-     * the more chances to be selected they have.
-     *
-     * @param population - population
+     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
+     * 
+     * @param population
+     *            - population
      */
     private static void rouletteWheelSelection(Population population) {
         double populationFitnessSum = population.fitnessSum();
@@ -94,29 +94,24 @@ public class Selection {
             lastFitness += individualsIterator.next().getFitness() / populationFitnessSum;
             rouletteWheel.addLast(lastFitness);
         }
-        rouletteWheel.removeLast(); // ponizej wyjasnienie
-        rouletteWheel.addLast(1.0); // zeby uniknac bledow spowodowanych przez zaokraglanie itd..
+        rouletteWheel.removeLast();
+        rouletteWheel.addLast(1.0); // to avoid some problems with number's representation in system
         createPopulationUsingRoulette(population, rouletteWheel);
     }
 
     /**
-     * Selects parents according to their fitness. Individuals are divided into
-     * small groups and from every group the best individual is selected.
-     *
-     * @param population - population
-     * @param gameIndividualsAmount - amount of individuals taken part in every
-     * tournament (only one wins)
-     * @throws GeneticAlgorithmException
+     * Selects parents according to their fitness. Individuals are divided into small groups and from every group the best individual is selected.
+     * 
+     * @param population
+     *            - population
+     * @param gameIndividualsAmount
+     *            - amount of individuals taken part in every tournament (only one wins)
      */
-    // sugeruję ustawić na sztywno liczbę gier i pozbyć się wyjątku
-    private static void tournamentSelection(Population population, int gameIndividualsAmount) throws GeneticAlgorithmException { // mozna dorobic, zeby bardziej losowo wybieralo osobnikow do turniejow...
-        if (gameIndividualsAmount < 1 || gameIndividualsAmount > 4) {
-            throw new GeneticAlgorithmException("In tournament selection amount of individuals in game should be more than 1 and less than 5");
-        }
+    private static void tournamentSelection(Population population) { 
         LinkedList<AbstractIndividual> indiviualsList = new LinkedList<>();
         int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
         int i = 0;
-        for (; i < restOfPopulation; i++) { // osobniki ktore nie beda brac udzialu w turnieju, mozna w sumie ich nie brac pod uwage :) zalezy jak chcemy...
+        for (; i < restOfPopulation; i++) {
             indiviualsList.add(population.getIndividual(i));
         }
         AbstractIndividual actualBestIndividual;
@@ -131,12 +126,11 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are,
-     * the more chances to be selected they have.
-     *
-     * @param population - population
+     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
+     * 
+     * @param population
+     *            - population
      */
-    // NEED TO BE TESTED! wydaje sie teraz dzialac poprawnie
     private static void linearRankingSelection(Population population) {
         double sumOfArithmeticSequence = ((double) (2 + population.getActualIndividualsAmount() - 1) / 2) * population.getActualIndividualsAmount();
         Collections.sort(population.getIndividuals());
@@ -149,8 +143,8 @@ public class Selection {
             rankingWheel.add(lastFitness);
             individualsIterator.next();
         }
-        rankingWheel.removeLast(); // ponizej wyjasnienie
-        rankingWheel.addLast(1.0); // zeby uniknac bledow spowodowanych przez zaokraglanie itd..
+        rankingWheel.removeLast();
+        rankingWheel.addLast(1.0); // to avoid some problems with number's representation in system
         createPopulationUsingRoulette(population, rankingWheel);
     }
 }

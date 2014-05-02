@@ -57,6 +57,7 @@ public class MainTestNowy {
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
         myChart.repaintChart();
+     
         
         for (int i = 1; i < 200; i++) {
             System.out.println("Iteracja " + i);

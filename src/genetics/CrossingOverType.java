@@ -2,7 +2,7 @@ package genetics;
 
 /**
  * @author Krzysztof Spytkowski
- * @date 6 kwi 2014
+ * @date 6th April 2014
  */
 public enum CrossingOverType {
     ONEPOINTWITHTWOCHILDREN, ONEPOINTWITHONECHILD, UNIFORMCROSSOVER, WEIGHTEDUNIFORMCROSSOVER, TWOPOINTSWITHTWOCHILDREN, TWOPOINTSWITHONECHILD

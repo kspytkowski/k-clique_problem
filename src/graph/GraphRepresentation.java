@@ -18,7 +18,7 @@ import exceptions.ProblemWithReadingGraphFromFileException;
 
 /**
  * @author Krzysztof Spytkowski
- * @date 16 mar 2014
+ * @date 16th March 2014
  */
 public class GraphRepresentation {
 

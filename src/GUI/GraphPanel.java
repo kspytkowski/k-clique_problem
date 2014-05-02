@@ -3,16 +3,6 @@
  */
 package GUI;
 
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
-import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
-import exceptions.GeneticAlgorithmException;
-import exceptions.NoPossibilityToCreateGraphException;
-import genetics.Individual;
-import graph.GraphRepresentation;
-import graph.GraphVisualisation;
-
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +14,16 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import org.apache.commons.collections15.Transformer;
+
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import exceptions.GeneticAlgorithmException;
+import exceptions.NoPossibilityToCreateGraphException;
+import genetics.AbstractIndividual;
+import graph.GraphRepresentation;
+import graph.GraphVisualisation;
 
 /**
  * 
@@ -99,7 +99,7 @@ public class GraphPanel extends JPanel {
 	 *            - best subgraph from population
 	 * @return visualization
 	 */
-	private VisualizationViewer<Integer, String> actualizeVisualization(Individual bestOne, boolean change) {
+	private VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne, boolean change) { // Individual => AbstractIndividual
 		byte[] arrayWithNoteOfVertex = { 1, 0, 0, 1, 1, 1, 1, 1, 1, 0 };
 		// if (bestOne != null) {
 		// arrayWithNoteOfVertex = bestOne.getT();
