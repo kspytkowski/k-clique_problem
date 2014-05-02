@@ -46,34 +46,30 @@ public class MainTestNowy {
         for (int i = 0; i < 39; i++) {
             System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
         }*/
-        Population population = new Population(5, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
+        Population population = new Population(5, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
 //        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
-        Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
+        /*Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
 
         ChartFrame myFrame = myChart.getChartFrame();
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
-        myChart.repaintChart();
+        myChart.repaintChart();*/
         
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 1; i < 200; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-            for (int j = 0; j < 5; j++) {
-                System.out.print(population.getIndividual(j));
-            }
-            System.out.println();
             if (i % 100 == 0) {
-                population.singleLifeCycle(true, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
+                population.singleLifeCycle(true, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             } else {
-                population.singleLifeCycle(false, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
+                population.singleLifeCycle(false, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             }
             
-            myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());
+            /*myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());
             myChart.addNewValueToAverageSeries(i,population.averageIndividualsFitness());
             myChart.addNewValueToWorstSeries(i,population.findWorstAdoptedIndividual().getFitness());
-            myChart.repaintChart();
+            myChart.repaintChart();*/
         }
     }
 }
