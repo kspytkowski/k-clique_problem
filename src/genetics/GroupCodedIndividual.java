@@ -30,21 +30,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
             chromosome[i] = rand.nextInt(numberOfSubgraphs); // groups coded from 0 to numberOfGroups - 1
         }
-        /*System.out.println(this);
-         System.out.println("nowy");
-         for (int i = 0; i < 40; i++) {
-         try {
-         System.out.println(this.getAmountOfVertexesInGroup(i) + " " + determineFitnessOfSubrgaph(i));
-         } catch (GeneticAlgorithmException ex) {
-         Logger.getLogger(GroupCodedIndividual.class.getName()).log(Level.SEVERE, null, ex);
-         }
-         }*/
-        try {
-            determineIndividualFitness();
-        } catch (GeneticAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        determineIndividualFitness();
     }
 
     /**
@@ -57,12 +43,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
         this.numberOfSubgraphs = i.getNumberOfSubgraphs();
         this.chromosome = i.getChromosome().clone();
         this.fitness = i.getFitness();
-        try {
-            determineIndividualFitness();
-        } catch (GeneticAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        determineIndividualFitness();
     }
 
     /**
@@ -78,13 +59,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Determines the fitness of group in chromosome
      *
      * @param group - index of group, must be >= 0 and < numberOfSubgrphs;
-     * @return fit
-     * ness of subgraph
+     *
+     * @return fitness of subgraph, -1 if subgraph has 0 vertexes
      */
-    public double determineFitnessOfSubrgaph(int group) throws GeneticAlgorithmException {
-        if (group < 0 || group >= numberOfSubgraphs) {
-            throw new GeneticAlgorithmException("Group index out of range: " + group + " " + numberOfSubgraphs);
-        }
+    public double determineFitnessOfSubrgaph(int group) {
         LinkedList<Integer> vertexes = getVertexesInGroup(group);
         double k = vertexes.size(), e = 0, isKlique = 0;
         double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
@@ -111,10 +89,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     /**
      * Determines and sets list of fitnesses, every group has own fitness.
-     *
-     * @throws GeneticAlgorithmException
      */
-    private void setDeterminedFitnessesOfEverySubgraph() throws GeneticAlgorithmException {
+    private void setDeterminedFitnessesOfEverySubgraph() {
         LinkedList<Double> fitnessOfEveryGroup = new LinkedList<>();
         for (int i = 0; i < numberOfSubgraphs; i++) {
             fitnessOfEveryGroup.addLast(determineFitnessOfSubrgaph(i));
@@ -126,7 +102,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Function changes genes in chromosome that in result subgraph with the
      * best fitness is labeled as 0 and so on.
      */
-    public void relabelIndividual() throws GeneticAlgorithmException {
+    public void relabelIndividual() {
         LinkedList<Double> newFitnessOfEveryGroup = new LinkedList<>();
         LinkedList<Integer> groupsInOrderOfFitness = new LinkedList<>();
         int[] chromosomeTemp = new int[chromosome.length];
@@ -166,8 +142,6 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     @Override
     public boolean removeWorstGroup() {
         numberOfSubgraphs = getRealNumberOfSubgraphs() - 1;
-        //System.out.print(this);
-        // System.out.println(numberOfSubgraphs);
         if (numberOfSubgraphs > 1) {
             for (int i = chromosome.length - 1; i >= 0; i--) {
                 if (chromosome[i] == numberOfSubgraphs) {
@@ -206,9 +180,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * only on relabelled chromosome
      *
      * @return true if operation was possible
-     * @throws GeneticAlgorithmException
      */
-    public boolean repair() throws GeneticAlgorithmException {
+    public boolean repair() {
         LinkedList<Integer> amountOfVertexesInGroup = getAmountOfVertexesInEveryGroup();
         if (amountOfVertexesInGroup.contains(0)) {
             int indexOfFirstEmptyGroup = amountOfVertexesInGroup.indexOf(0);
@@ -230,7 +203,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     /**
      * Changes group assigned to vertex from from group to to group
      *
-     * @param from
+     * @param from - both in range 0 numberOfGroups - 1
      * @param to
      */
     private void changeVertexAssignedGroup(int from, int to) {
@@ -262,14 +235,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Counts amount of vertexes in given group
      *
      * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return am
-     * ount of vertexes in given group
-     * @throws GeneticAlgorithmException
+     *
+     * @return amount of vertexes in given group
      */
-    public int getAmountOfVertexesInGroup(int group) throws GeneticAlgorithmException {
-        if (group < 0 || group >= numberOfSubgraphs) {
-            throw new GeneticAlgorithmException("Group index out of range: " + group);
-        }
+    public int getAmountOfVertexesInGroup(int group) {
         int k = 0;
         for (int i : chromosome) {
             if (i == group) {
@@ -283,9 +252,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Counts amount of vertexes in every group
      *
      * @return list containing amount of vertexes in everys group
-     * @throws GeneticAlgorithmException
      */
-    private LinkedList<Integer> getAmountOfVertexesInEveryGroup() throws GeneticAlgorithmException {
+    private LinkedList<Integer> getAmountOfVertexesInEveryGroup() {
         LinkedList<Integer> amountOfVertexesInGroup = new LinkedList<>();
         for (int i = 0; i < numberOfSubgraphs; i++) {
             amountOfVertexesInGroup.add(i, getAmountOfVertexesInGroup(i));
@@ -297,14 +265,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Returns list of vertexes' indexes in given group
      *
      * @param group - index of group, must be >= 0 and < numberOfSubgrphs
-     * @return li
-     * st of vertexes' indexes in given group
-     * @throws GeneticAlgorithmException
+     *
+     * @return list of vertexes' indexes in given group
      */
-    private LinkedList<Integer> getVertexesInGroup(int group) throws GeneticAlgorithmException {
-        if (group < 0 || group >= numberOfSubgraphs) {
-            throw new GeneticAlgorithmException("Group index out of range: " + group);
-        }
+    private LinkedList<Integer> getVertexesInGroup(int group) {
         LinkedList<Integer> vertexes = new LinkedList<>();
         for (int i = 0; i < chromosome.length; i++) {
             if (chromosome[i] == group) {
@@ -318,7 +282,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * Determines the fitness of chromosome.
      */
     @Override
-    public void determineIndividualFitness() throws GeneticAlgorithmException {
+    public void determineIndividualFitness() {
         setDeterminedFitnessesOfEverySubgraph();
         relabelIndividual();
         repair();
@@ -341,15 +305,10 @@ public final class GroupCodedIndividual extends AbstractIndividual {
 
     @Override
     public void mutateGene(int geneIndex) {
-        try {
-            if (getAmountOfVertexesInGroup(0) < graph.getsearchedKCliqueSize()) {
-                chromosome[geneIndex] = 0;
-            } else {
-                chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
-            }
-        } catch (GeneticAlgorithmException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        if (getAmountOfVertexesInGroup(0) < graph.getsearchedKCliqueSize()) {
+            chromosome[geneIndex] = 0;
+        } else {
+            chromosome[geneIndex] = new Random().nextInt(numberOfSubgraphs);
         }
     }
 
