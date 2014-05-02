@@ -26,10 +26,11 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Constructor - creates subgraph that has size of kCliqueSize - chooses appropriate amount of genes (vertices) and puts them into chromosome (table)
-     * 
-     * @param graphSize
-     *            - graph's size (amount of vertices)
+     * Constructor - creates subgraph that has size of kCliqueSize - chooses
+     * appropriate amount of genes (vertices) and puts them into chromosome
+     * (table)
+     *
+     * @param graphSize - graph's size (amount of vertices)
      */
     public BinaryCodedIndividual(GraphRepresentation graph) {
         this.graph = graph;
@@ -46,22 +47,12 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             helpList.remove((Integer) k);
         }
         determineIndividualFitness();
-        // TO TEST VERSION
-        // chromosome = new byte[graph.getVertexCount()];
-        // Random rand = new Random();
-        // for (int i = 0; i < graph.getVertexCount(); i++) {
-        // if (rand.nextBoolean()) {
-        // chromosome[i] = 1;
-        // this.activeGenesAmount++;
-        // }
-        // }
     }
 
     /**
      * Copy constructor
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public BinaryCodedIndividual(BinaryCodedIndividual i) {
         this.graph = i.getGraph();
@@ -72,7 +63,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     /**
      * Getter
-     * 
+     *
      * @return amount of active genes
      */
     public int getActiveGenesAmount() {
@@ -80,7 +71,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     }
 
     @Override
-    public void determineIndividualFitness() {
+    public final void determineIndividualFitness() {
         int edgesAmount = 0;
         for (int i = 0; i < graph.getVertexCount(); i++) {
             if (getChromosome()[i] == 1) {
