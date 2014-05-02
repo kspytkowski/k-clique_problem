@@ -169,8 +169,8 @@ public class GraphRepresentation {
      * @throws ProblemWithReadingGraphFromFileException
      * @throws NoPossibilityToCreateGraphException
      */
-    public GraphRepresentation(String filePath, int kCliqueSize) throws ProblemWithReadingGraphFromFileException, NoPossibilityToCreateGraphException {
-        this.searchedKCliqueSize = kCliqueSize;
+    public GraphRepresentation(String filePath, int searchedKCliqueSize) throws ProblemWithReadingGraphFromFileException, NoPossibilityToCreateGraphException {
+        this.searchedKCliqueSize = searchedKCliqueSize;
         File file = new File(filePath);
         if (file.exists() == false) {
             throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " doesn't exist");
