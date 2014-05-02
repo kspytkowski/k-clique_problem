@@ -62,10 +62,6 @@ public class MainTestNowy {
         for (int i = 1; i < 200; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-            for (int j = 0; j < 5; j++) {
-                System.out.print(population.getIndividual(j));
-            }
-            System.out.println();
             if (i % 100 == 0) {
                 population.singleLifeCycle(true, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             } else {
