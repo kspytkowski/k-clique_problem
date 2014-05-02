@@ -46,7 +46,7 @@ public class Selection {
      * @param roulette - list with probabilities of individuals
      */
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) {
-        LinkedList<AbstractIndividual> IndividualsList = new LinkedList<>();
+        LinkedList<AbstractIndividual> individualsList = new LinkedList<>();
         Iterator<AbstractIndividual> individualsIterator = population.getIndividuals().iterator();
         while (individualsIterator.hasNext()) {
             int i = 0;
@@ -55,20 +55,21 @@ public class Selection {
             while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
                 i++;
             }
-            // mozna by klonowac tylko te ktore juz sa, sprawdzac tylko referencje
-            // moze byloby optymalniej
-            // a mozliwe że przy binary moze sobie zostac jak bylo
-            switch (population.getIndividualType()) {
-                case BINARYCODEDINDIVIDUAL:
-                    IndividualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); // populacja rodzicow, Individualse moga sie powtarzac
-                    break;
-                case GROUPCODEDINDIVIDUAL:
-                    IndividualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
-                    break;
+            if (individualsList.contains(population.getIndividual(i))) {
+                switch (population.getIndividualType()) {
+                    case BINARYCODEDINDIVIDUAL:
+                        individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); // populacja rodzicow, Individualse moga sie powtarzac
+                        break;
+                    case GROUPCODEDINDIVIDUAL:
+                        individualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
+                        break;
+                }
+            } else {
+                individualsList.add(population.getIndividual(i));
             }
             individualsIterator.next();
         }
-        population.setIndividuals(IndividualsList);
+        population.setIndividuals(individualsList);
     }
 
     /**
