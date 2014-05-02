@@ -1,6 +1,5 @@
 package genetics;
 
-import exceptions.GeneticAlgorithmException;
 import graph.GraphRepresentation;
 
 import java.util.LinkedList;
