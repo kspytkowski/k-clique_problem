@@ -15,7 +15,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  * @author Krzysztof Spytkowski
- * @date 20 kwi 2014
+ * @date 20th April 2014
  */
 public class Chart {
 

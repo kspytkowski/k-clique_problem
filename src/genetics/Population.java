@@ -45,7 +45,7 @@ public class Population {
         if (demandedIndividualsAmount < 1) {
             throw new GeneticAlgorithmException("Population has to have more than 0 individuals");
         }
-        if (graph.getGraph().getVertexCount() < 1) {
+        if (graph.getVertexCount() < 1) {
             throw new GeneticAlgorithmException("Graph has to have more than 0 vertices");
         }
         this.individualType = iT;
@@ -75,7 +75,7 @@ public class Population {
         if (demandedIndividualsAmount < 1) {
             throw new GeneticAlgorithmException("Population has to have more than 0 individuals");
         }
-        if (graph.getGraph().getVertexCount() < 1) {
+        if (graph.getVertexCount() < 1) {
             throw new GeneticAlgorithmException("Graph has to have more than 0 vertices");
         }
         this.individualType = iT;

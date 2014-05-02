@@ -19,14 +19,14 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      * @param graph - main graph
      */
     public GroupCodedIndividual(int numberOfSubgraphs, GraphRepresentation graph) {
-        if (numberOfSubgraphs > graph.getGraph().getVertexCount()) {
-            numberOfSubgraphs = graph.getGraph().getVertexCount();
+        if (numberOfSubgraphs > graph.getVertexCount()) {
+            numberOfSubgraphs = graph.getVertexCount();
         }
         this.graph = graph;
         this.numberOfSubgraphs = numberOfSubgraphs;
-        chromosome = new int[graph.getGraph().getVertexCount()];
+        chromosome = new int[graph.getVertexCount()];
         Random rand = new Random();
-        for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
+        for (int i = 0; i < graph.getVertexCount(); i++) {
             chromosome[i] = rand.nextInt(numberOfSubgraphs); // groups coded from 0 to numberOfGroups - 1
         }
         determineIndividualFitness();

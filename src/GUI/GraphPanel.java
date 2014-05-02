@@ -24,6 +24,7 @@ import exceptions.NoPossibilityToCreateGraphException;
 import genetics.AbstractIndividual;
 import graph.GraphRepresentation;
 import graph.GraphVisualisation;
+import graph.LayoutType;
 
 /**
  * 
@@ -31,11 +32,12 @@ import graph.GraphVisualisation;
  */
 public class GraphPanel extends JPanel {
 
-	private VisualizationViewer<Integer, String> vv = null; // visualization of a graph
-	private Layout<Integer, String> actualGrLayout = null;
+	private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
+	private Layout<Integer, String> actualGrLayout = null; // displayed layout
 	private Graph<Integer, String> graph; // graph
-	private int whichLayout = 3; // actually choosen layout of a graph
-	private JPanel containing = null;
+	// private int whichLayout = 3; // actually chosen layout of a graph => zmienione na ponizsze
+	private LayoutType layoutType = LayoutType.SPRING; // actually chosen layout of a graph
+	private JPanel containing = null; // panel containing graph
 
 	/**
 	 * Constructor
@@ -54,7 +56,7 @@ public class GraphPanel extends JPanel {
 		}
 		this.containing = containing;
 		resize();
-		actualizeGraph(graph, whichLayout, true);
+		actualizeGraph(graph, layoutType, true);
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class GraphPanel extends JPanel {
 		super.repaint();
 		if (containing != null) {
 			resize();
-			actualizeGraph(graph, whichLayout, false);
+			actualizeGraph(graph, layoutType, false);
 		}
 	}
 
@@ -78,12 +80,12 @@ public class GraphPanel extends JPanel {
 	 * 
 	 * @param g
 	 *            - new graph
-	 * @param whichLayout
+	 * @param layoutType - type of layout to visualization of graph
 	 */
-	public final void actualizeGraph(Graph<Integer, String> g, int whichLayout, boolean change) {
-		if (whichLayout != 0) {
-			this.whichLayout = whichLayout;
-		}
+	public final void actualizeGraph(Graph<Integer, String> g, LayoutType layoutType, boolean change) {
+		//if (layoutType != 0) {
+			this.layoutType = layoutType;
+		//}
 		if (graph != g) {
 			graph = g;
 		}
@@ -105,7 +107,7 @@ public class GraphPanel extends JPanel {
 		// arrayWithNoteOfVertex = bestOne.getT();
 		// }
 		if (change) {
-			actualGrLayout = GraphVisualisation.getLayout(graph, whichLayout);
+			actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
 		}
 		vv = new VisualizationViewer<>(actualGrLayout, getSize());
 		vv.setBackground(Color.WHITE);

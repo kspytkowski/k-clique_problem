@@ -34,22 +34,22 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     public BinaryCodedIndividual(GraphRepresentation graph) {
         this.graph = graph;
         this.activeGenesAmount = graph.getsearchedKCliqueSize();
-        chromosome = new int[graph.getGraph().getVertexCount()];
+        chromosome = new int[graph.getVertexCount()];
         LinkedList<Integer> helpList = new LinkedList<>();
-        for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
+        for (int i = 0; i < graph.getVertexCount(); i++) {
             helpList.add(i);
         }
         Random rand = new Random();
         for (int i = 0; i < graph.getsearchedKCliqueSize(); i++) {
-            int k = helpList.get(rand.nextInt(graph.getGraph().getVertexCount() - i));
+            int k = helpList.get(rand.nextInt(graph.getVertexCount() - i));
             chromosome[k] = 1;
             helpList.remove((Integer) k);
         }
         determineIndividualFitness();
         // TO TEST VERSION
-        // chromosome = new byte[graph.getGraph().getVertexCount()];
+        // chromosome = new byte[graph.getVertexCount()];
         // Random rand = new Random();
-        // for (int i = 0; i < graph.getGraph().getVertexCount(); i++) {
+        // for (int i = 0; i < graph.getVertexCount(); i++) {
         // if (rand.nextBoolean()) {
         // chromosome[i] = 1;
         // this.activeGenesAmount++;
