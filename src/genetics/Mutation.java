@@ -9,10 +9,11 @@ import java.util.Random;
 public class Mutation {
 
     /**
-     * Makes small mutations among individuals (changes some genes in their chromosome)
-     * 
-     * @param population
-     *            - population
+     * Makes small mutations among individuals (changes some genes in their
+     * chromosome)
+     *
+     * @param population - population
+     * @param mutationProbability - probability that individual will mutate
      */
     public static void mutate(Population population, double mutationProbability) {
         Random rand = new Random();
