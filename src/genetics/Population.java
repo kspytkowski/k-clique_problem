@@ -11,8 +11,6 @@ import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Krzysztof Spytkowski
@@ -20,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class Population {
 
-    private static final ExecutorService ex = Executors.newFixedThreadPool(8);
+    private static final ExecutorService ex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private final GraphRepresentation graph; // main graph
     private LinkedList<AbstractIndividual> individuals; // list of individuals
@@ -28,17 +26,15 @@ public class Population {
     private final Random rand = new Random(); // object that creates random numbers
     private IndividualType individualType; // type of individual
     private int numberOfGroups; // number of groups in individual (when group coding)...
-    private LinkedList<IndividualsGroup> groupsOfIndividuals;
+    private LinkedList<IndividualsGroup> groupsOfIndividuals; // individuals separated into groups,
+    //needed to compute simultanously
 
     /**
      * Constructor (for binary coded individuals)
-     * 
-     * @param demandedIndividualsAmount
-     *            - initially amount of individuals
-     * @param graph
-     *            - main graph
-     * @param iT
-     *            - type of individual
+     *
+     * @param demandedIndividualsAmount - initially amount of individuals
+     * @param graph - main graph
+     * @param iT - type of individual
      * @throws GeneticAlgorithmException
      */
     public Population(int demandedIndividualsAmount, GraphRepresentation graph, IndividualType iT) throws GeneticAlgorithmException {
@@ -60,15 +56,13 @@ public class Population {
 
     /**
      * Constructor (for group coded individuals)
-     * 
-     * @param demandedIndividualsAmount
-     *            - initially amount of individuals
-     * @param graph
-     *            - main graph
-     * @param iT
-     *            - type of individual
-     * @param numberOfGroups
-     *            - number of groups in every GroupCodedIndividual
+     *
+     * @param demandedIndividualsAmount - initially amount of individuals
+     * @param graph - main graph
+     * @param iT - type of individual
+     * @param numberOfGroups - number of groups in every GroupCodedIndividual,
+     * if bigger than number of vertexes in graph, set to number of vertexes in
+     * graph
      * @throws GeneticAlgorithmException
      */
     public Population(int demandedIndividualsAmount, GraphRepresentation graph, IndividualType iT, int numberOfGroups) throws GeneticAlgorithmException {
@@ -79,9 +73,7 @@ public class Population {
             throw new GeneticAlgorithmException("Graph has to have more than 0 vertices");
         }
         this.individualType = iT;
-        // tu bedzie problem jak uzytkownik da sobie liczbe grup = 10, a graf z 8 wierzcholkami => wowczas tutaj (Population) numberOfGrups ustawi sie na 10
-        // a w konstruktorze i klasie GroupCodedIndividual numberOfGraoups ustawi sie na 8 => czy ta roznica miedzy numberOfgroups nie bedzie przeszkadzac?
-        this.numberOfGroups = numberOfGroups; // tu mozna dac ten wyjatek sprawdzajacy czy numberOfGroups < rozmiaru grafu (zamiast wyjatku w konstr. GroupCodedIndividual)
+        this.numberOfGroups = (numberOfGroups > graph.getVertexCount()) ? graph.getVertexCount() : numberOfGroups;
         this.graph = graph;
         this.demandedIndividualsAmount = demandedIndividualsAmount;
         individuals = new LinkedList<>();
@@ -91,6 +83,16 @@ public class Population {
         makeGroupsOfIndividuals();
     }
 
+    /**
+     * One cycle. //TODO
+     *
+     * @param specialYear
+     * @param selection
+     * @param crossingOverProbability
+     * @param crossingOverType
+     * @param mutationProbability
+     * @param toRemove
+     */
     public void singleLifeCycle(boolean specialYear, SelectionType selection, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) {
         if (specialYear && numberOfGroups > 2) {
             determineEveryIndividualFitness();
@@ -104,7 +106,7 @@ public class Population {
         this.keepConstantPopulationSize();
         Mutation.mutate(this, mutationProbability);
         determineEveryIndividualFitness();
-        this.removeWorstIndividuals(0.7);
+        this.removeWorstIndividuals(0.7); // TODO? 
         this.keepConstantPopulationSize();
     }
 
@@ -121,9 +123,8 @@ public class Population {
 
     /**
      * Getter
-     * 
-     * @param index
-     *            - index of individual
+     *
+     * @param index - index of individual
      * @return individual on specified index or null, if index out of range
      */
     public AbstractIndividual getIndividual(int index) {
@@ -135,9 +136,9 @@ public class Population {
 
     /**
      * Setter
-     * 
-     * @param numberOfGroups
-     *            - important while creating new individuals in group encoding
+     *
+     * @param numberOfGroups - important while creating new individuals in group
+     * encoding
      */
     public void setNumberOfGroups(int numberOfGroups) {
         this.numberOfGroups = numberOfGroups;
@@ -145,7 +146,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return size of k-clique
      */
     public int getKCliqueSize() {
@@ -154,7 +155,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return type of individuals in population
      */
     public IndividualType getIndividualType() {
@@ -163,7 +164,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return list of individuals
      */
     public LinkedList<AbstractIndividual> getIndividuals() {
@@ -172,9 +173,8 @@ public class Population {
 
     /**
      * Setter
-     * 
-     * @param individuals
-     *            - list of individuals
+     *
+     * @param individuals - list of individuals
      */
     public void setIndividuals(LinkedList<AbstractIndividual> individuals) {
         this.individuals = individuals;
@@ -182,7 +182,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return amount of individuals that should be in population
      */
     public int getDemandedIndividualsAmount() {
@@ -191,7 +191,7 @@ public class Population {
 
     /**
      * Getter
-     * 
+     *
      * @return graph
      */
     public GraphRepresentation getGraphRepresentation() {
@@ -200,7 +200,7 @@ public class Population {
 
     /**
      * Counts individuals' fitness sum
-     * 
+     *
      * @return individuals' fitness sum
      */
     public double fitnessSum() {
@@ -218,37 +218,31 @@ public class Population {
     public void determineEveryIndividualFitness() {
         try {
             ex.invokeAll(actualizeGroupsOfIndividuals());
-            // LinkedList<IndividualsGroup> groups = new LinkedList<>();
-            // for (int i = 0; i < 8 && i < max && i*rat2 < max; i++) {
-            // groups.add(new IndividualsGroup(i * rat2, (i + 1) * rat2, individuals));
-            // groups.get(i).start();
-            /*
-             * for (IndividualsGroup gr : groupsOfIndividuals) { ex.submit(gr);
-             */
-
-            // }
-
-            /*
-             * for (IndividualsGroup indGr : groups) { try { indGr.join(); } catch (InterruptedException ex) { Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex); } }
-             */
-            /*
-             * for (AbstractIndividual i : individuals) i.determineIndividualFitness();
-             */
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
+    /**
+     * Separates individuals to groups, number of groups depends on number of
+     * available processors.
+     */
     private void makeGroupsOfIndividuals() {
+        int processors = Runtime.getRuntime().availableProcessors();
         double max = individuals.size();
-        int rat2 = (int) ceil(max / 8);
+        int rate = (int) ceil(max / processors);
         Runtime.getRuntime().availableProcessors();
         groupsOfIndividuals = new LinkedList<>();
-        for (int i = 0; i < 8 && i < max && i * rat2 < max; i++) {
-            groupsOfIndividuals.add(new IndividualsGroup(i * rat2, (i + 1) * rat2, individuals));
+        for (int i = 0; i < processors && i < max && i * rate < max; i++) {
+            groupsOfIndividuals.add(new IndividualsGroup(i * rate, (i + 1) * rate, individuals));
         }
     }
 
+    /**
+     * Actualizes once created groups - sets new list of individuals.
+     *
+     * @return callable collection based on groups
+     */
     private LinkedList<Callable<Object>> actualizeGroupsOfIndividuals() {
         LinkedList<Callable<Object>> calls = new LinkedList<>();
         for (IndividualsGroup gr : groupsOfIndividuals) {
@@ -268,17 +262,18 @@ public class Population {
     }
 
     /**
-     * Keeps constant amount of individuals in population (adds random individuals on random positions in list).
+     * Keeps constant amount of individuals in population (adds random
+     * individuals on random positions in list).
      */
     public void keepConstantPopulationSize() {
         while (individuals.size() < demandedIndividualsAmount) {
             switch (individualType) {
-            case BINARYCODEDINDIVIDUAL:
-                addIndividual(new BinaryCodedIndividual(graph)); // adds new Individual in random place in list
-                break;
-            case GROUPCODEDINDIVIDUAL:
-                addIndividual(new GroupCodedIndividual(numberOfGroups, graph)); // adds new Individual in random place in list
-                break;
+                case BINARYCODEDINDIVIDUAL:
+                    addIndividual(new BinaryCodedIndividual(graph)); // adds new Individual in random place in list
+                    break;
+                case GROUPCODEDINDIVIDUAL:
+                    addIndividual(new GroupCodedIndividual(numberOfGroups, graph)); // adds new Individual in random place in list
+                    break;
             }
         }
         if (individuals.size() > demandedIndividualsAmount) {
@@ -291,9 +286,9 @@ public class Population {
 
     /**
      * Removes worst individuals from population.
-     * 
-     * @param howManyToRemove
-     *            - shows how many individuals should be removed (in percentage)
+     *
+     * @param howManyToRemove - shows how many individuals should be removed (in
+     * percentage)
      */
     public void removeWorstIndividuals(double howManyToRemove) {
         int toRemove = (int) (howManyToRemove * getActualIndividualsAmount());
@@ -305,9 +300,8 @@ public class Population {
 
     /**
      * Adds individual to population.
-     * 
-     * @param i
-     *            - individual
+     *
+     * @param i - individual
      */
     public void addIndividual(AbstractIndividual i) {
         individuals.add(rand.nextInt(getActualIndividualsAmount() + 1), i);
@@ -315,7 +309,7 @@ public class Population {
 
     /**
      * Returns actual amount of individuals in population.
-     * 
+     *
      * @return amount of individuals
      */
     public int getActualIndividualsAmount() {
@@ -324,7 +318,7 @@ public class Population {
 
     /**
      * Counts sum of individuals' fitnesses in population
-     * 
+     *
      * @return population fitness
      */
     public double getPopulationFitness() {
@@ -338,7 +332,7 @@ public class Population {
 
     /**
      * Find individual that has highest fitness
-     * 
+     *
      * @return found individual
      */
     public AbstractIndividual findBestAdoptedIndividual() {
@@ -353,7 +347,7 @@ public class Population {
 
     /**
      * Find individual that has lowest fitness
-     * 
+     *
      * @return found individual
      */
     public AbstractIndividual findWorstAdoptedIndividual() {
@@ -368,22 +362,49 @@ public class Population {
 
     /**
      * Counts average individuals' fitness in population
-     * 
+     *
      * @return average individuals' fitness
      */
     public double averageIndividualsFitness() {
         return getPopulationFitness() / getActualIndividualsAmount();
     }
 
+    @Override
+    public String toString() {
+        String s = "Population: \n";
+        for (AbstractIndividual ind : individuals) {
+            s += ind;
+        }
+        return s;
+    }
+
+    /**
+     * Represents group of individuals (on position in list from from to to),
+     * used to determine fitness of individuals using many threads.
+     */
     private class IndividualsGroup implements Runnable {
 
-        int from, to;
-        LinkedList<AbstractIndividual> individuals;
+        int from, to; // indicators to positions in list
+        LinkedList<AbstractIndividual> individuals; // list of individuals
 
+        /**
+         * Setter
+         *
+         * @param individuals - list of individuals
+         */
         private void setIndividuals(LinkedList<AbstractIndividual> individuals) {
             this.individuals = individuals;
         }
 
+        /**
+         * Constructs group
+         *
+         * @param from - indicates position of first individual in group
+         * @param to - indicates position of last - 1 individual in group, if
+         * bigger than number of individuals, set to number of individuals in
+         * list
+         * @param individuals - lsit of individuals
+         */
         private IndividualsGroup(int from, int to, LinkedList<AbstractIndividual> individuals) {
             this.from = from;
             this.to = (to < individuals.size()) ? to : individuals.size();
@@ -396,14 +417,5 @@ public class Population {
                 individuals.get(i).determineIndividualFitness();
             }
         }
-    }
-
-    @Override
-    public String toString() {
-        String s = "Population: \n";
-        for (AbstractIndividual ind : individuals) {
-            s += ind;
-        }
-        return s;
     }
 }
