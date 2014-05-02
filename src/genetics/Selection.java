@@ -17,33 +17,30 @@ public class Selection {
 
     /**
      * Invokes selection
-     * 
-     * @param selectionType
-     *            - type of selection
-     * @param population
-     *            - population
+     *
+     * @param selectionType - type of selection
+     * @param population - population
      */
     public static void proceedSelection(SelectionType selectionType, Population population) {
         switch (selectionType) {
-        case ROULETTEWHEELSELECTION:
-            rouletteWheelSelection(population);
-            break;
-        case TOURNAMENTSELECTION:
-            tournamentSelection(population);
-            break;
-        case LINEARRANKINGSELECTION:
-            linearRankingSelection(population);
-            break;
+            case ROULETTEWHEELSELECTION:
+                rouletteWheelSelection(population);
+                break;
+            case TOURNAMENTSELECTION:
+                tournamentSelection(population);
+                break;
+            case LINEARRANKINGSELECTION:
+                linearRankingSelection(population);
+                break;
         }
     }
 
     /**
-     * Creates new population according to given roulette with probability of choosing concrete individual
-     * 
-     * @param population
-     *            - population
-     * @param roulette
-     *            - list with probabilities of individuals
+     * Creates new population according to given roulette with probability of
+     * choosing concrete individual
+     *
+     * @param population - population
+     * @param roulette - list with probabilities of individuals
      */
     private static void createPopulationUsingRoulette(Population population, LinkedList<Double> roulette) {
         LinkedList<AbstractIndividual> individualsList = new LinkedList<>();
@@ -64,12 +61,12 @@ public class Selection {
             }
             if (flag) {
                 switch (population.getIndividualType()) {
-                case BINARYCODEDINDIVIDUAL:
-                    individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); 
-                    break;
-                case GROUPCODEDINDIVIDUAL:
-                    individualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
-                    break;
+                    case BINARYCODEDINDIVIDUAL:
+                        individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i)));
+                        break;
+                    case GROUPCODEDINDIVIDUAL:
+                        individualsList.add(new GroupCodedIndividual((GroupCodedIndividual) population.getIndividual(i)));
+                        break;
                 }
             } else {
                 individualsList.add(population.getIndividual(i));
@@ -80,10 +77,10 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
-     * 
-     * @param population
-     *            - population
+     * Selects parents according to their fitness. The better individuals are,
+     * the more chances to be selected they have.
+     *
+     * @param population - population
      */
     private static void rouletteWheelSelection(Population population) {
         double populationFitnessSum = population.fitnessSum();
@@ -100,14 +97,14 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. Individuals are divided into small groups and from every group the best individual is selected.
-     * 
-     * @param population
-     *            - population
-     * @param gameIndividualsAmount
-     *            - amount of individuals taken part in every tournament (only one wins)
+     * Selects parents according to their fitness. Individuals are divided into
+     * small groups and from every group the best individual is selected.
+     *
+     * @param population - population
+     * @param gameIndividualsAmount - amount of individuals taken part in every
+     * tournament (only one wins)
      */
-    private static void tournamentSelection(Population population) { 
+    private static void tournamentSelection(Population population) {
         LinkedList<AbstractIndividual> indiviualsList = new LinkedList<>();
         int restOfPopulation = population.getActualIndividualsAmount() % gameIndividualsAmount;
         int i = 0;
@@ -126,10 +123,10 @@ public class Selection {
     }
 
     /**
-     * Selects parents according to their fitness. The better individuals are, the more chances to be selected they have.
-     * 
-     * @param population
-     *            - population
+     * Selects parents according to their fitness. The better individuals are,
+     * the more chances to be selected they have.
+     *
+     * @param population - population
      */
     private static void linearRankingSelection(Population population) {
         double sumOfArithmeticSequence = ((double) (2 + population.getActualIndividualsAmount() - 1) / 2) * population.getActualIndividualsAmount();
