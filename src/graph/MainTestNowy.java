@@ -46,7 +46,7 @@ public class MainTestNowy {
         for (int i = 0; i < 39; i++) {
             System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
         }*/
-        Population population = new Population(5, gr, IndividualType.GROUPCODEDINDIVIDUAL, 8);
+        Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
 //        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
@@ -57,14 +57,14 @@ public class MainTestNowy {
         myFrame.setSize(500, 400);
         myChart.repaintChart();
         
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 1; i < 200; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             for (int j = 0; j < 5; j++) {
                 System.out.print(population.getIndividual(j));
             }
             System.out.println();
-            if (i % 100 == 0) {
+            if (i % 10 == 0) {
                 population.singleLifeCycle(true, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             } else {
                 population.singleLifeCycle(false, SelectionType.LINEARRANKINGSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);

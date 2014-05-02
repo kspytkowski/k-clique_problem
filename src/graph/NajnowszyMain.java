@@ -15,7 +15,7 @@ public class NajnowszyMain {
 
         GraphRepresentation gr = null;
         try {
-            gr = new GraphRepresentation(128, 2326, 67, 50);
+            gr = new GraphRepresentation(128, 6326, 67, 50);
         } catch (NoPossibilityToCreateGraphException e) {
             e.printStackTrace();
         } catch (GeneticAlgorithmException e) {
@@ -25,7 +25,7 @@ public class NajnowszyMain {
 
         Population population = null;
         try {
-            population = new Population(10, gr, IndividualType.BINARYCODEDINDIVIDUAL);
+            population = new Population(100, gr, IndividualType.BINARYCODEDINDIVIDUAL);
             // Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         } catch (GeneticAlgorithmException e) {
             e.printStackTrace();
