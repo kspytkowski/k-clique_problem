@@ -2,11 +2,18 @@ package genetics;
 
 import exceptions.GeneticAlgorithmException;
 import graph.GraphRepresentation;
+import static java.lang.Math.ceil;
+import static java.lang.Math.round;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Krzysztof Spytkowski
@@ -14,12 +21,15 @@ import java.util.Random;
  */
 public class Population {
 
+    private static final ExecutorService ex = Executors.newFixedThreadPool(8);
+    
     private final GraphRepresentation graph; // main graph
     private LinkedList<AbstractIndividual> individuals; // list of individuals
     private final int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population
     private final Random rand = new Random(); // object that creates random numbers
     private IndividualType individualType; // type of individual
     private int numberOfGroups; // number of groups in individual (when group coding)...
+    private LinkedList<IndividualsGroup> groupsOfIndividuals;
 
     /**
      * Constructor (for binary coded individuals)
@@ -43,6 +53,7 @@ public class Population {
         for (int i = 0; i < demandedIndividualsAmount; i++) {
             individuals.add(new BinaryCodedIndividual(graph));
         }
+        makeGroupsOfIndividuals();
     }
 
     /**
@@ -69,9 +80,10 @@ public class Population {
         for (int i = 0; i < demandedIndividualsAmount; i++) {
             individuals.add(new GroupCodedIndividual(numberOfGroups, graph));
         }
+        makeGroupsOfIndividuals();
     }
 
-    public void singleLifeCycle(boolean specialYear, SelectionType selection, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
+    public void singleLifeCycle(boolean specialYear, SelectionType selection, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) {
         if (specialYear && numberOfGroups > 2) {
             determineEveryIndividualFitness();
             removeWorstGroupInGroupEncoding();
@@ -89,7 +101,7 @@ public class Population {
     }
 
     //tia, o tym marzyłem - robimy klasę abstrakcyjną, zaślepki, a tu dalej wyspecjalizowane funkcje...
-    public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) throws GeneticAlgorithmException {
+    public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) {
         Selection.proceedSelection(SelectionType.LINEARRANKINGSELECTION, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
         this.keepConstantPopulationSize();
@@ -193,16 +205,55 @@ public class Population {
     /**
      * Invokes counting every individual's fitness.
      */
-    public void determineEveryIndividualFitness() throws GeneticAlgorithmException {
-        for (AbstractIndividual ind : individuals) {
-            ind.determineIndividualFitness();
+    public void determineEveryIndividualFitness() {
+        try {
+            ex.invokeAll(actualizeGroupsOfIndividuals());
+            //LinkedList<IndividualsGroup> groups = new LinkedList<>();
+//        for (int i = 0; i < 8 && i < max && i*rat2 < max; i++) {
+            //groups.add(new IndividualsGroup(i * rat2, (i + 1) * rat2, individuals));
+            //groups.get(i).start();
+            /*for (IndividualsGroup gr : groupsOfIndividuals) {
+            ex.submit(gr);*/
+        
+//        }
+            
+            /*for (IndividualsGroup indGr : groups) {
+            try {
+            indGr.join();
+            } catch (InterruptedException ex) {
+            Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }*/
+            /* for (AbstractIndividual i : individuals)
+            i.determineIndividualFitness();*/
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void makeGroupsOfIndividuals() {
+        double max = individuals.size();
+        int rat2 = (int) ceil(max/8);
+        Runtime.getRuntime().availableProcessors();
+        groupsOfIndividuals = new LinkedList<>();
+        for (int i = 0; i < 8 && i < max && i*rat2 < max; i++) {
+            groupsOfIndividuals.add(new IndividualsGroup(i * rat2, (i + 1) * rat2, individuals));
+        }
+    }
+    
+    private LinkedList<Callable<Object>> actualizeGroupsOfIndividuals() {
+        LinkedList<Callable<Object>> calls = new LinkedList<>();
+        for (IndividualsGroup gr : groupsOfIndividuals) {
+            gr.setIndividuals(individuals);
+            calls.add(Executors.callable(gr));
+        }
+        return calls;
     }
 
     /**
      * Invokes removing worst group on every individual.
      */
-    public void removeWorstGroupInGroupEncoding() throws GeneticAlgorithmException {
+    public void removeWorstGroupInGroupEncoding() {
         for (AbstractIndividual ind : individuals) {
             ind.removeWorstGroup();
         }
@@ -326,5 +377,27 @@ public class Population {
             s += ind;
         }
         return s;
+    }
+    
+    private class IndividualsGroup implements Runnable {
+        
+        int from, to;
+        LinkedList<AbstractIndividual> individuals;
+
+        private void setIndividuals(LinkedList<AbstractIndividual> individuals) {
+            this.individuals = individuals;
+        }
+        
+        private IndividualsGroup(int from, int to, LinkedList<AbstractIndividual> individuals) {
+            this.from = from;
+            this.to = (to < individuals.size()) ? to : individuals.size();
+            this.individuals = individuals;
+        }
+        
+        @Override
+        public void run() {
+            for (int i = from; i < to; i++)
+                individuals.get(i).determineIndividualFitness();
+        }
     }
 }

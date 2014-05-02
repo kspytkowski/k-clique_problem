@@ -20,7 +20,7 @@ public class CrossingOver {
      * @param population - population
      * @throws GeneticAlgorithmException
      */
-    public static void crossOver(CrossingOverType crossingOverType, Population population, double crossingOverProbability) throws GeneticAlgorithmException {
+    public static void crossOver(CrossingOverType crossingOverType, Population population, double crossingOverProbability) {
         int amountOfIndividualsToCrossOver = (population.getActualIndividualsAmount() % 2 == 0) ? population.getActualIndividualsAmount() : population.getActualIndividualsAmount() - 1;
         LinkedList<AbstractIndividual> newIndividualsList = new LinkedList<>();
         for (int i = 0; i < amountOfIndividualsToCrossOver; i += 2) {

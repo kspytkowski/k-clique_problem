@@ -18,7 +18,7 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
      *
      * @throws GeneticAlgorithmException - TRZA TO USUNAC, nie chce tu wyjatku
      */
-    public abstract void determineIndividualFitness() throws GeneticAlgorithmException;
+    public abstract void determineIndividualFitness();
 
     // only for trying
     public abstract boolean removeWorstGroupAndSplitIntoOthers();

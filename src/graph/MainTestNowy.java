@@ -19,7 +19,7 @@ public class MainTestNowy {
     // TO DO musimy ustawic tak zeby zawsze jakas czesc np. 10% dmandenAmount nowych osobnikow sie dodawalo do populacji,
     // a potem dopiero kasowac jak jest za duzo
     
-    public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException, GeneticAlgorithmException{
+    public static void main(String[] args) throws IOException, ProblemWithReadingGraphFromFileException, GeneticAlgorithmException, InterruptedException{
 
         GraphRepresentation gr = null;
         try {
@@ -31,8 +31,9 @@ public class MainTestNowy {
             e.printStackTrace();
         }
 
-     /*   GroupCodedIndividual a = new GroupCodedIndividual(40, gr);
-        System.out.println(a);
+
+     /*  GroupCodedIndividual a = new GroupCodedIndividual(40, gr);
+       System.out.println(a);
         for (int i = 0; i < 40; i++) {
             System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
         }
@@ -46,18 +47,18 @@ public class MainTestNowy {
         for (int i = 0; i < 39; i++) {
             System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
         }*/
-        Population population = new Population(5, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
+        Population population = new Population(20, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
 //        Population population = new Population(50, gr, IndividualType.BINARYCODEDINDIVIDUAL);
         // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
         
-        /*Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
+        Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
 
         ChartFrame myFrame = myChart.getChartFrame();
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
-        myChart.repaintChart();*/
+        myChart.repaintChart();
         
-        for (int i = 1; i < 200; i++) {
+        for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             if (i % 100 == 0) {
@@ -66,10 +67,10 @@ public class MainTestNowy {
                 population.singleLifeCycle(false, SelectionType.ROULETTEWHEELSELECTION, 0.6, CrossingOverType.ONEPOINTWITHONECHILD, 0.05, 0.7);
             }
             
-            /*myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());
+            myChart.addNewValueToBestSeries(i,population.findBestAdoptedIndividual().getFitness());
             myChart.addNewValueToAverageSeries(i,population.averageIndividualsFitness());
             myChart.addNewValueToWorstSeries(i,population.findWorstAdoptedIndividual().getFitness());
-            myChart.repaintChart();*/
+            myChart.repaintChart();
         }
     }
 }
