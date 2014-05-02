@@ -40,11 +40,7 @@ public class NajnowszyMain {
         for (int i = 1; i < 1000; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
-            try {
-                population.singleLifeCycleKRZYSZTOF(0.6, CrossingOverType.ONEPOINTWITHTWOCHILDREN, 0.05, 0.2);
-            } catch (GeneticAlgorithmException e) {
-                e.printStackTrace();
-            }
+            population.singleLifeCycleKRZYSZTOF(0.6, CrossingOverType.ONEPOINTWITHTWOCHILDREN, 0.05, 0.2);
             myChart.addNewValueToBestSeries(i, population.findBestAdoptedIndividual().getFitness());
             myChart.addNewValueToAverageSeries(i, population.averageIndividualsFitness());
             myChart.addNewValueToWorstSeries(i, population.findWorstAdoptedIndividual().getFitness());

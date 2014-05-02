@@ -55,7 +55,14 @@ public class Selection {
             while (rouletteWheelIterator.next() < actualRouletteWheelPoint) {
                 i++;
             }
-            if (individualsList.contains(population.getIndividual(i))) {
+            boolean flag = false;
+            for (AbstractIndividual a : individualsList) {
+                if (a == population.getIndividual(i)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
                 switch (population.getIndividualType()) {
                     case BINARYCODEDINDIVIDUAL:
                         individualsList.add(new BinaryCodedIndividual((BinaryCodedIndividual) population.getIndividual(i))); // populacja rodzicow, Individualse moga sie powtarzac
