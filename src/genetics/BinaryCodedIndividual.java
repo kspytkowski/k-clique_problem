@@ -79,7 +79,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             }
         }
         double isKClique = 0.0;
-        if (getActiveGenesAmount() != 0 && getActiveGenesAmount() != 1) {
+        if (getActiveGenesAmount() > 1) {
             isKClique = (double) edgesAmount / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
             // int k = getActiveGenesAmount();
             // double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
