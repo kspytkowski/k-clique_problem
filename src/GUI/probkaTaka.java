@@ -15,6 +15,7 @@ public class probkaTaka implements Runnable {
     GraphRepresentation a;
     GraphPanelKRZYSIEK graphPanelVisual;
     
+    
     public probkaTaka(GraphRepresentation a, GraphPanelKRZYSIEK graphPanelVisual) {
         this.a = a;
         this.graphPanelVisual = graphPanelVisual;

@@ -9,6 +9,7 @@ import graph.GraphRepresentation;
  */
 public class KKliqueSolverGUI extends javax.swing.JFrame {
     
+    
 	/**
 	 * Creates new form KKliqueSolverGUI
 	 */

@@ -19,6 +19,7 @@ import javax.swing.SpinnerNumberModel;
  */
 public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
 
+    
     GraphPanelKRZYSIEK graphPanelVisual;
     GraphRepresentation graphRepresentation = null;
 
@@ -41,7 +42,6 @@ int screenHeight = dimension.height;
 setPreferredSize(dimension);
         setSize(dimension);
         
-System.out.println(dimension);
     }
 
     /**

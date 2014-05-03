@@ -32,6 +32,7 @@ import graph.LayoutType;
  */
 public class GraphPanel extends JPanel {
 
+    
 	private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
 	private Layout<Integer, String> actualGrLayout = null; // displayed layout
 	private Graph<Integer, String> graph; // graph

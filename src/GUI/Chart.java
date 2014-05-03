@@ -26,6 +26,7 @@ public class Chart {
     private final XYSeriesCollection dataset; // set of series
     private final ChartFrame chartFrame; // chart frame
 
+    
     // u lidki siec czynnosci na wgzaminie, nie siec zdarzen, rob klasy, luki z czasem (kazde zadanie min. 2 łuki => dop
     // rowadzajacy i odprowadzajacy
 
