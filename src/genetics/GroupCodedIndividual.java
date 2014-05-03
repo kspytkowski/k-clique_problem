@@ -270,8 +270,8 @@ public final class GroupCodedIndividual extends AbstractIndividual {
      */
     @Override
     public void determineIndividualFitness() {
-        setDeterminedFitnessesOfEverySubgraph();
-        relabelIndividual();
+//        setDeterminedFitnessesOfEverySubgraph();
+//        relabelIndividual();
         repair();
         setDeterminedFitnessesOfEverySubgraph();
         relabelIndividual();
