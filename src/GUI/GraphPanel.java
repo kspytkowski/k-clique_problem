@@ -38,7 +38,7 @@ public class GraphPanel extends JPanel {
 	// private int whichLayout = 3; // actually chosen layout of a graph => zmienione na ponizsze
 	private LayoutType layoutType = LayoutType.SPRING; // actually chosen layout of a graph
 	private JPanel containing = null; // panel containing graph
-        
+	
 	/**
 	 * Constructor
 	 */
@@ -59,6 +59,7 @@ public class GraphPanel extends JPanel {
 		actualizeGraph(graph, layoutType, true);
 	}
 
+	
 	@Override
 	public void repaint() {
 		super.repaint();
@@ -89,7 +90,7 @@ public class GraphPanel extends JPanel {
 		if (graph != g) {
 			graph = g;
 		}
-                removeAll();
+        removeAll();
 		add(actualizeVisualization(null, change), BorderLayout.CENTER);
 		resize();
 	}
