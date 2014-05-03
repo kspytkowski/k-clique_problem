@@ -167,8 +167,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     }
 
     /**
-     * Repairs chromosome - every group has to have at least 1 element works
-     * only on relabelled chromosome.
+     * Repairs chromosome - every group has to have at least 1 element.
      */
     public void repair() {
         LinkedList<Integer> amountOfVertexesInGroup = getAmountOfVertexesInEveryGroup();
