@@ -37,7 +37,7 @@ public class NajnowszyMain {
         myFrame.setSize(500, 400);
         myChart.repaintChart();
 
-        for (int i = 1; i < 1000; i++) {
+        for (int i = 1; i < 10; i++) {
             System.out.println("Iteracja " + i);
             System.out.println(population.findBestAdoptedIndividual());
             population.singleLifeCycleKRZYSZTOF(0.6, CrossingOverType.ONEPOINTWITHTWOCHILDREN, 0.05, 0.2);
@@ -46,5 +46,6 @@ public class NajnowszyMain {
             myChart.addNewValueToWorstSeries(i, population.findWorstAdoptedIndividual().getFitness());
             myChart.repaintChart();
         }
+        myChart.saveChartToFile("newChart");
     }
 }

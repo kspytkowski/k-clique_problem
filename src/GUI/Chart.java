@@ -1,7 +1,19 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Rectangle;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
+import org.apache.batik.dom.GenericDOMImplementation;
+import org.apache.batik.svggen.SVGGraphics2D;
+import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -12,6 +24,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.RangeType;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
 
 /**
  * @author Krzysztof Spytkowski
@@ -113,5 +127,42 @@ public class Chart {
      */
     public void repaintChart() {
         chartFrame.repaint();
+    }
+    
+    public void saveChartToFile(String filename) {
+     // Get a DOMImplementation and create an XML document
+        DOMImplementation domImpl =
+            GenericDOMImplementation.getDOMImplementation();
+        Document document = domImpl.createDocument(null, "svg", null);
+        // Create an instance of the SVG Generator
+        SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
+        // draw the chart in the SVG generator
+        jFreeChart.draw(svgGenerator, new Rectangle(1000,600));
+        // Write svg files
+        File aa = new File(filename);
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(aa);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Writer out;
+        try {
+            out = new OutputStreamWriter(outputStream, "UTF-8");
+            svgGenerator.stream(out, true /* use css */);                       
+            outputStream.flush();
+            outputStream.close();
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SVGGraphics2DIOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 }
