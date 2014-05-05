@@ -13,6 +13,8 @@ import genetics.GroupCodedIndividual;
 import genetics.IndividualType;
 import genetics.Population;
 import genetics.SelectionType;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
 
 public class MainTestNowy {
 
@@ -47,7 +49,7 @@ public class MainTestNowy {
          System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
          }*/
         for (int j = 0; j < 20; j++) {
-            Population population = new Population(20, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
+            Population population = new Population(40, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
 //        Population population = new Population(20, gr, IndividualType.BINARYCODEDINDIVIDUAL);
             // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
             Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
@@ -71,7 +73,7 @@ public class MainTestNowy {
                 myChart.addNewValueToWorstSeries(i, population.findWorstAdoptedIndividual().getFitness());
                 myChart.repaintChart();
             }
-            myChart.saveChartToFile("tmp" + j);
+            myChart.saveChartToFile("tmp30_" + j);
         }
     }
 }
