@@ -4,12 +4,14 @@
 package Controller;
 
 import exceptions.GeneticAlgorithmException;
+import genetics.AbstractIndividual;
 import genetics.CrossingOverType;
 import genetics.IndividualType;
 import genetics.Population;
 import genetics.SelectionType;
 import graph.GraphRepresentation;
 import static java.lang.Math.ceil;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,6 +50,15 @@ public class ApplicationController {
     private int numberOfIterations = 1000; // after this amount of iterations 
     // algorithm stops (if hasn't found solution earlier)
     // in GUI from 100 to 2000 ??
+    
+    
+    // TODO code about stopCondition and bestAdoptedInEveryIteration
+    private double stopCondition = 1.0; // if fitness of best adopted individual
+    // is equal or higher, stop
+    // in GUI from 0 to 1
+    
+    private ArrayList<AbstractIndividual> bestAdoptedInEveryIteration = null; 
+    // contains array of best adopted individuals
 
     // also reference to GUI here
     /**
