@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
  */
 public class Population {
 
-    private static final ExecutorService ex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    public static final ExecutorService ex = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private final GraphRepresentation graph; // main graph
     private LinkedList<AbstractIndividual> individuals; // list of individuals
