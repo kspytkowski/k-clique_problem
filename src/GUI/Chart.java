@@ -16,6 +16,7 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -38,7 +39,8 @@ public class Chart {
     private final XYSeries averageSeries; // series that keeps average Individual's fitness
     private final XYSeries worstSeries; // series that keeps worst Individual's fitness
     private final XYSeriesCollection dataset; // set of series
-    private final ChartFrame chartFrame; // chart frame
+   // private final ChartFrame chartFrame; // chart frame
+     private final ChartPanel chartPanel; // chart frame
 
     
     // u lidki siec czynnosci na wgzaminie, nie siec zdarzen, rob klasy, luki z czasem (kazde zadanie min. 2 łuki => dop
@@ -65,7 +67,9 @@ public class Chart {
         dataset.addSeries(averageSeries);
         dataset.addSeries(worstSeries);
         jFreeChart = ChartFactory.createXYLineChart(chartTitle, xLabel, yLabel, dataset, PlotOrientation.VERTICAL, true, true, false);
-        chartFrame = new ChartFrame(applicationTitle, jFreeChart);
+        //chartFrame = new ChartFrame(applicationTitle, jFreeChart);
+        chartPanel = new ChartPanel(jFreeChart);
+        
     }
 
     /**
@@ -73,7 +77,7 @@ public class Chart {
      * 
      * @return new ChartFrame
      */
-    public ChartFrame getChartFrame() {
+    public ChartPanel getChartPanel() {
         XYPlot plot = (XYPlot) jFreeChart.getPlot();
         NumberAxis xAxis = (NumberAxis) plot.getDomainAxis();
         xAxis.setRangeType(RangeType.POSITIVE);
@@ -83,7 +87,7 @@ public class Chart {
         renderer.setSeriesPaint(0, Color.red);
         renderer.setSeriesPaint(1, Color.green);
         renderer.setSeriesPaint(2, Color.blue);
-        return chartFrame;
+        return chartPanel;
     }
 
     /**
@@ -126,7 +130,7 @@ public class Chart {
      * Repaints ChartFrame
      */
     public void repaintChart() {
-        chartFrame.repaint();
+        chartPanel.repaint();
     }
     
     public void saveChartToFile(String filename) {

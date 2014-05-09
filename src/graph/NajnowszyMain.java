@@ -1,6 +1,6 @@
 package graph;
 
-import org.jfree.chart.ChartFrame;
+import org.jfree.chart.ChartPanel;
 
 import GUI.Chart;
 import exceptions.GeneticAlgorithmException;
@@ -32,7 +32,7 @@ public class NajnowszyMain {
         }
 
         Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Iteration", "Fitness");
-        ChartFrame myFrame = myChart.getChartFrame();
+        ChartPanel myFrame = myChart.getChartPanel();
         myFrame.setVisible(true);
         myFrame.setSize(500, 400);
         myChart.repaintChart();

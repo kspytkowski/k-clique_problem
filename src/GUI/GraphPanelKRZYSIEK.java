@@ -93,7 +93,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
         actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
         vv = new VisualizationViewer<>(actualGrLayout, getSize());
         vv.setBackground(Color.WHITE);
-       // vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
+     //   vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
 
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));

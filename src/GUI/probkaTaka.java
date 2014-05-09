@@ -14,11 +14,13 @@ public class probkaTaka implements Runnable {
     
     GraphRepresentation a;
     GraphPanelKRZYSIEK graphPanelVisual;
+    Chart myChart;
     
     
-    public probkaTaka(GraphRepresentation a, GraphPanelKRZYSIEK graphPanelVisual) {
+    public probkaTaka(GraphRepresentation a, GraphPanelKRZYSIEK graphPanelVisual, Chart myChart) {
         this.a = a;
         this.graphPanelVisual = graphPanelVisual;
+        this.myChart = myChart;
     }
     
     @Override
@@ -31,10 +33,10 @@ public class probkaTaka implements Runnable {
             e.printStackTrace();
         }
 
-        Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Iteration", "Fitness");
-        ChartFrame myFrame = myChart.getChartFrame();
-        myFrame.setVisible(true);
-        myFrame.setSize(500, 400);
+      //  Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Iteration", "Fitness");
+      //  ChartFrame myFrame = myChart.getChartFrame();
+      //  myFrame.setVisible(true);
+      //  myFrame.setSize(500, 400);
         myChart.repaintChart();
 
         for (int i = 1; i < 10; i++) {
