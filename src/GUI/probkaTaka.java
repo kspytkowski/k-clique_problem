@@ -1,10 +1,14 @@
 package GUI;
 
 import exceptions.GeneticAlgorithmException;
+import exceptions.NoPossibilityToCreateGraphException;
 import genetics.CrossingOverType;
 import genetics.IndividualType;
 import genetics.Population;
 import graph.GraphRepresentation;
+import static java.lang.Thread.sleep;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class probkaTaka implements Runnable {
     
@@ -14,7 +18,13 @@ public class probkaTaka implements Runnable {
     
     
     public probkaTaka(GraphRepresentation a, GraphPanelKRZYSIEK graphPanelVisual, Chart myChart) {
-        this.a = a;
+        try {
+            this.a = new GraphRepresentation(128, 6326, 67, 67);
+        } catch (NoPossibilityToCreateGraphException ex) {
+            Logger.getLogger(probkaTaka.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GeneticAlgorithmException ex) {
+            Logger.getLogger(probkaTaka.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.graphPanelVisual = graphPanelVisual;
         this.myChart = myChart;
     }
@@ -37,10 +47,9 @@ public class probkaTaka implements Runnable {
 
         for (int i = 1; i < 10; i++) {
             try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(probkaTaka.class.getName()).log(Level.SEVERE, null, ex);
             }
           //  System.out.println("Iteracja " + i);
           //  System.out.println(population.findBestAdoptedIndividual());

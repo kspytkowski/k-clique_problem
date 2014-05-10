@@ -118,7 +118,7 @@
               <Component id="graphPanel" min="-2" pref="740" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="buttonsPanel" pref="624" max="32767" attributes="0"/>
+                  <Component id="buttonsPanel" pref="603" max="32767" attributes="0"/>
                   <Component id="chartPanel" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -198,7 +198,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="controlPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="48" max="32767" attributes="0"/>
+                  <EmptySpace pref="69" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

@@ -116,6 +116,17 @@ public class Chart {
     public void repaintChart() {
         chartPanel.repaint();
     }
+    
+    /**
+     * Probably clears plot.
+     * TODO try it if needed to use
+     */
+    public void clearAllSeries() {
+        bestSeries.clear();
+        averageSeries.clear();
+        worstSeries.clear();
+        chartPanel.repaint();
+    }
 
     /**
      * Saves chart to file

@@ -23,6 +23,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
      */
     public KKliqueSolverGUIKRZYSIEK() {
         initComponents();
+        initChart();
     }
 
     /**
@@ -312,7 +313,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                     .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         graphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
@@ -386,7 +387,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                     .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -424,11 +425,22 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         ChartPanel myChartPanel = myChart.getChartPanel();
         chartPanel.removeAll();
         myChartPanel.setSize(chartPanel.getWidth(), chartPanel.getHeight());
+        myChartPanel.setMouseWheelEnabled(true);
         chartPanel.add(myChartPanel);
         Thread t = new Thread(new probkaTaka(graphRepresentation, graphPanelKRZYSIEK, myChart));
         t.start();
     }//GEN-LAST:event_startButtonActionPerformed
 
+    /**
+     * Shows empty chart in GUI.
+     */
+    private void initChart() {
+        Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
+        ChartPanel myChartPanel = myChart.getChartPanel();
+        myChartPanel.setSize(chartPanel.getWidth(), chartPanel.getHeight());
+        chartPanel.add(myChartPanel);
+    }
+    
     private void loadGraphMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loadGraphMenuItemActionPerformed
         JFileChooser databaseFileChooser = new JFileChooser();
         int option = databaseFileChooser.showDialog(this, "Import");
