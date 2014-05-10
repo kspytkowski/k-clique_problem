@@ -1,9 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
-
-import org.jfree.chart.ChartFrame;
-
 import exceptions.GeneticAlgorithmException;
 import genetics.CrossingOverType;
 import genetics.IndividualType;

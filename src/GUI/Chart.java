@@ -13,9 +13,7 @@ import java.io.Writer;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
-import org.apache.batik.svggen.SVGGraphics2DIOException;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -39,24 +37,18 @@ public class Chart {
     private final XYSeries averageSeries; // series that keeps average Individual's fitness
     private final XYSeries worstSeries; // series that keeps worst Individual's fitness
     private final XYSeriesCollection dataset; // set of series
-   // private final ChartFrame chartFrame; // chart frame
-     private final ChartPanel chartPanel; // chart frame
+    private final ChartPanel chartPanel; // chart frame
 
-    
     // u lidki siec czynnosci na wgzaminie, nie siec zdarzen, rob klasy, luki z czasem (kazde zadanie min. 2 łuki => dop
     // rowadzajacy i odprowadzajacy
-
+    
     /**
      * Constructor
-     * 
-     * @param applicationTitle
-     *            - title of main application
-     * @param chartTitle
-     *            - title of Chart
-     * @param xLabel
-     *            - label of x-axis
-     * @param yLabel
-     *            - label of y-axis
+     *
+     * @param applicationTitle - title of main application
+     * @param chartTitle - title of Chart
+     * @param xLabel - label of x-axis
+     * @param yLabel - label of y-axis
      */
     public Chart(String applicationTitle, String chartTitle, String xLabel, String yLabel) {
         bestSeries = new XYSeries("Best");
@@ -67,15 +59,13 @@ public class Chart {
         dataset.addSeries(averageSeries);
         dataset.addSeries(worstSeries);
         jFreeChart = ChartFactory.createXYLineChart(chartTitle, xLabel, yLabel, dataset, PlotOrientation.VERTICAL, true, true, false);
-        //chartFrame = new ChartFrame(applicationTitle, jFreeChart);
         chartPanel = new ChartPanel(jFreeChart);
-        
     }
 
     /**
-     * Creates new ChartFrame with Chart and special parameters
-     * 
-     * @return new ChartFrame
+     * Creates new ChartPanel with Chart and special parameters
+     *
+     * @return new ChartPanel
      */
     public ChartPanel getChartPanel() {
         XYPlot plot = (XYPlot) jFreeChart.getPlot();
@@ -92,11 +82,9 @@ public class Chart {
 
     /**
      * Adds new value to best series
-     * 
-     * @param iterationNumber
-     *            - number of iteration (x - value)
-     * @param newValue
-     *            - new value (y - value)
+     *
+     * @param iterationNumber - number of iteration (x - value)
+     * @param newValue - new value (y - value)
      */
     public void addNewValueToBestSeries(int iterationNumber, double newValue) {
         bestSeries.add(iterationNumber, newValue);
@@ -104,11 +92,9 @@ public class Chart {
 
     /**
      * Adds new value to average series
-     * 
-     * @param iterationNumber
-     *            - number of iteration (x - value)
-     * @param newValue
-     *            - new value (y - value)
+     *
+     * @param iterationNumber - number of iteration (x - value)
+     * @param newValue - new value (y - value)
      */
     public void addNewValueToAverageSeries(int iterationNumber, double newValue) {
         averageSeries.add(iterationNumber, newValue);
@@ -116,11 +102,9 @@ public class Chart {
 
     /**
      * Adds new value to worst series
-     * 
-     * @param iterationNumber
-     *            - number of iteration (x - value)
-     * @param newValue
-     *            - new value (y - value)
+     *
+     * @param iterationNumber - number of iteration (x - value)
+     * @param newValue - new value (y - value)
      */
     public void addNewValueToWorstSeries(int iterationNumber, double newValue) {
         worstSeries.add(iterationNumber, newValue);
@@ -132,38 +116,31 @@ public class Chart {
     public void repaintChart() {
         chartPanel.repaint();
     }
-    
+
+    /**
+     * Saves chart to file
+     *
+     * @param filename - file name
+     */
     public void saveChartToFile(String filename) {
-     // Get a DOMImplementation and create an XML document
-        DOMImplementation domImpl =
-            GenericDOMImplementation.getDOMImplementation();
+        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
         Document document = domImpl.createDocument(null, "svg", null);
-        // Create an instance of the SVG Generator
         SVGGraphics2D svgGenerator = new SVGGraphics2D(document);
-        // draw the chart in the SVG generator
-        jFreeChart.draw(svgGenerator, new Rectangle(1000,600));
-        // Write svg files
-        File aa = new File(filename);
+        jFreeChart.draw(svgGenerator, new Rectangle(1000, 600));
+        File file = new File(filename);
         OutputStream outputStream = null;
         try {
-            outputStream = new FileOutputStream(aa);
+            outputStream = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
         Writer out;
         try {
             out = new OutputStreamWriter(outputStream, "UTF-8");
-            svgGenerator.stream(out, true /* use css */);                       
+            svgGenerator.stream(out, true);
             outputStream.flush();
             outputStream.close();
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
-
     }
 }

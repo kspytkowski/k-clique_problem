@@ -46,10 +46,10 @@ public class ApplicationController {
     // in GUI list of possibilities
     private double mutationProbability = 0.05; // probability that individual will
     // be mutated
-    // in GUI from 0.00 to 0.5 ??
+    // in GUI from 0.00 to 1.0
     private int numberOfIterations = 1000; // after this amount of iterations 
     // algorithm stops (if hasn't found solution earlier)
-    // in GUI from 100 to 2000 ??
+    // in GUI from 100 to 2000 
     
     
     // TODO code about stopCondition and bestAdoptedInEveryIteration
