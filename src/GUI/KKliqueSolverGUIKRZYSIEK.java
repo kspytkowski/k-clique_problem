@@ -63,7 +63,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         numberOfGroupsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(4, 4, 16, 1));
         binaryCodingCheckBox = new javax.swing.JCheckBox();
         graphPanel = new javax.swing.JPanel();
-        chartPanel = new javax.swing.JPanel();
+        chartPanelInGUI = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -310,7 +310,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(crossingOverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(mutationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(69, Short.MAX_VALUE))
@@ -321,17 +321,17 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         graphPanel.setMinimumSize(new java.awt.Dimension(100, 100));
         graphPanel.setLayout(new java.awt.BorderLayout());
 
-        chartPanel.setBackground(new java.awt.Color(254, 254, 254));
-        chartPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
+        chartPanelInGUI.setBackground(new java.awt.Color(254, 254, 254));
+        chartPanelInGUI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
 
-        javax.swing.GroupLayout chartPanelLayout = new javax.swing.GroupLayout(chartPanel);
-        chartPanel.setLayout(chartPanelLayout);
-        chartPanelLayout.setHorizontalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout chartPanelInGUILayout = new javax.swing.GroupLayout(chartPanelInGUI);
+        chartPanelInGUI.setLayout(chartPanelInGUILayout);
+        chartPanelInGUILayout.setHorizontalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        chartPanelLayout.setVerticalGroup(
-            chartPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        chartPanelInGUILayout.setVerticalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -388,7 +388,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
-                    .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -399,7 +399,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(graphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -421,13 +421,13 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     }//GEN-LAST:event_groupCodingCheckBoxActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
-        ChartPanel myChartPanel = myChart.getChartPanel();
-        chartPanel.removeAll();
-        myChartPanel.setSize(chartPanel.getWidth(), chartPanel.getHeight());
-        myChartPanel.setMouseWheelEnabled(true);
-        chartPanel.add(myChartPanel);
-        Thread t = new Thread(new probkaTaka(graphRepresentation, graphPanelKRZYSIEK, myChart));
+        Chart plot = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
+        ChartPanel chartPanel = plot.getChartPanel();
+        chartPanelInGUI.removeAll();
+        chartPanel.setSize(chartPanelInGUI.getWidth(), chartPanelInGUI.getHeight());
+        chartPanel.setMouseWheelEnabled(true);
+        chartPanelInGUI.add(chartPanel);
+        Thread t = new Thread(new probkaTaka(graphRepresentation, graphPanelKRZYSIEK, plot));
         t.start();
     }//GEN-LAST:event_startButtonActionPerformed
 
@@ -437,8 +437,8 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     private void initChart() {
         Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
         ChartPanel myChartPanel = myChart.getChartPanel();
-        myChartPanel.setSize(chartPanel.getWidth(), chartPanel.getHeight());
-        chartPanel.add(myChartPanel);
+        myChartPanel.setSize(chartPanelInGUI.getWidth(), chartPanelInGUI.getHeight());
+        chartPanelInGUI.add(myChartPanel);
     }
     
     private void loadGraphMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loadGraphMenuItemActionPerformed
@@ -491,7 +491,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     private javax.swing.JSpinner amountOfIndividualsSpinner;
     private javax.swing.JCheckBox binaryCodingCheckBox;
     private javax.swing.JPanel buttonsPanel;
-    private javax.swing.JPanel chartPanel;
+    private javax.swing.JPanel chartPanelInGUI;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel crossingOverPanel;
     private javax.swing.JLabel crossingOverProbabilityLabel;

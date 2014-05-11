@@ -119,7 +119,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="buttonsPanel" pref="603" max="32767" attributes="0"/>
-                  <Component id="chartPanel" max="32767" attributes="0"/>
+                  <Component id="chartPanelInGUI" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -133,7 +133,7 @@
                   <Group type="102" attributes="0">
                       <Component id="buttonsPanel" min="-2" pref="298" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="chartPanel" max="32767" attributes="0"/>
+                      <Component id="chartPanelInGUI" max="32767" attributes="0"/>
                   </Group>
                   <Component id="graphPanel" max="32767" attributes="0"/>
               </Group>
@@ -578,7 +578,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
     </Container>
-    <Container class="javax.swing.JPanel" name="chartPanel">
+    <Container class="javax.swing.JPanel" name="chartPanelInGUI">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="fe" green="fe" red="fe" type="rgb"/>
