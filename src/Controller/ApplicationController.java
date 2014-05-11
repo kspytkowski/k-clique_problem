@@ -44,6 +44,7 @@ public class ApplicationController extends Thread {
     private GraphVisualizationActualizer graphActualizer;
     private PlotActualizer chartActualizer;
     private boolean paused = true;
+    private boolean finished = true;
 
     public void setActualizers(GraphVisualizationActualizer graphActualizer, PlotActualizer chartActualizer) {
         this.graphActualizer = graphActualizer;
@@ -135,6 +136,13 @@ public class ApplicationController extends Thread {
     }
 
     /**
+     * Stops algorithm.
+     */
+    public void stopSolving() {
+        finished = true;
+    }
+    
+    /**
      * Pauses thread.
      */
     public void pauseSolving() {
@@ -190,7 +198,7 @@ public class ApplicationController extends Thread {
         try {
             Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding, numberOfGroupsInGroupEncoding);
             int rate = (int) ceil(numberOfIterations / numberOfGroupsInGroupEncoding);
-            boolean finished = false;
+            finished = false;
             for (int i = 1; !finished; i++) {
                 if (i % rate == 0) {
                     population.singleLifeCycle(true, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
@@ -219,7 +227,7 @@ public class ApplicationController extends Thread {
     private void runWithBinaryEncoding() {
         try {
             Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding);
-            boolean finished = false;
+            finished = false;
             for (int i = 1; !finished; i++) {
                 population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 actualBestindividual = population.findBestAdoptedIndividual();

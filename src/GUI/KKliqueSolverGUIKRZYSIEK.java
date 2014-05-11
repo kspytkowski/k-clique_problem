@@ -14,7 +14,9 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import org.jfree.chart.ChartPanel;
 
@@ -225,6 +227,11 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         });
 
         stopButton.setText("STOP");
+        stopButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stopButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -436,6 +443,10 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
             controller.resumeSolving();
         }
     }//GEN-LAST:event_startButtonActionPerformed
+
+    private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        controller.stopSolving();
+    }//GEN-LAST:event_stopButtonActionPerformed
 
     /**
      * Adds and shows empty chart in GUI.
