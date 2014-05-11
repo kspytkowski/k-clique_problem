@@ -203,6 +203,9 @@ public class ApplicationController extends Thread {
                     finished = true;
                 }
                 actualizePlot(i, population);
+                if (i % 5 == 0) {
+                    graphActualizer.actualize();
+                }
             }
             population.ex.shutdownNow();
         } catch (GeneticAlgorithmException ex) {
@@ -225,6 +228,9 @@ public class ApplicationController extends Thread {
                     finished = true;
                 }
                 actualizePlot(i, population);
+                if (i % 5 == 0) {
+                    graphActualizer.actualize();
+                }
             }
             population.ex.shutdownNow();
         } catch (GeneticAlgorithmException ex) {
@@ -243,7 +249,6 @@ public class ApplicationController extends Thread {
         plot.addNewValueToAverageSeries(iteration, population.averageIndividualsFitness());
         plot.addNewValueToWorstSeries(iteration, population.findWorstAdoptedIndividual().getFitness());
         chartActualizer.actualize();
-        graphActualizer.actualize();
     }
 
     /**

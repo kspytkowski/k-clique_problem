@@ -10,6 +10,8 @@ import genetics.IndividualType;
 import genetics.SelectionType;
 import graph.GraphRepresentation;
 import graph.LayoutType;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -25,7 +27,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     ApplicationController controller = new ApplicationController();
     GraphVisualizationActualizer graphActualizer;
     PlotActualizer chartActualizer;
-    
+
     /**
      * Creates new form KKliqueSolverGUI
      */
@@ -69,7 +71,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         numberOfGenerationsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(500, 100, 2000, 1));
         controlPanel = new javax.swing.JPanel();
         startButton = new javax.swing.JButton();
-        pauseButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
         individualsEncodingPanel = new javax.swing.JPanel();
         groupCodingCheckBox = new javax.swing.JCheckBox();
@@ -223,8 +224,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
             }
         });
 
-        pauseButton.setText("PAUSE");
-
         stopButton.setText("STOP");
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
@@ -235,8 +234,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(startButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pauseButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -244,7 +241,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(startButton)
-                .addComponent(pauseButton)
                 .addComponent(stopButton))
         );
 
@@ -435,8 +431,10 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         actualizeController();
-        controller.getPlot().clearAllSeries();
-        controller.resumeSolving();
+        if (controller.getGraphRepresentation() != null) {
+            controller.getPlot().clearAllSeries();
+            controller.resumeSolving();
+        }
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**
@@ -539,7 +537,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     private javax.swing.JLabel numberOfGroupsLabel;
     private javax.swing.JSpinner numberOfGroupsSpinner;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JButton pauseButton;
     private javax.swing.JPanel populationPanel;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
