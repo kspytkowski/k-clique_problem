@@ -1,7 +1,13 @@
 package GUI;
 
+import Controller.GraphVisualizationActualizer;
+import Controller.ApplicationController;
+import Controller.PlotActualizer;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import genetics.CrossingOverType;
+import genetics.IndividualType;
+import genetics.SelectionType;
 import graph.GraphRepresentation;
 import graph.LayoutType;
 
@@ -16,14 +22,22 @@ import org.jfree.chart.ChartPanel;
  */
 public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
 
-    GraphRepresentation graphRepresentation = null;
-
+    ApplicationController controller = new ApplicationController();
+    GraphVisualizationActualizer graphActualizer;
+    PlotActualizer chartActualizer;
+    
     /**
      * Creates new form KKliqueSolverGUI
      */
     public KKliqueSolverGUIKRZYSIEK() {
         initComponents();
         initChart();
+        graphActualizer = new GraphVisualizationActualizer(controller, graphPanelKRZYSIEK);
+        chartActualizer = new PlotActualizer(chartPanelInGUI);
+        controller.setActualizers(graphActualizer, chartActualizer);
+        graphActualizer.start();
+        chartActualizer.start();
+        controller.start();
     }
 
     /**
@@ -420,34 +434,44 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     }//GEN-LAST:event_groupCodingCheckBoxActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        Chart plot = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
-        ChartPanel chartPanel = plot.getChartPanel();
-        chartPanelInGUI.removeAll();
-        chartPanel.setSize(chartPanelInGUI.getWidth(), chartPanelInGUI.getHeight());
-        chartPanel.setMouseWheelEnabled(true);
-        chartPanelInGUI.add(chartPanel);
-        Thread t = new Thread(new probkaTaka(graphRepresentation, graphPanelKRZYSIEK, plot));
-        t.start();
+        actualizeController();
+        controller.getPlot().clearAllSeries();
+        controller.resumeSolving();
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**
-     * Shows empty chart in GUI.
+     * Adds and shows empty chart in GUI.
      */
     private void initChart() {
-        Chart myChart = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
-        ChartPanel myChartPanel = myChart.getChartPanel();
+        ChartPanel myChartPanel = controller.getPlot().getChartPanel();
         myChartPanel.setSize(chartPanelInGUI.getWidth(), chartPanelInGUI.getHeight());
         chartPanelInGUI.add(myChartPanel);
     }
-    
+
+    /**
+     * Actualizes controller with data collected from GUI.
+     */
+    private void actualizeController() {
+        controller.setNumberOfIndividuals((int) amountOfIndividualsSpinner.getValue());
+        controller.setCrossingOverProbability((double) crossingOverProbabilitySpinner.getValue());
+        controller.setHowToCross(CrossingOverType.getAtIndex(crossingOverTypeComboBox.getSelectedIndex()));
+        controller.setHowToSelect(SelectionType.getAtIndex(selectionTypeComboBox.getSelectedIndex()));
+        controller.setIndividualEncoding((groupCodingCheckBox.isSelected()) ? IndividualType.GROUPCODEDINDIVIDUAL : IndividualType.BINARYCODEDINDIVIDUAL);
+        if (groupCodingCheckBox.isSelected()) {
+            controller.setNumberOfGroupsInGroupEncoding((int) numberOfGroupsSpinner.getValue());
+        }
+        controller.setMutationProbability((double) mutationProbabilitySpinner.getValue());
+        controller.setNumberOfIterations((int) numberOfGenerationsSpinner.getValue());
+    }
+
     private void loadGraphMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loadGraphMenuItemActionPerformed
         JFileChooser databaseFileChooser = new JFileChooser();
         int option = databaseFileChooser.showDialog(this, "Import");
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
-                graphRepresentation = new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath(), 9);
+                controller.setGraphRepresentation(new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath(), 9));
                 graphPanelKRZYSIEK.setLayoutType(LayoutType.CIRCLE);
-                graphPanelKRZYSIEK.displayNewGraph(graphRepresentation.getGraph());
+                graphPanelKRZYSIEK.displayNewGraph(controller.getGraphRepresentation().getGraph());
             } catch (NoPossibilityToCreateGraphException | ProblemWithReadingGraphFromFileException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }

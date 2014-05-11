@@ -3,6 +3,7 @@
  */
 package Controller;
 
+import GUI.Chart;
 import exceptions.GeneticAlgorithmException;
 import genetics.AbstractIndividual;
 import genetics.CrossingOverType;
@@ -15,59 +16,50 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * klasa będzie odpalała wątek z gui
- *
- * @author wukat
- */
-public class ApplicationController {
+public class ApplicationController extends Thread {
 
     /**
-     * Data collected from GUI, needed to run genetic algorithm Default values
-     * also set in GUI
+     * Data collected from GUI, needed to run genetic algorithm.
      */
-    private GraphRepresentation graph = null; // graph on which algorithm will run
+    private GraphRepresentation graphRepresentation = null; // graphRepresentation on which algorithm will run
     // can be drawn, loaded from file or generated
     private int numberOfIndividuals = 20; // number of individuals in population
-    // in GUI from 10 to 100
     private IndividualType individualEncoding = IndividualType.GROUPCODEDINDIVIDUAL;
     // the way individuals' chromosomes are encoded
-    // in GUI group of checkboxes
     private int numberOfGroupsInGroupEncoding = 8; // number of subgraphs in 
     // chromosome, applicable to group coded individual
-    // in GUI set from 4 to 32 (or 16)
     private SelectionType howToSelect = SelectionType.ROULETTEWHEELSELECTION;
     // selection type
     // in GUI list of possibilities
     private double crossingOverProbability = 0.6; // probability of crossing over 
-    // in GUI form 0 to 1
     private CrossingOverType howToCross = CrossingOverType.ONEPOINTWITHONECHILD;
     // method of crossing over
-    // in GUI list of possibilities
     private double mutationProbability = 0.05; // probability that individual will
     // be mutated
-    // in GUI from 0.00 to 1.0
     private int numberOfIterations = 1000; // after this amount of iterations 
     // algorithm stops (if hasn't found solution earlier)
-    // in GUI from 100 to 2000 
-    
-    
-    // TODO code about stopCondition and bestAdoptedInEveryIteration
-    private double stopCondition = 1.0; // if fitness of best adopted individual
-    // is equal or higher, stop
-    // in GUI from 0 to 1
-    
-    private ArrayList<AbstractIndividual> bestAdoptedInEveryIteration = null; 
+    private final Chart plot = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
+    // plot
+    private AbstractIndividual actualBestindividual; // best in last iteration
+    private GraphVisualizationActualizer graphActualizer;
+    private PlotActualizer chartActualizer;
+    private boolean paused = true;
+
+    public void setActualizers(GraphVisualizationActualizer graphActualizer, PlotActualizer chartActualizer) {
+        this.graphActualizer = graphActualizer;
+        this.chartActualizer = chartActualizer;
+    }
+
+    private ArrayList<AbstractIndividual> bestAdoptedInEveryIteration = null;
     // contains array of best adopted individuals
 
-    // also reference to GUI here
     /**
      * Setter
      *
-     * @param graph
+     * @param graphRepresentation
      */
-    public void setGraph(GraphRepresentation graph) {
-        this.graph = graph;
+    public void setGraphRepresentation(GraphRepresentation graphRepresentation) {
+        this.graphRepresentation = graphRepresentation;
     }
 
     /**
@@ -143,16 +135,44 @@ public class ApplicationController {
     }
 
     /**
-     * Actualizes data to genetic algorithm.
+     * Pauses thread.
      */
-    public void collectDataFromGUI() {
-        // invokes GUI method that collects data and - using setters - sets it
+    public void pauseSolving() {
+        paused = true;
+    }
+
+    /**
+     * Resumes thread.
+     */
+    public synchronized void resumeSolving() {
+        paused = false;
+        notify();
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            if (!paused) {
+                runAlgorithm();
+                pauseSolving();
+            }
+            synchronized (this) {
+                while (paused) {
+                    try {
+                        wait();
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(GraphVisualizationActualizer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Invokes proper algorithm in according to individual encoding.
      */
     public void runAlgorithm() {
+        bestAdoptedInEveryIteration = new ArrayList<>();
         switch (individualEncoding) {
             case GROUPCODEDINDIVIDUAL:
                 runWithGroupEncoding();
@@ -168,7 +188,7 @@ public class ApplicationController {
      */
     private void runWithGroupEncoding() {
         try {
-            Population population = new Population(numberOfIndividuals, graph, individualEncoding, numberOfGroupsInGroupEncoding);
+            Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding, numberOfGroupsInGroupEncoding);
             int rate = (int) ceil(numberOfIterations / numberOfGroupsInGroupEncoding);
             boolean finished = false;
             for (int i = 1; !finished; i++) {
@@ -177,11 +197,14 @@ public class ApplicationController {
                 } else {
                     population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 }
-                if (population.findBestAdoptedIndividual().getFitness() == 1 || i == numberOfIterations) {
+                actualBestindividual = population.findBestAdoptedIndividual();
+                bestAdoptedInEveryIteration.add(actualBestindividual);
+                if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
                     finished = true;
                 }
-                // GUI actualizeChartAndGraph(i, population, finished);
+                actualizePlot(i, population);
             }
+            population.ex.shutdownNow();
         } catch (GeneticAlgorithmException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -192,17 +215,61 @@ public class ApplicationController {
      */
     private void runWithBinaryEncoding() {
         try {
-            Population population = new Population(numberOfIndividuals, graph, individualEncoding);;
+            Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding);
             boolean finished = false;
             for (int i = 1; !finished; i++) {
                 population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
-                if (population.findBestAdoptedIndividual().getFitness() == 1 || i == numberOfIterations) {
+                actualBestindividual = population.findBestAdoptedIndividual();
+                bestAdoptedInEveryIteration.add(actualBestindividual);
+                if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
                     finished = true;
                 }
-                // GUI actualizeChartAndGraph(i, population, finished);
+                actualizePlot(i, population);
             }
+            population.ex.shutdownNow();
         } catch (GeneticAlgorithmException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Actualizes series of data in plot.
+     *
+     * @param iteration - number of algorithm iteration
+     * @param population - population to get data from
+     */
+    public void actualizePlot(int iteration, Population population) {
+        plot.addNewValueToBestSeries(iteration, population.findBestAdoptedIndividual().getFitness());
+        plot.addNewValueToAverageSeries(iteration, population.averageIndividualsFitness());
+        plot.addNewValueToWorstSeries(iteration, population.findWorstAdoptedIndividual().getFitness());
+        chartActualizer.actualize();
+        graphActualizer.actualize();
+    }
+
+    /**
+     * Getter
+     *
+     * @return current plot
+     */
+    public Chart getPlot() {
+        return this.plot;
+    }
+
+    /**
+     * Getter
+     *
+     * @return graph represantation
+     */
+    public GraphRepresentation getGraphRepresentation() {
+        return graphRepresentation;
+    }
+
+    /**
+     * Getter
+     *
+     * @return best in last iteration
+     */
+    public AbstractIndividual getActualBestindividual() {
+        return actualBestindividual;
     }
 }

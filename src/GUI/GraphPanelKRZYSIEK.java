@@ -22,92 +22,85 @@ import graph.GraphVisualisation;
 import graph.LayoutType;
 
 /**
- * 
+ *
  * @author wukat
  */
 public class GraphPanelKRZYSIEK extends JPanel {
 
-    
     private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
     private Layout<Integer, String> actualGrLayout = null; // displayed layout
     private Graph<Integer, String> graph; // graph
     private LayoutType layoutType = LayoutType.CIRCLE; // actually chosen layout of a graph
     AbstractIndividual best;
 
-    
     public void setBest(AbstractIndividual best) {
         this.best = best;
     }
+
     /**
      * Constructor
      */
     public GraphPanelKRZYSIEK() {
         setBackground(Color.white);
+        setDoubleBuffered(true);
     }
 
     /**
      * Sets new layout type
-     * 
-     * @param layoutType
-     *            - type of layout
+     *
+     * @param layoutType - type of layout
      */
     public void setLayoutType(LayoutType layoutType) {
         this.layoutType = layoutType;
     }
 
+    @Override
     public void repaint() {
         super.repaint();
         if (graph != null) {
             add(actualizeVisualization(best));
+            remove(0);
             validate();
-            revalidate();
         }
     }
 
     /**
      * Function actualizes graph on the screen
-     * 
-     * @param g
-     *            - new graph
-     * @param layoutType
-     *            - type of layout to visualization of graph
+     *
+     * @param g - new graph
+     * @param layoutType - type of layout to visualization of graph
      */
     public final void displayNewGraph(Graph<Integer, String> g) {
         this.graph = g;
-        
         add(actualizeVisualization(null));
         validate();
-        revalidate();
     }
 
     /**
      * Creates visualization of a graph with best one from population
-     * 
-     * @param bestOne
-     *            - best subgraph from population
+     *
+     * @param bestOne - best subgraph from population
      * @return visualization
      */
-    public VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne) { // Individual => AbstractIndividual
-        removeAll();
+    public VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne) {
         setBest(bestOne);
         actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
         vv = new VisualizationViewer<>(actualGrLayout, getSize());
-        vv.setBackground(Color.WHITE);
-     //   vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
+        //   vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
 
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));
         vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
         vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
+        vv.setBackground(Color.WHITE);
         return vv;
     }
 
     /**
-     * Paints edges - if it's in a best one, it's blue; otherwise black
+     * Paints edges - if it's in a best one, it's blue; otherwise black.
      */
     public class EdgePainting implements Transformer<String, Paint> {
 
-        // byte[] arr; // array with notes of vertices
         AbstractIndividual a;
 
         public void setIndividual(AbstractIndividual a) {
@@ -116,9 +109,8 @@ public class GraphPanelKRZYSIEK extends JPanel {
 
         /**
          * Constructor
-         * 
-         * @param arr
-         *            - array with notes of vertices
+         *
+         * @param arr - array with notes of vertices
          */
         public EdgePainting(AbstractIndividual arr) {
             this.a = arr;
@@ -129,7 +121,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
             if (a != null) {
                 boolean flag = false;
                 for (int i : graph.getEndpoints(e)) {
-                    if (a.getChromosome()[i - 1] == 0) {
+                    if (a.getChromosome()[i - 1] != 0) {
                         flag = true;
                     }
                 }
@@ -147,7 +139,6 @@ public class GraphPanelKRZYSIEK extends JPanel {
     public class EdgeThickness implements Transformer<String, Stroke> {
 
         AbstractIndividual arr;
-        // byte[] arr; // array with notes of vertices
         protected final Stroke THIN = new BasicStroke(1); // thickness
         protected final Stroke THICK = new BasicStroke(2);
 
@@ -157,9 +148,8 @@ public class GraphPanelKRZYSIEK extends JPanel {
 
         /**
          * Constructor
-         * 
-         * @param arr
-         *            - array with notes of vertices
+         *
+         * @param arr - array with notes of vertices
          */
         public EdgeThickness(AbstractIndividual arr) {
             this.arr = arr;
@@ -170,7 +160,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
             if (arr != null) {
                 boolean flag = false;
                 for (int i : graph.getEndpoints(e)) {
-                    if (arr.getChromosome()[i - 1] == 0) {
+                    if (arr.getChromosome()[i - 1] != 0) {
                         flag = true;
                     }
                 }
@@ -208,9 +198,8 @@ public class GraphPanelKRZYSIEK extends JPanel {
 
         /**
          * Constructor
-         * 
-         * @param arr
-         *            - array with notes of vertices
+         *
+         * @param arr - array with notes of vertices
          */
         public VertexPainting(AbstractIndividual arr) {
             this.arr = arr;
@@ -219,7 +208,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
         @Override
         public Paint transform(Integer i) {
             if (arr != null) {
-                if (1 == arr.getChromosome()[i - 1]) { // zamin na 0 i w bunary 0 beda tez najlepsze
+                if (0 == arr.getChromosome()[i - 1]) {
                     return Color.YELLOW;
                 }
             }

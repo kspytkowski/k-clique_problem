@@ -75,6 +75,6 @@ public class MainTestNowy {
             }
 //            myChart.saveChartToFile("tmp30_" + j);
 //        }
-          System.out.println(Population.ex.shutdownNow());
+//          System.out.println(Population.ex.shutdownNow());
     }
 }
