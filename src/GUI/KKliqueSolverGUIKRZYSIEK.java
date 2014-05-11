@@ -41,18 +41,18 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         crossingOverProbabilityLabel = new javax.swing.JLabel();
         crossingOverTypeLabel = new javax.swing.JLabel();
         crossingOverTypeComboBox = new javax.swing.JComboBox();
-        crossingOverProbabilitySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0, 0.00, 1.0, 0.01));
+        crossingOverProbabilitySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0.6, 0.00, 1.0, 0.01));
         mutationPanel = new javax.swing.JPanel();
         mutationProbabilityLabel = new javax.swing.JLabel();
-        mutationProbabilitySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0, 0.00, 1.0, 0.01));
+        mutationProbabilitySpinner = new javax.swing.JSpinner(new SpinnerNumberModel(0.05, 0.00, 1.0, 0.01));
         selectionPanel = new javax.swing.JPanel();
         selectionTypeComboBox = new javax.swing.JComboBox();
         selectionTypeLabel = new javax.swing.JLabel();
         populationPanel = new javax.swing.JPanel();
         amountOfIndividualsLabel = new javax.swing.JLabel();
-        amountOfIndividualsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(10, 10, 100, 1));
+        amountOfIndividualsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(20, 10, 100, 1));
         numberOfGenerationsLabel = new javax.swing.JLabel();
-        numberOfGenerationsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(100, 100, 2000, 1));
+        numberOfGenerationsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(500, 100, 2000, 1));
         controlPanel = new javax.swing.JPanel();
         startButton = new javax.swing.JButton();
         pauseButton = new javax.swing.JButton();
@@ -87,7 +87,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        buttonsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        buttonsPanel.setBorder(null);
         buttonsPanel.setMaximumSize(new java.awt.Dimension(612, 322));
         buttonsPanel.setPreferredSize(new java.awt.Dimension(612, 366));
 
@@ -100,7 +100,6 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         crossingOverTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "one point with two children", "one point with one child", "uniform", "weighted uniform", "two points with two children", "two points with one child" }));
 
         crossingOverProbabilitySpinner.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        crossingOverProbabilitySpinner.setValue(0);
 
         javax.swing.GroupLayout crossingOverPanelLayout = new javax.swing.GroupLayout(crossingOverPanel);
         crossingOverPanel.setLayout(crossingOverPanelLayout);
@@ -310,10 +309,10 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(crossingOverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mutationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         graphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
@@ -387,7 +386,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 .addComponent(graphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                     .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );

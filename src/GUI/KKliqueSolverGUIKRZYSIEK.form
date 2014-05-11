@@ -118,7 +118,7 @@
               <Component id="graphPanel" min="-2" pref="740" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="buttonsPanel" pref="603" max="32767" attributes="0"/>
+                  <Component id="buttonsPanel" pref="599" max="32767" attributes="0"/>
                   <Component id="chartPanelInGUI" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -146,9 +146,7 @@
     <Container class="javax.swing.JPanel" name="buttonsPanel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-            <EtchetBorder/>
-          </Border>
+          <Border info="null"/>
         </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[612, 322]"/>
@@ -198,7 +196,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="controlPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                  <EmptySpace pref="73" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -269,12 +267,9 @@
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Default Cursor"/>
                 </Property>
-                <Property name="value" type="java.lang.Object" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="0" type="code"/>
-                </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0, 0.00, 1.0, 0.01))"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0.6, 0.00, 1.0, 0.01))"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -318,7 +313,7 @@
             </Component>
             <Component class="javax.swing.JSpinner" name="mutationProbabilitySpinner">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0, 0.00, 1.0, 0.01))"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0.05, 0.00, 1.0, 0.01))"/>
               </AuxValues>
             </Component>
           </SubComponents>
@@ -412,7 +407,7 @@
             </Component>
             <Component class="javax.swing.JSpinner" name="amountOfIndividualsSpinner">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(10, 10, 100, 1))"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(20, 10, 100, 1))"/>
               </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="numberOfGenerationsLabel">
@@ -422,7 +417,7 @@
             </Component>
             <Component class="javax.swing.JSpinner" name="numberOfGenerationsSpinner">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(100, 100, 2000, 1))"/>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(500, 100, 2000, 1))"/>
               </AuxValues>
             </Component>
           </SubComponents>
