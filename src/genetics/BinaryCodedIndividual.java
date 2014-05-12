@@ -15,11 +15,13 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     @Override
     // there are only two groups in this type of coding so we do not need to remove anything
-    public void removeWorstGroupAndSplitIntoOthers() {}
+    public void removeWorstGroupAndSplitIntoOthers() {
+    }
 
     @Override
     // there are only two groups in this type of coding so we do not need to remove anything
-    public void removeWorstGroup() {}
+    public void removeWorstGroup() {
+    }
 
     /**
      * Constructor - creates subgraph that has size of kCliqueSize - chooses
@@ -39,9 +41,12 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         Random rand = new Random();
         for (int i = 0; i < graph.getsearchedKCliqueSize(); i++) {
             int k = helpList.get(rand.nextInt(graph.getVertexCount() - i));
-            chromosome[k] = 0; // 1!
+            chromosome[k] = 1; // 1!
             helpList.remove((Integer) k);
         }
+        for (int i = 0; i < graph.getVertexCount(); i++) { //new!
+            chromosome[i] = (chromosome[i] == 0) ? 1 : 0;             
+        } //new!
         determineIndividualFitness();
     }
 
@@ -78,6 +83,8 @@ public class BinaryCodedIndividual extends AbstractIndividual {
                 }
             }
         }
+        System.out.println(edgesAmount);
+        System.out.println(getActiveGenesAmount());
         double isKClique = 0.0;
         if (getActiveGenesAmount() > 1) {
             isKClique = (double) edgesAmount / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
@@ -87,6 +94,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             // czyJestKKlika = k > graph.getsearchedKCliqueSize() ? 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * k /
             // graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         }
+        System.out.println(isKClique);
         setFitness(isKClique);
     }
 
