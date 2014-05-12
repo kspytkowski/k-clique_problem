@@ -99,7 +99,6 @@ public class Population {
             removeWorstGroupInGroupEncoding();
             numberOfGroups--;
             determineEveryIndividualFitness();
-            System.out.println(numberOfGroups);
         }
         Selection.proceedSelection(selection, this);
         CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);

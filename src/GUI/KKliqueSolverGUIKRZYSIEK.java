@@ -36,7 +36,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     public KKliqueSolverGUIKRZYSIEK() {
         initComponents();
         initChart();
-        graphActualizer = new GraphVisualizationActualizer(controller, graphPanelKRZYSIEK);
+        graphActualizer = new GraphVisualizationActualizer(controller, graphPanelKRZYSIEK, stopButton, startButton);
         chartActualizer = new PlotActualizer(chartPanelInGUI);
         controller.setActualizers(graphActualizer, chartActualizer);
         graphActualizer.start();
@@ -227,6 +227,7 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
         });
 
         stopButton.setText("STOP");
+        stopButton.setEnabled(false);
         stopButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
@@ -438,14 +439,23 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
         actualizeController();
-        if (controller.getGraphRepresentation() != null) {
-            controller.getPlot().clearAllSeries();
-            controller.resumeSolving();
+        while (!controller.isFinished()) {
+            controller.stopSolving();
+        }
+        synchronized (controller) {
+            if (controller.getGraphRepresentation() != null) {
+                startButton.setEnabled(false);
+                stopButton.setEnabled(true);
+                controller.getPlot().clearAllSeries();
+                controller.resumeSolving();
+            }
         }
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
+        stopButton.setEnabled(false);
         controller.stopSolving();
+        startButton.setEnabled(true);
     }//GEN-LAST:event_stopButtonActionPerformed
 
     /**
@@ -501,10 +511,12 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(KKliqueSolverGUIKRZYSIEK.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KKliqueSolverGUIKRZYSIEK.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         // </editor-fold>
 

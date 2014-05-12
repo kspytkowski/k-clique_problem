@@ -3,12 +3,15 @@ package Controller;
 import GUI.GraphPanelKRZYSIEK;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
 
 public class GraphVisualizationActualizer extends Thread {
 
     private boolean paused = true; // flag
     private final ApplicationController controller; // aplication controller
     private final GraphPanelKRZYSIEK graphPanelKRZYSIEK; // panel with graph to actualize
+    private final JButton stopButton; // button stopping application
+    private final JButton startButton; // button starting application
 
     /**
      * Constructor
@@ -16,9 +19,11 @@ public class GraphVisualizationActualizer extends Thread {
      * @param controller - aplication controller
      * @param graphPanelKRZYSIEK - panel with graph to actualize
      */
-    public GraphVisualizationActualizer(ApplicationController controller, GraphPanelKRZYSIEK graphPanelKRZYSIEK) {
+    public GraphVisualizationActualizer(ApplicationController controller, GraphPanelKRZYSIEK graphPanelKRZYSIEK, JButton stopButton, JButton startButton) {
         this.controller = controller;
         this.graphPanelKRZYSIEK = graphPanelKRZYSIEK;
+        this.stopButton = stopButton;
+        this.startButton = startButton;
     }
 
     /**
@@ -42,6 +47,10 @@ public class GraphVisualizationActualizer extends Thread {
             if (!paused) {
                 graphPanelKRZYSIEK.actualizeVisualization(controller.getActualBestindividual());
                 graphPanelKRZYSIEK.repaint();
+                if (controller.isFinished()) {
+                    startButton.setEnabled(true);
+                    stopButton.setEnabled(false);
+                }
                 pauseActualizer();
             }
             synchronized (this) {
