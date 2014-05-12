@@ -49,7 +49,7 @@ public class MainTestNowy {
          System.out.println(a.getAmountOfVertexesInGroup(i) + " " + a.determineFitnessOfSubrgaph(i));
          }*/
         //for (int j = 0; j < 20; j++) {
-            Population population = new Population(20, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
+            Population population = new Population(40, gr, IndividualType.GROUPCODEDINDIVIDUAL, 12);
 //        Population population = new Population(20, gr, IndividualType.BINARYCODEDINDIVIDUAL);
             // Population population = new Population(50, gr, IndividualType.GROUPCODEDINDIVIDUAL,22);
 //            Chart myChart = new Chart("K-clique solver", "Przystosowanie osobników w populacji", "Iteracja", "Przystosowanie");
