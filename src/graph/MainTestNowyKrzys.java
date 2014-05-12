@@ -23,7 +23,8 @@ static Random rand = new Random();
         GraphRepresentation gr = null;
         try {
             // gr = new GraphRepresentation("graph", 4);
-            gr = new GraphRepresentation(128, 6326, 67, 67);
+            gr = new GraphRepresentation(128, 6326, 67);
+            gr.setsearchedKCliqueSize(67);
             // gr = new GraphRepresentation(64, 300, 20, true);
             // gr = new GraphRepresentation(10, 6, 3, true);
         } catch (NoPossibilityToCreateGraphException e) {

@@ -485,7 +485,9 @@ public class KKliqueSolverGUIKRZYSIEK extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void searchedKCliqueSizeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchedKCliqueSizeSliderStateChanged
+        if (controller.getGraphRepresentation() != null && searchedKCliqueSizeSlider.getValue() != 0)
         controller.getGraphRepresentation().setsearchedKCliqueSize(searchedKCliqueSizeSlider.getValue());
+        //System.out.println(searchedKCliqueSizeSlider.getValue());
     }//GEN-LAST:event_searchedKCliqueSizeSliderStateChanged
 
     /**

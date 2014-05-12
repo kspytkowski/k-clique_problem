@@ -15,7 +15,8 @@ public class NajnowszyMain {
 
         GraphRepresentation gr = null;
         try {
-            gr = new GraphRepresentation(128, 6326, 67, 50);
+            gr = new GraphRepresentation(128, 6326, 67);
+            gr.setsearchedKCliqueSize(50);
         } catch (NoPossibilityToCreateGraphException e) {
             e.printStackTrace();
         } catch (GeneticAlgorithmException e) {
