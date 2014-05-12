@@ -46,6 +46,10 @@ public class ApplicationController extends Thread {
     private boolean paused = true;
     private boolean finished = true;
 
+    public boolean isFinished() {
+        return finished;
+    }
+
     public void setActualizers(GraphVisualizationActualizer graphActualizer, PlotActualizer chartActualizer) {
         this.graphActualizer = graphActualizer;
         this.chartActualizer = chartActualizer;
@@ -211,7 +215,7 @@ public class ApplicationController extends Thread {
                     finished = true;
                 }
                 actualizePlot(i, population);
-                if (i % 5 == 0) {
+                if (i % 5 == 0 || finished) {
                     graphActualizer.actualize();
                 }
             }
@@ -236,7 +240,7 @@ public class ApplicationController extends Thread {
                     finished = true;
                 }
                 actualizePlot(i, population);
-                if (i % 5 == 0) {
+                if (i % 5 == 0 || finished) {
                     graphActualizer.actualize();
                 }
             }
