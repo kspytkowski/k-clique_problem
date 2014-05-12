@@ -37,8 +37,8 @@ public class PlotActualizer extends Thread {
     public void run() {
         while (true) {
             if (!paused) {
-                chartPanelInGUI.repaint();
                 pauseActualizer();
+                chartPanelInGUI.repaint();
             }
             synchronized (this) {
                 while (paused) {

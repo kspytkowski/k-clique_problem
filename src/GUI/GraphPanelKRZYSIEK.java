@@ -59,6 +59,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
         super.repaint();
         if (graph != null) {
             add(actualizeVisualization(best));
+            System.out.println(best);
             remove(0);
             validate();
         }

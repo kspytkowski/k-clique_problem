@@ -45,13 +45,14 @@ public class GraphVisualizationActualizer extends Thread {
     public void run() {
         while (true) {
             if (!paused) {
+                pauseActualizer();
+                System.out.println("tam" + controller.getActualBestindividual());
                 graphPanelKRZYSIEK.actualizeVisualization(controller.getActualBestindividual());
                 graphPanelKRZYSIEK.repaint();
                 if (controller.isFinished()) {
                     startButton.setEnabled(true);
                     stopButton.setEnabled(false);
                 }
-                pauseActualizer();
             }
             synchronized (this) {
                 while (paused) {

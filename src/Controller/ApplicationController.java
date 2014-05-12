@@ -210,6 +210,7 @@ public class ApplicationController extends Thread {
                     population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 }
                 actualBestindividual = population.findBestAdoptedIndividual();
+                System.out.println("best" + actualBestindividual);
                 bestAdoptedInEveryIteration.add(actualBestindividual);
                 if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
                     finished = true;
