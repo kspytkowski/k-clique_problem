@@ -24,7 +24,7 @@ public class GraphRepresentation {
 
     private static final Random rand = new Random(); // object that generates random numbers
     private Graph<Integer, String> graph; // graph
-    private final int searchedKCliqueSize; // size of K-Clique that we try to find in graph
+    private int searchedKCliqueSize; // size of K-Clique that we try to find in graph
 
     /**
      * Constructor - creates random sparse graph with given parameters
@@ -33,25 +33,23 @@ public class GraphRepresentation {
      *            - amount of vertices
      * @param edges
      *            - amount of edges
-     * @param searchedKCliqueSize
-     *            - k-clique size (amount of vertices)
      * @param existedKCliqueSize
      *            - minimum k-clique size (amount of vertices) that will exist in created graph
      * @throws NoPossibilityToCreateGraphException
      * @throws GeneticAlgorithmException
      */
-    public GraphRepresentation(int vertices, int edges, int searchedKCliqueSize, int existedKCliqueSize) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
+    public GraphRepresentation(int vertices, int edges, int existedKCliqueSize) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
         String problem;
         if ((problem = checkPossibilityOfCreationNewGraph(vertices, edges)) != null) {
             throw new NoPossibilityToCreateGraphException(problem);
         }
-        if (searchedKCliqueSize > vertices) {
-            throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
-        }
+        //if (searchedKCliqueSize > vertices) {
+        //    throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
+        //}
         if (existedKCliqueSize > vertices) {
             throw new NoPossibilityToCreateGraphException("It is impossible to create graph with size of " + vertices + " that contains k-clique with size of " + existedKCliqueSize);
         }
-        this.searchedKCliqueSize = searchedKCliqueSize;
+        //this.searchedKCliqueSize = searchedKCliqueSize;
         graph = createGraphVertices(vertices);
         LinkedList<Edge> edgesList = createListWithPossibleEdges(existedKCliqueSize);
         int kCliqueEgdesAmount = existedKCliqueSize * (existedKCliqueSize - 1) / 2;
@@ -74,20 +72,18 @@ public class GraphRepresentation {
      *            - amount of vertices
      * @param edges
      *            - amount of edges
-     * @param searchedKCliqueSize
-     *            - k-clique size (amount of vertices)
      * @throws NoPossibilityToCreateGraphException
      * @throws GeneticAlgorithmException
      */
-    public GraphRepresentation(int vertices, int edges, int searchedKCliqueSize) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
+    public GraphRepresentation(int vertices, int edges) throws NoPossibilityToCreateGraphException, GeneticAlgorithmException {
         String problem;
         if ((problem = checkPossibilityOfCreationNewGraph(vertices, edges)) != null) {
             throw new NoPossibilityToCreateGraphException(problem);
         }
-        if (searchedKCliqueSize > vertices) {
-            throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
-        }
-        this.searchedKCliqueSize = searchedKCliqueSize;
+        //if (searchedKCliqueSize > vertices) {
+        //    throw new GeneticAlgorithmException("It is impossible to find k-clique with size of " + searchedKCliqueSize + " in graph that has size of " + vertices);
+        //}
+        //this.searchedKCliqueSize = searchedKCliqueSize;
         graph = createGraphVertices(vertices);
         LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
         fillGraphWithEdges(graph, edgesList, 0, edges);
@@ -164,13 +160,11 @@ public class GraphRepresentation {
      * 
      * @param filePath
      *            - path to file
-     * @param kCliqueSize
-     *            - k-clique size
      * @throws ProblemWithReadingGraphFromFileException
      * @throws NoPossibilityToCreateGraphException
      */
-    public GraphRepresentation(String filePath, int searchedKCliqueSize) throws ProblemWithReadingGraphFromFileException, NoPossibilityToCreateGraphException {
-        this.searchedKCliqueSize = searchedKCliqueSize;
+    public GraphRepresentation(String filePath) throws ProblemWithReadingGraphFromFileException, NoPossibilityToCreateGraphException {
+        //this.searchedKCliqueSize = searchedKCliqueSize;
         File file = new File(filePath);
         if (file.exists() == false) {
             throw new ProblemWithReadingGraphFromFileException("File " + file.getName() + " doesn't exist");
@@ -266,6 +260,10 @@ public class GraphRepresentation {
      */
     public int getsearchedKCliqueSize() {
         return searchedKCliqueSize;
+    }
+    
+    public void setsearchedKCliqueSize(int searchedKCliqueSize) {
+        this.searchedKCliqueSize = searchedKCliqueSize;
     }
 
     /**

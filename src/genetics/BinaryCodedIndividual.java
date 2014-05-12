@@ -39,7 +39,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         Random rand = new Random();
         for (int i = 0; i < graph.getsearchedKCliqueSize(); i++) {
             int k = helpList.get(rand.nextInt(graph.getVertexCount() - i));
-            chromosome[k] = 1;
+            chromosome[k] = 0; // 1!
             helpList.remove((Integer) k);
         }
         determineIndividualFitness();
@@ -70,9 +70,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     public final void determineIndividualFitness() {
         int edgesAmount = 0;
         for (int i = 0; i < graph.getVertexCount(); i++) {
-            if (getChromosome()[i] == 1) {
+            if (getChromosome()[i] == 0) { // 1!
                 for (int k = i + 1; k <= graph.getVertexCount(); k++) {
-                    if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 1) {
+                    if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 0) { // 1!
                         edgesAmount += 1;
                     }
                 }
@@ -102,9 +102,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     @Override
     public void setGene(int geneIndex, int value) {
-        if (chromosome[geneIndex] != value && value == 1) {
+        if (chromosome[geneIndex] != value && value == 0) { // 1!
             activeGenesAmount++;
-        } else if (chromosome[geneIndex] != value && value == 0) {
+        } else if (chromosome[geneIndex] != value && value == 1) { // 0!
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;

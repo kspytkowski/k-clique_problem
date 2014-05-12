@@ -42,6 +42,8 @@ public class Chart {
     // u lidki siec czynnosci na wgzaminie, nie siec zdarzen, rob klasy, luki z czasem (kazde zadanie min. 2 łuki => dop
     // rowadzajacy i odprowadzajacy
     
+    //TODO => zrob od zera a nie od 1, bo jak znajdzie w zerowej iteracji to sie nic nie wyswietla
+    
     /**
      * Constructor
      *

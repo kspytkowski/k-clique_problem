@@ -129,11 +129,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="buttonsPanel" min="-2" pref="298" max="-2" attributes="0"/>
+                      <Component id="buttonsPanel" min="-2" pref="328" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="chartPanelInGUI" max="32767" attributes="0"/>
+                      <Component id="chartPanelInGUI" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="graphPanel" max="32767" attributes="0"/>
               </Group>
@@ -195,8 +195,7 @@
                       <Component id="mutationPanel" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="controlPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="73" max="32767" attributes="0"/>
+                  <Component id="controlPanel" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -440,14 +439,28 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="stopButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="searchedKCliqueSizeSlider" alignment="1" min="-2" pref="391" max="-2" attributes="0"/>
+                          <Component id="searchedKCliqueSizeLabel" alignment="1" min="-2" pref="391" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="stopButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="startButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="stopButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="searchedKCliqueSizeLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="searchedKCliqueSizeSlider" pref="76" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -468,6 +481,26 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopButtonActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JSlider" name="searchedKCliqueSizeSlider">
+              <Properties>
+                <Property name="paintLabels" type="boolean" value="true"/>
+                <Property name="paintTicks" type="boolean" value="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="searchedKCliqueSizeSliderStateChanged"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSlider(0,0,0)"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="//searchedKCliqueSizeSlider.setMajorTickSpacing(1);&#xa;&#xa;//searchedKCliqueSizeSlider.setMinorTickSpacing(1);"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="searchedKCliqueSizeLabel">
+              <Properties>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="Searched K-Clique size"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -589,7 +622,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="397" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
