@@ -160,6 +160,7 @@ public class GraphPanel extends JPanel {
         public Stroke transform(String e) {
             if (arr != null) {
                 boolean flag = false;
+              //  System.out.println(graph.getEndpoints(e));
                 for (int i : graph.getEndpoints(e)) {
                     if (arr.getChromosome()[i - 1] != 0) {
                         flag = true;

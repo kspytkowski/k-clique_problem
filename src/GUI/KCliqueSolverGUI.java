@@ -70,8 +70,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         controlPanel = new javax.swing.JPanel();
         startButton = new javax.swing.JButton();
         stopButton = new javax.swing.JButton();
-        searchedKCliqueSizeSlider = new javax.swing.JSlider(0,0,0);
         searchedKCliqueSizeLabel = new javax.swing.JLabel();
+        searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(0,0,0,1);
+        searchedKCliqueSizeSpinner = new javax.swing.JSpinner(searchedKCliqueSizeSpinnerNumberModel);
         individualsEncodingPanel = new javax.swing.JPanel();
         groupCodingCheckBox = new javax.swing.JCheckBox();
         numberOfGroupsLabel = new javax.swing.JLabel();
@@ -232,20 +233,15 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
             }
         });
 
-        //searchedKCliqueSizeSlider.setMajorTickSpacing(1);
-
-        //searchedKCliqueSizeSlider.setMinorTickSpacing(1);
-        searchedKCliqueSizeSlider.setPaintLabels(true);
-        searchedKCliqueSizeSlider.setPaintTicks(true);
-        searchedKCliqueSizeSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                searchedKCliqueSizeSliderStateChanged(evt);
-            }
-        });
-
         searchedKCliqueSizeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         searchedKCliqueSizeLabel.setText("Searched K-Clique size");
         searchedKCliqueSizeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        searchedKCliqueSizeSpinner.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                searchedKCliqueSizeSpinnerStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
@@ -256,23 +252,19 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 .addComponent(startButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stopButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(searchedKCliqueSizeSlider, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchedKCliqueSizeLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(134, 134, 134)
+                .addComponent(searchedKCliqueSizeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(searchedKCliqueSizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         controlPanelLayout.setVerticalGroup(
             controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(controlPanelLayout.createSequentialGroup()
-                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(startButton)
-                        .addComponent(stopButton))
-                    .addGroup(controlPanelLayout.createSequentialGroup()
-                        .addComponent(searchedKCliqueSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(searchedKCliqueSizeSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
-                .addContainerGap())
+            .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(startButton)
+                .addComponent(stopButton)
+                .addComponent(searchedKCliqueSizeLabel)
+                .addComponent(searchedKCliqueSizeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         individualsEncodingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Individual's encoding"));
@@ -352,7 +344,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                     .addComponent(crossingOverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         mainGraphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
@@ -371,7 +364,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         );
         chartPanelInGUILayout.setVerticalGroup(
             chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 425, Short.MAX_VALUE)
         );
 
         menuBar.setToolTipText("K-Klique Problem Solver");
@@ -436,9 +429,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(mainGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -480,12 +473,13 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         startButton.setEnabled(true);
     }//GEN-LAST:event_stopButtonActionPerformed
 
-    private void searchedKCliqueSizeSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchedKCliqueSizeSliderStateChanged
-        if (controller.getGraphRepresentation() != null && searchedKCliqueSizeSlider.getValue() != 0)
-        controller.getGraphRepresentation().setsearchedKCliqueSize(searchedKCliqueSizeSlider.getValue());
-        //System.out.println(searchedKCliqueSizeSlider.getValue());
-    }//GEN-LAST:event_searchedKCliqueSizeSliderStateChanged
+    private void searchedKCliqueSizeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchedKCliqueSizeSpinnerStateChanged
+        if (controller.getGraphRepresentation() != null && (int) searchedKCliqueSizeSpinner.getValue() != 0) {
+            controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
+        }
+    }//GEN-LAST:event_searchedKCliqueSizeSpinnerStateChanged
 
+     // TO DO ustalic porzadne reguly co do ilosci grup w zalezn. od wielkosci grafu czy cos tam
     /**
      * Adds and shows empty chart in GUI.
      */
@@ -517,11 +511,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 controller.setGraphRepresentation(new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath()));
-                searchedKCliqueSizeSlider.setMinimum(1);
-                searchedKCliqueSizeSlider.setMaximum(controller.getGraphRepresentation().getVertexCount());
-                searchedKCliqueSizeSlider.setMajorTickSpacing(controller.getGraphRepresentation().getVertexCount() / 10);
-                searchedKCliqueSizeSlider.setPaintTicks(true);
-                searchedKCliqueSizeSlider.setPaintLabels(true);
+                searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
+                searchedKCliqueSizeSpinner.setModel(searchedKCliqueSizeSpinnerNumberModel);
                 graphPanel.setLayoutType(LayoutType.CIRCLE);
                 graphPanel.displayNewGraph(controller.getGraphRepresentation().getGraph());
             } catch (NoPossibilityToCreateGraphException | ProblemWithReadingGraphFromFileException e) {
@@ -597,7 +588,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JLabel searchedKCliqueSizeLabel;
-    private javax.swing.JSlider searchedKCliqueSizeSlider;
+    private javax.swing.SpinnerModel searchedKCliqueSizeSpinnerNumberModel;
+    private javax.swing.JSpinner searchedKCliqueSizeSpinner;
     private javax.swing.JPanel selectionPanel;
     private javax.swing.JComboBox selectionTypeComboBox;
     private javax.swing.JLabel selectionTypeLabel;
