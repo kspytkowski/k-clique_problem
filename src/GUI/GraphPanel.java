@@ -25,7 +25,7 @@ import graph.LayoutType;
  *
  * @author wukat
  */
-public class GraphPanelKRZYSIEK extends JPanel {
+public class GraphPanel extends JPanel {
 
     private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
     private Layout<Integer, String> actualGrLayout = null; // displayed layout
@@ -40,7 +40,7 @@ public class GraphPanelKRZYSIEK extends JPanel {
     /**
      * Constructor
      */
-    public GraphPanelKRZYSIEK() {
+    public GraphPanel() {
         setBackground(Color.white);
         setDoubleBuffered(true);
     }
