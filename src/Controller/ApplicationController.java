@@ -6,7 +6,9 @@ package Controller;
 import GUI.Chart;
 import exceptions.GeneticAlgorithmException;
 import genetics.AbstractIndividual;
+import genetics.BinaryCodedIndividual;
 import genetics.CrossingOverType;
+import genetics.GroupCodedIndividual;
 import genetics.IndividualType;
 import genetics.Population;
 import genetics.SelectionType;
@@ -209,7 +211,7 @@ public class ApplicationController extends Thread {
                 } else {
                     population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 }
-                actualBestindividual = population.findBestAdoptedIndividual();
+                actualBestindividual = new GroupCodedIndividual((GroupCodedIndividual) population.findBestAdoptedIndividual());
                 System.out.println("best" + actualBestindividual);
                 bestAdoptedInEveryIteration.add(actualBestindividual);
                 if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
@@ -235,7 +237,7 @@ public class ApplicationController extends Thread {
             finished = false;
             for (int i = 1; !finished; i++) {
                 population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
-                actualBestindividual = population.findBestAdoptedIndividual();
+                actualBestindividual = new BinaryCodedIndividual((BinaryCodedIndividual) population.findBestAdoptedIndividual());
                 bestAdoptedInEveryIteration.add(actualBestindividual);
                 if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
                     finished = true;
