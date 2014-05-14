@@ -57,11 +57,8 @@ public class GraphPanel extends JPanel {
     @Override
     public void repaint() {
         super.repaint();
-        if (graph != null) {
-            VisualizationViewer<Integer, String> temp = actualizeVisualization(best);
-            removeAll();
-            add(temp);
-            System.out.println(best);
+        if (graph != null) { 
+            actualizeVisualization(best, false);
             validate();
         }
     }
@@ -74,7 +71,10 @@ public class GraphPanel extends JPanel {
      */
     public final void displayNewGraph(Graph<Integer, String> g) {
         this.graph = g;
-        add(actualizeVisualization(null));
+        add(actualizeVisualization(null, true));
+        if (getComponentCount() > 1) {
+            remove(0);
+        }
         repaint();
     }
 
@@ -82,19 +82,22 @@ public class GraphPanel extends JPanel {
      * Creates visualization of a graph with best one from population
      *
      * @param bestOne - best subgraph from population
+     * @param  changedGraph - set true, if graph is new
      * @return visualization
      */
-    public synchronized VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne) {
+    public synchronized VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne, boolean changedGraph) {
         setBest(bestOne);
-        actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
-        vv = new VisualizationViewer<>(actualGrLayout, getSize());
+        if (changedGraph) {
+            actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
+            vv = new VisualizationViewer<>(actualGrLayout, getSize());
+            vv.setBackground(Color.WHITE);
+        }
         //   vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
 
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));
         vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
         vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
-        vv.setBackground(Color.WHITE);
         return vv;
     }
 
@@ -112,7 +115,7 @@ public class GraphPanel extends JPanel {
         /**
          * Constructor
          *
-         * @param arr - array with notes of vertices
+         * @param arr - individual with chromosome
          */
         public EdgePainting(AbstractIndividual arr) {
             this.a = arr;
@@ -136,7 +139,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Sets edge thickness, thick - in best one
+     * Sets edge thickness, thick - in best one.
      */
     public class EdgeThickness implements Transformer<String, Stroke> {
 
@@ -151,7 +154,7 @@ public class GraphPanel extends JPanel {
         /**
          * Constructor
          *
-         * @param arr - array with notes of vertices
+         * @param arr - individual with chromosome
          */
         public EdgeThickness(AbstractIndividual arr) {
             this.arr = arr;
@@ -161,7 +164,6 @@ public class GraphPanel extends JPanel {
         public Stroke transform(String e) {
             if (arr != null) {
                 boolean flag = false;
-              //  System.out.println(graph.getEndpoints(e));
                 for (int i : graph.getEndpoints(e)) {
                     if (arr.getChromosome()[i - 1] != 0) {
                         flag = true;
@@ -176,7 +178,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Draw black border of vertex
+     * Draw black border of vertex.
      */
     public class VertexDrawing implements Transformer<Integer, Paint> {
 
@@ -188,11 +190,10 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Sets color of vertex; yellow - in best one; red - otherwise
+     * Sets color of vertex; yellow - in best one; red - otherwise.
      */
     public class VertexPainting implements Transformer<Integer, Paint> {
 
-        // byte[] arr; // array with notes of vertices
         AbstractIndividual arr;
 
         public void setIndividual(AbstractIndividual a) {
@@ -202,7 +203,7 @@ public class GraphPanel extends JPanel {
         /**
          * Constructor
          *
-         * @param arr - array with notes of vertices
+         * @param arr - individual with chromosome
          */
         public VertexPainting(AbstractIndividual arr) {
             this.arr = arr;
