@@ -107,7 +107,7 @@ public class Population {
         this.keepConstantPopulationSize();
         Mutation.mutate(this, mutationProbability);
         determineEveryIndividualFitness();
-        this.removeWorstIndividuals(0.7); // TODO? 
+        this.removeWorstIndividuals(toRemove);
         this.keepConstantPopulationSize();
     }
 
