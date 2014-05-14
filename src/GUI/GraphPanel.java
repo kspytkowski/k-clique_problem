@@ -76,7 +76,6 @@ public class GraphPanel extends JPanel {
         this.graph = g;
         add(actualizeVisualization(null));
         repaint();
-        validate();
     }
 
     /**
