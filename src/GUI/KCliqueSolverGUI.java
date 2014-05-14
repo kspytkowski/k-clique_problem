@@ -463,6 +463,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 stopButton.setEnabled(true);
                 controller.getPlot().clearAllSeries();
                 controller.resumeSolving();
+                controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
             }
         }
     }//GEN-LAST:event_startButtonActionPerformed
@@ -474,9 +475,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_stopButtonActionPerformed
 
     private void searchedKCliqueSizeSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchedKCliqueSizeSpinnerStateChanged
-        if (controller.getGraphRepresentation() != null && (int) searchedKCliqueSizeSpinner.getValue() != 0) {
-            controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
-        }
+//        if (controller.getGraphRepresentation() != null && (int) searchedKCliqueSizeSpinner.getValue() != 0) {
+//            controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
+//        }
     }//GEN-LAST:event_searchedKCliqueSizeSpinnerStateChanged
 
      // TO DO ustalic porzadne reguly co do ilosci grup w zalezn. od wielkosci grafu czy cos tam

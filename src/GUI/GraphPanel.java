@@ -58,9 +58,10 @@ public class GraphPanel extends JPanel {
     public void repaint() {
         super.repaint();
         if (graph != null) {
-            add(actualizeVisualization(best));
+            VisualizationViewer<Integer, String> temp = actualizeVisualization(best);
+            removeAll();
+            add(temp);
             System.out.println(best);
-            remove(0);
             validate();
         }
     }
@@ -74,6 +75,7 @@ public class GraphPanel extends JPanel {
     public final void displayNewGraph(Graph<Integer, String> g) {
         this.graph = g;
         add(actualizeVisualization(null));
+        repaint();
         validate();
     }
 
@@ -83,7 +85,7 @@ public class GraphPanel extends JPanel {
      * @param bestOne - best subgraph from population
      * @return visualization
      */
-    public VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne) {
+    public synchronized VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne) {
         setBest(bestOne);
         actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
         vv = new VisualizationViewer<>(actualGrLayout, getSize());
