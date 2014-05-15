@@ -32,6 +32,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     public KCliqueSolverGUI() {
         initComponents();
         initChart();
+        tabChoosePanel.addTab("Simulation", simulationPanel);
+        tabChoosePanel.addTab("Graph generation", graphGeneratorPanel);
         graphActualizer = new GraphVisualizationActualizer(controller, graphPanel, stopButton, startButton);
         chartActualizer = new PlotActualizer(chartPanelInGUI);
         controller.setActualizers(graphActualizer, chartActualizer);
@@ -50,7 +52,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     private void initComponents() {
 
         individualsEncodingCheckBoxGroup = new javax.swing.ButtonGroup();
-        buttonsPanel = new javax.swing.JPanel();
+        graphGeneratorPanel = new javax.swing.JPanel();
+        simulationPanel = new javax.swing.JPanel();
+        chartPanelInGUI = new javax.swing.JPanel();
         crossingOverPanel = new javax.swing.JPanel();
         crossingOverProbabilityLabel = new javax.swing.JLabel();
         crossingOverTypeLabel = new javax.swing.JLabel();
@@ -79,7 +83,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         numberOfGroupsSpinner = new javax.swing.JSpinner(new SpinnerNumberModel(4, 4, 16, 1));
         binaryCodingCheckBox = new javax.swing.JCheckBox();
         mainGraphPanel = new javax.swing.JPanel();
-        chartPanelInGUI = new javax.swing.JPanel();
+        tabChoosePanel = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -103,9 +107,34 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setPreferredSize(new java.awt.Dimension(1366, 768));
 
-        buttonsPanel.setBorder(null);
-        buttonsPanel.setMaximumSize(new java.awt.Dimension(612, 322));
-        buttonsPanel.setPreferredSize(new java.awt.Dimension(612, 366));
+        javax.swing.GroupLayout graphGeneratorPanelLayout = new javax.swing.GroupLayout(graphGeneratorPanel);
+        graphGeneratorPanel.setLayout(graphGeneratorPanelLayout);
+        graphGeneratorPanelLayout.setHorizontalGroup(
+            graphGeneratorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        graphGeneratorPanelLayout.setVerticalGroup(
+            graphGeneratorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+
+        simulationPanel.setBorder(null);
+        simulationPanel.setMaximumSize(new java.awt.Dimension(1000, 1022));
+        simulationPanel.setPreferredSize(new java.awt.Dimension(642, 711));
+
+        chartPanelInGUI.setBackground(new java.awt.Color(254, 254, 254));
+        chartPanelInGUI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
+
+        javax.swing.GroupLayout chartPanelInGUILayout = new javax.swing.GroupLayout(chartPanelInGUI);
+        chartPanelInGUI.setLayout(chartPanelInGUILayout);
+        chartPanelInGUILayout.setHorizontalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 575, Short.MAX_VALUE)
+        );
+        chartPanelInGUILayout.setVerticalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 372, Short.MAX_VALUE)
+        );
 
         crossingOverPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Crossing-over"));
 
@@ -133,11 +162,13 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         );
         crossingOverPanelLayout.setVerticalGroup(
             crossingOverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(crossingOverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(crossingOverProbabilityLabel)
-                .addComponent(crossingOverProbabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addComponent(crossingOverTypeLabel)
-                .addComponent(crossingOverTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(crossingOverPanelLayout.createSequentialGroup()
+                .addGroup(crossingOverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(crossingOverProbabilityLabel)
+                    .addComponent(crossingOverProbabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(crossingOverTypeLabel)
+                    .addComponent(crossingOverTypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mutationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Mutation"));
@@ -151,7 +182,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
             .addGroup(mutationPanelLayout.createSequentialGroup()
                 .addComponent(mutationProbabilityLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mutationProbabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mutationProbabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         mutationPanelLayout.setVerticalGroup(
             mutationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,61 +343,51 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 .addComponent(binaryCodingCheckBox))
         );
 
-        javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
-        buttonsPanel.setLayout(buttonsPanelLayout);
-        buttonsPanelLayout.setHorizontalGroup(
-            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout simulationPanelLayout = new javax.swing.GroupLayout(simulationPanel);
+        simulationPanel.setLayout(simulationPanelLayout);
+        simulationPanelLayout.setHorizontalGroup(
+            simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(simulationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(populationPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, buttonsPanelLayout.createSequentialGroup()
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(controlPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(populationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(simulationPanelLayout.createSequentialGroup()
                         .addComponent(individualsEncodingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(selectionPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(buttonsPanelLayout.createSequentialGroup()
-                        .addComponent(crossingOverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(simulationPanelLayout.createSequentialGroup()
+                        .addComponent(crossingOverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(mutationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(simulationPanelLayout.createSequentialGroup()
+                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
-        buttonsPanelLayout.setVerticalGroup(
-            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addContainerGap()
+        simulationPanelLayout.setVerticalGroup(
+            simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(simulationPanelLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(populationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(individualsEncodingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(selectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(crossingOverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(crossingOverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         mainGraphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
         mainGraphPanel.setMaximumSize(new java.awt.Dimension(400, 1400));
         mainGraphPanel.setMinimumSize(new java.awt.Dimension(100, 100));
         mainGraphPanel.setLayout(new java.awt.BorderLayout());
-
-        chartPanelInGUI.setBackground(new java.awt.Color(254, 254, 254));
-        chartPanelInGUI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
-
-        javax.swing.GroupLayout chartPanelInGUILayout = new javax.swing.GroupLayout(chartPanelInGUI);
-        chartPanelInGUI.setLayout(chartPanelInGUILayout);
-        chartPanelInGUILayout.setHorizontalGroup(
-            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        chartPanelInGUILayout.setVerticalGroup(
-            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 425, Short.MAX_VALUE)
-        );
 
         menuBar.setToolTipText("K-Klique Problem Solver");
 
@@ -417,23 +439,34 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mainGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 599, Short.MAX_VALUE)
-                    .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tabChoosePanel)
+                        .addGap(587, 587, 587))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(634, 634, 634)
+                    .addComponent(graphGeneratorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(666, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(mainGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addComponent(mainGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(tabChoosePanel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(322, 322, 322)
+                    .addComponent(graphGeneratorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(311, Short.MAX_VALUE)))
         );
 
         graphPanel = new GraphPanel();
@@ -559,7 +592,6 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel amountOfIndividualsLabel;
     private javax.swing.JSpinner amountOfIndividualsSpinner;
     private javax.swing.JCheckBox binaryCodingCheckBox;
-    private javax.swing.JPanel buttonsPanel;
     private javax.swing.JPanel chartPanelInGUI;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JPanel crossingOverPanel;
@@ -569,6 +601,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     private javax.swing.JLabel crossingOverTypeLabel;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
+    private javax.swing.JPanel graphGeneratorPanel;
     private javax.swing.JCheckBox groupCodingCheckBox;
     private javax.swing.JMenu helpMenu;
     private javax.swing.ButtonGroup individualsEncodingCheckBoxGroup;
@@ -594,7 +627,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     private javax.swing.JPanel selectionPanel;
     private javax.swing.JComboBox selectionTypeComboBox;
     private javax.swing.JLabel selectionTypeLabel;
+    private javax.swing.JPanel simulationPanel;
     private javax.swing.JButton startButton;
     private javax.swing.JButton stopButton;
+    private javax.swing.JTabbedPane tabChoosePanel;
     // End of variables declaration//GEN-END:variables
 }

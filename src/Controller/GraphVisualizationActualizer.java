@@ -17,7 +17,7 @@ public class GraphVisualizationActualizer extends Thread {
      * Constructor
      *
      * @param controller - aplication controller
-     * @param graphPanelKRZYSIEK - panel with graph to actualize
+     * @param graphPanel - panel with graph to actualize
      */
     public GraphVisualizationActualizer(ApplicationController controller, GraphPanel graphPanel, JButton stopButton, JButton startButton) {
         this.controller = controller;
