@@ -196,7 +196,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 graphCreator = new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath());
-acceptNewGraph();
+                acceptNewGraph();
             } catch (NoPossibilityToCreateGraphException | ProblemWithReadingGraphFromFileException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Warning", JOptionPane.ERROR_MESSAGE);
             }
@@ -227,6 +227,7 @@ acceptNewGraph();
         saveButton.setEnabled(true);
         graphFileName.setEnabled(true);
     }
+
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         JFileChooser directoryChooser = new JFileChooser();
         directoryChooser.setApproveButtonText("Choose directory");
