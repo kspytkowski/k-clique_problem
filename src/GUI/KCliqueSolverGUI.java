@@ -474,10 +474,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 controller.getPlot().clearAllSeries();
                 controller.resumeSolving();
                 controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(this, "There's no graph!\nSwitch to graph genearation panel!", "Warning", JOptionPane.WARNING_MESSAGE);
-                        
+
             }
         }
     }//GEN-LAST:event_startButtonActionPerformed
@@ -490,8 +489,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
 
     private void tabChoosePanelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabChoosePanelStateChanged
         if (tabChoosePanel.getSelectedIndex() == 0 && controller.getGraphRepresentation() != null) {
-            searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
-            searchedKCliqueSizeSpinner.setModel(searchedKCliqueSizeSpinnerNumberModel);
+            //new
+            actualizeSearchedKCliqueSizeSpinner();
         }
     }//GEN-LAST:event_tabChoosePanelStateChanged
 
@@ -527,8 +526,10 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 controller.setGraphRepresentation(new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath()));
-                searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
-                searchedKCliqueSizeSpinner.setModel(searchedKCliqueSizeSpinnerNumberModel);
+
+                //new
+                actualizeSearchedKCliqueSizeSpinner();
+
                 graphPanel.setLayoutType(LayoutType.CIRCLE);
                 graphPanel.displayNewGraph(controller.getGraphRepresentation().getGraph());
             } catch (NoPossibilityToCreateGraphException | ProblemWithReadingGraphFromFileException e) {
@@ -536,6 +537,21 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
             }
         }
     }// GEN-LAST:event_loadGraphMenuItemActionPerformed
+
+    private void actualizeSearchedKCliqueSizeSpinner() {
+        int oldValue = (int) searchedKCliqueSizeSpinnerNumberModel.getValue();
+        if (oldValue != 0) {
+            if (oldValue <= controller.getGraphRepresentation().getVertexCount()) {
+                searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(oldValue, 2, controller.getGraphRepresentation().getVertexCount(), 1);
+            } else {
+                searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(controller.getGraphRepresentation().getVertexCount(), 2, controller.getGraphRepresentation().getVertexCount(), 1);
+            }
+        } else {
+            searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
+        }
+        //   searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
+        searchedKCliqueSizeSpinner.setModel(searchedKCliqueSizeSpinnerNumberModel);
+    }
 
     /**
      * @param args the command line arguments
