@@ -28,13 +28,11 @@ public class GraphRepresentation {
 
     /**
      * Constructor - creates random sparse graph with given parameters
-     * 
-     * @param vertices
-     *            - amount of vertices
-     * @param edges
-     *            - amount of edges
-     * @param existedKCliqueSize
-     *            - minimum k-clique size (amount of vertices) that will exist in created graph
+     *
+     * @param vertices - amount of vertices
+     * @param edges - amount of edges
+     * @param existedKCliqueSize - minimum k-clique size (amount of vertices)
+     * that will exist in created graph
      * @throws NoPossibilityToCreateGraphException
      * @throws GeneticAlgorithmException
      */
@@ -67,11 +65,9 @@ public class GraphRepresentation {
 
     /**
      * Constructor - creates random sparse graph with given parameters
-     * 
-     * @param vertices
-     *            - amount of vertices
-     * @param edges
-     *            - amount of edges
+     *
+     * @param vertices - amount of vertices
+     * @param edges - amount of edges
      * @throws NoPossibilityToCreateGraphException
      * @throws GeneticAlgorithmException
      */
@@ -90,12 +86,11 @@ public class GraphRepresentation {
     }
 
     /**
-     * Checks if there is a possibility to create graph with given amount of vertices and edges
-     * 
-     * @param vertices
-     *            - amount of vertices
-     * @param edges
-     *            - amount of edges
+     * Checks if there is a possibility to create graph with given amount of
+     * vertices and edges
+     *
+     * @param vertices - amount of vertices
+     * @param edges - amount of edges
      * @return message with found problem or null if everything is ok
      */
     private String checkPossibilityOfCreationNewGraph(int vertices, int edges) {
@@ -154,12 +149,10 @@ public class GraphRepresentation {
     // fillGraphWithEdges(graph, edgesList, 0, edges);
     // }
     // }
-
     /**
      * Constructor - reads graph from file
-     * 
-     * @param filePath
-     *            - path to file
+     *
+     * @param filePath - path to file
      * @throws ProblemWithReadingGraphFromFileException
      * @throws NoPossibilityToCreateGraphException
      */
@@ -212,11 +205,9 @@ public class GraphRepresentation {
 
     /**
      * Writes graph to file
-     * 
-     * @param path
-     *            - path
-     * @param fileName
-     *            - name of file
+     *
+     * @param path - path
+     * @param fileName - name of file
      * @throws ProblemWithReadingGraphFromFileException
      * @throws GeneticAlgorithmException
      */
@@ -240,13 +231,13 @@ public class GraphRepresentation {
                 fileWriter.write(vertices.getSecond() + "\n");
             }
         } catch (IOException e) {
-            throw new ProblemWithReadingGraphFromFileException("For some reason cannot write graph to file");
+            throw new ProblemWithReadingGraphFromFileException("For some reason cannot write graph to file\nChange file name!");
         }
     }
 
     /**
      * Getter
-     * 
+     *
      * @return graph
      */
     public Graph<Integer, String> getGraph() {
@@ -255,20 +246,25 @@ public class GraphRepresentation {
 
     /**
      * Getter
-     * 
+     *
      * @return k-clique size
      */
     public int getsearchedKCliqueSize() {
         return searchedKCliqueSize;
     }
-    
+
+    /**
+     * Setter
+     *
+     * @param searchedKCliqueSize
+     */
     public void setsearchedKCliqueSize(int searchedKCliqueSize) {
         this.searchedKCliqueSize = searchedKCliqueSize;
     }
 
     /**
      * Getter
-     * 
+     *
      * @return graph vertex amount
      */
     public int getVertexCount() {
@@ -277,11 +273,9 @@ public class GraphRepresentation {
 
     /**
      * Checks if first and second vertices are connected by edge
-     * 
-     * @param firstVertex
-     *            - first vertex
-     * @param secondVertex
-     *            - second vertex
+     *
+     * @param firstVertex - first vertex
+     * @param secondVertex - second vertex
      * @return true if between vertices is edge, false otherwise
      */
     public boolean isNeighbor(int firstVertex, int secondVertex) {
@@ -290,9 +284,8 @@ public class GraphRepresentation {
 
     /**
      * Creates graph with verticesAmount vertices (without any edge)
-     * 
-     * @param verticesAmount
-     *            - amount of vertices
+     *
+     * @param verticesAmount - amount of vertices
      * @return graph
      */
     private Graph<Integer, String> createGraphVertices(int verticesAmount) {
@@ -305,15 +298,11 @@ public class GraphRepresentation {
 
     /**
      * Adds to graph new edges
-     * 
-     * @param graph
-     *            - graph
-     * @param possibleEdges
-     *            - list of edges that could be add
-     * @param existedEdgesAmount
-     *            - amount of edges that already exists in graph
-     * @param demandedEdgesAmount
-     *            - amount of edges that should be in graph
+     *
+     * @param graph - graph
+     * @param possibleEdges - list of edges that could be add
+     * @param existedEdgesAmount - amount of edges that already exists in graph
+     * @param demandedEdgesAmount - amount of edges that should be in graph
      */
     private void fillGraphWithEdges(Graph<Integer, String> graph, LinkedList<Edge> possibleEdges, int existedEdgesAmount, int demandedEdgesAmount) {
         for (int i = existedEdgesAmount + 1; i <= demandedEdgesAmount; i++) {
@@ -325,9 +314,8 @@ public class GraphRepresentation {
 
     /**
      * Creates list of all possible edges that can be added to graph
-     * 
-     * @param verticesAmount
-     *            - amount of vertices
+     *
+     * @param verticesAmount - amount of vertices
      * @return list of edges
      */
     private LinkedList<Edge> createListWithPossibleEdges(int verticesAmount) {
