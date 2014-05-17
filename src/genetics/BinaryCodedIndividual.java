@@ -83,8 +83,6 @@ public class BinaryCodedIndividual extends AbstractIndividual {
                 }
             }
         }
-        System.out.println(edgesAmount);
-        System.out.println(getActiveGenesAmount());
         double isKClique = 0.0;
         if (getActiveGenesAmount() > 1) {
             isKClique = (double) edgesAmount / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
@@ -94,7 +92,6 @@ public class BinaryCodedIndividual extends AbstractIndividual {
             // czyJestKKlika = k > graph.getsearchedKCliqueSize() ? 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * k /
             // graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
         }
-        System.out.println(isKClique);
         setFitness(isKClique);
     }
 

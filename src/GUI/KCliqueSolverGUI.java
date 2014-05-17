@@ -171,7 +171,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 .addComponent(mutationProbabilityLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mutationProbabilitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         mutationPanelLayout.setVerticalGroup(
             mutationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,7 +344,7 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                         .addComponent(mutationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(simulationPanelLayout.createSequentialGroup()
                         .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 21, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,11 +429,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 .addComponent(mainGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(tabChoosePanel)
-                        .addGap(587, 587, 587))
-                    .addComponent(simulationPanel, 608, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(simulationPanel, 608, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tabChoosePanel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

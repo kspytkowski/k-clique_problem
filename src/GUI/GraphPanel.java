@@ -36,6 +36,14 @@ public class GraphPanel extends JPanel {
         this.best = best;
     }
 
+    public void setVv(VisualizationViewer<Integer, String> vv) {
+        this.vv = vv;
+    }
+
+    public VisualizationViewer<Integer, String> getVv() {
+        return vv;
+    }
+
     /**
      * Constructor
      */
@@ -56,7 +64,7 @@ public class GraphPanel extends JPanel {
     @Override
     public void repaint() {
         super.repaint();
-        if (graph != null) { 
+        if (graph != null) {
             actualizeVisualization(best, false);
             validate();
         }
@@ -81,7 +89,7 @@ public class GraphPanel extends JPanel {
      * Creates visualization of a graph with best one from population
      *
      * @param bestOne - best subgraph from population
-     * @param  changedGraph - set true, if graph is new
+     * @param changedGraph - set true, if graph is new
      * @return visualization
      */
     public synchronized VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne, boolean changedGraph) {
@@ -92,12 +100,11 @@ public class GraphPanel extends JPanel {
             vv.setBackground(Color.WHITE);
             vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
         }
-           
 
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));
-        vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
-        vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
+//        vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
+//        vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
         return vv;
     }
 

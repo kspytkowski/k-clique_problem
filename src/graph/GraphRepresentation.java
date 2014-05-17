@@ -15,6 +15,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import org.apache.commons.collections15.Factory;
 
 /**
  * @author Krzysztof Spytkowski
@@ -25,6 +26,9 @@ public class GraphRepresentation {
     private static final Random rand = new Random(); // object that generates random numbers
     private Graph<Integer, String> graph; // graph
     private int searchedKCliqueSize; // size of K-Clique that we try to find in graph
+    private Factory<Integer> vertexFactory; // vertex factory, for drawing
+    private Factory<String> edgeFactory; // edge factory, for drawing
+    private int nodeCount, edgeCount; // only for drawing, do not use
 
     /**
      * Constructor - creates random sparse graph with given parameters
@@ -83,6 +87,27 @@ public class GraphRepresentation {
         graph = createGraphVertices(vertices);
         LinkedList<Edge> edgesList = createListWithPossibleEdges(vertices);
         fillGraphWithEdges(graph, edgesList, 0, edges);
+    }
+
+    /**
+     * Constructor used only for graph drawing.
+     */
+    public GraphRepresentation() {
+        graph = new SparseGraph<>();
+        nodeCount = 1;
+        edgeCount = 1;
+        vertexFactory = new Factory<Integer>() {
+            @Override
+            public Integer create() {
+                return nodeCount++;
+            }
+        };
+        edgeFactory = new Factory<String>() {
+            @Override
+            public String create() {
+                return "EDGE" + edgeCount++;
+            }
+        };
     }
 
     /**
@@ -251,6 +276,24 @@ public class GraphRepresentation {
      */
     public int getsearchedKCliqueSize() {
         return searchedKCliqueSize;
+    }
+
+    /**
+     * Getter
+     *
+     * @return vertex factory
+     */
+    public Factory<Integer> getVertexFactory() {
+        return vertexFactory;
+    }
+
+    /**
+     * Getter
+     *
+     * @return edge factory
+     */
+    public Factory<String> getEdgeFactory() {
+        return edgeFactory;
     }
 
     /**

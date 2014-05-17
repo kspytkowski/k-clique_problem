@@ -5,12 +5,17 @@
 package GUI;
 
 import Controller.ApplicationController;
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.StaticLayout;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import graph.GraphRepresentation;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import graph.LayoutType;
+import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
@@ -56,6 +61,9 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         loadButton = new javax.swing.JButton();
         saveButton = new javax.swing.JButton();
         graphFileName = new javax.swing.JTextField();
+        drawingControlPanel = new javax.swing.JPanel();
+        drawButton = new javax.swing.JButton();
+        finishDrawingButton = new javax.swing.JButton();
 
         generationParameters.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Generation parameters"))));
 
@@ -104,7 +112,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                         .addComponent(isCliqueDemanded)
                         .addGap(18, 18, 18)
                         .addComponent(demandedCliqueSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(demandedCliqueSize, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -168,15 +176,54 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        drawingControlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Drawing graph"));
+
+        drawButton.setText("Draw");
+        drawButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                drawButtonActionPerformed(evt);
+            }
+        });
+
+        finishDrawingButton.setText("Finish drawing");
+        finishDrawingButton.setEnabled(false);
+        finishDrawingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                finishDrawingButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout drawingControlPanelLayout = new javax.swing.GroupLayout(drawingControlPanel);
+        drawingControlPanel.setLayout(drawingControlPanelLayout);
+        drawingControlPanelLayout.setHorizontalGroup(
+            drawingControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(drawingControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(drawButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(finishDrawingButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        drawingControlPanelLayout.setVerticalGroup(
+            drawingControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(drawingControlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(drawingControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(drawButton)
+                    .addComponent(finishDrawingButton))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(generationParameters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(loadingPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(drawingControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loadingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(generationParameters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,9 +231,11 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(generationParameters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(loadingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(114, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(drawingControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(55, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -250,12 +299,45 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         demandedCliqueSizeLabel.setEnabled(!demandedCliqueSizeLabel.isEnabled());
     }//GEN-LAST:event_isCliqueDemandedActionPerformed
 
+    private void drawButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawButtonActionPerformed
+        drawing();
+        drawButton.setEnabled(false);
+        finishDrawingButton.setEnabled(true);
+    }//GEN-LAST:event_drawButtonActionPerformed
+
+    private void finishDrawingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_finishDrawingButtonActionPerformed
+        controller.setGraphRepresentation(graphCreator);
+        saveButton.setEnabled(true);
+        graphFileName.setEnabled(true);
+        drawButton.setEnabled(true);
+        finishDrawingButton.setEnabled(false);
+    }//GEN-LAST:event_finishDrawingButtonActionPerformed
+
+    private void drawing() {
+        graphCreator = new GraphRepresentation();
+        Layout<Integer, String> layout = new StaticLayout(graphCreator.getGraph());
+        layout.setSize(graphPanel.getSize());
+        VisualizationViewer<Integer, String> vv
+                = new VisualizationViewer<>(layout, graphPanel.getSize());
+        EditingModalGraphMouse gm 
+                = new EditingModalGraphMouse(vv.getRenderContext(), graphCreator.getVertexFactory(), graphCreator.getEdgeFactory());
+        vv.setGraphMouse(gm);
+        vv.setBackground(Color.white);
+        graphPanel.setVv(vv);
+        graphPanel.removeAll();
+        graphPanel.add(vv);
+        graphPanel.validate();
+        graphPanel.repaint();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner demandedCliqueSize;
     private javax.swing.JLabel demandedCliqueSizeLabel;
+    private javax.swing.JButton drawButton;
+    private javax.swing.JPanel drawingControlPanel;
     private javax.swing.JSpinner edgesCount;
     private javax.swing.JLabel edgesCountLabel;
+    private javax.swing.JButton finishDrawingButton;
     private javax.swing.JButton generateButton;
     private javax.swing.JPanel generationParameters;
     private javax.swing.JTextField graphFileName;

@@ -46,7 +46,6 @@ public class GraphVisualizationActualizer extends Thread {
         while (true) {
             if (!paused) {
                 pauseActualizer();
-                System.out.println("tam" + controller.getActualBestindividual());
                 graphPanel.actualizeVisualization(controller.getActualBestindividual(), false);
                 graphPanel.repaint();
                 if (controller.isFinished()) {
