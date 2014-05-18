@@ -1,6 +1,6 @@
 package GUI;
 
-import Controller.GraphVisualizationActualizer;
+import Controller.GraphVisualizationAndButtonsStateActualizer;
 import Controller.ApplicationController;
 import Controller.PlotActualizer;
 import exceptions.NoPossibilityToCreateGraphException;
@@ -23,7 +23,7 @@ import org.jfree.chart.ChartPanel;
 public class KCliqueSolverGUI extends JFrame {
 
     private final ApplicationController controller; // controller
-    private final GraphVisualizationActualizer graphActualizer; // thread that actualizes graph view
+    private final GraphVisualizationAndButtonsStateActualizer graphActualizer; // thread that actualizes graph view
     private final PlotActualizer chartActualizer; // thread that actualizes chart
 
     /**
@@ -35,7 +35,7 @@ public class KCliqueSolverGUI extends JFrame {
         initChart();
         tabChoosePanel.addTab("Simulation", simulationPanel);
         tabChoosePanel.addTab("Graph generation", new GraphGenerationPanel(graphPanel, controller, tabChoosePanel));
-        graphActualizer = new GraphVisualizationActualizer(controller, graphPanel, stopButton, startButton);
+        graphActualizer = new GraphVisualizationAndButtonsStateActualizer(controller, graphPanel, stopButton, startButton, tabChoosePanel);
         chartActualizer = new PlotActualizer(chartPanelInGUI);
         controller.setActualizers(graphActualizer, chartActualizer);
         startThreads();

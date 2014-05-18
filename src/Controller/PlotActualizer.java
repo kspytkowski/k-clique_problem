@@ -45,7 +45,7 @@ public class PlotActualizer extends Thread {
                     try {
                         wait();
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(GraphVisualizationActualizer.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GraphVisualizationAndButtonsStateActualizer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

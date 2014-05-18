@@ -4,14 +4,17 @@ import GUI.GraphPanel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import javax.swing.JTabbedPane;
 
-public class GraphVisualizationActualizer extends Thread {
+public class GraphVisualizationAndButtonsStateActualizer extends Thread {
 
     private boolean paused = true; // flag
     private final ApplicationController controller; // aplication controller
     private final GraphPanel graphPanel; // panel with graph to actualize
     private final JButton stopButton; // button stopping application
     private final JButton startButton; // button starting application
+    private final JTabbedPane tabs; // needed to enable/disable one of tab when 
+    //its state should be chenged
 
     /**
      * Constructor
@@ -19,11 +22,12 @@ public class GraphVisualizationActualizer extends Thread {
      * @param controller - aplication controller
      * @param graphPanel - panel with graph to actualize
      */
-    public GraphVisualizationActualizer(ApplicationController controller, GraphPanel graphPanel, JButton stopButton, JButton startButton) {
+    public GraphVisualizationAndButtonsStateActualizer(ApplicationController controller, GraphPanel graphPanel, JButton stopButton, JButton startButton, JTabbedPane tabs) {
         this.controller = controller;
         this.graphPanel = graphPanel;
         this.stopButton = stopButton;
         this.startButton = startButton;
+        this.tabs = tabs;
     }
 
     /**
@@ -49,8 +53,9 @@ public class GraphVisualizationActualizer extends Thread {
                 graphPanel.actualizeVisualization(controller.getActualBestindividual(), false);
                 graphPanel.repaint();
                 if (controller.isFinished()) {
+                    stopButton.setEnabled(false);
                     startButton.setEnabled(true);
-                    stopButton.doClick();
+                    tabs.setEnabledAt((tabs.getSelectedIndex() + 1) % 2, true);
                 }
             }
             synchronized (this) {
@@ -58,7 +63,7 @@ public class GraphVisualizationActualizer extends Thread {
                     try {
                         wait();
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(GraphVisualizationActualizer.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(GraphVisualizationAndButtonsStateActualizer.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
