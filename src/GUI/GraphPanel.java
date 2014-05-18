@@ -7,11 +7,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
-
 import javax.swing.JPanel;
-
 import org.apache.commons.collections15.Transformer;
-
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
@@ -30,22 +27,46 @@ public class GraphPanel extends JPanel {
     private Layout<Integer, String> actualGrLayout = null; // displayed layout
     private Graph<Integer, String> graph; // graph
     private LayoutType layoutType = LayoutType.CIRCLE; // actually chosen layout of a graph
-    AbstractIndividual best;
+    private AbstractIndividual best; // best adopted individual
 
+    /**
+     * Setter
+     * 
+     * @param graph 
+     */
+    public void setGraph(Graph<Integer, String> graph) {
+        this.graph = graph;
+    }
+
+    /**
+     * Setter
+     *
+     * @param best
+     */
     public void setBest(AbstractIndividual best) {
         this.best = best;
     }
 
+    /**
+     * Setter of visoalization viewer
+     *
+     * @param vv
+     */
     public void setVv(VisualizationViewer<Integer, String> vv) {
         this.vv = vv;
     }
 
+    /**
+     * Getter of visoalization viewer
+     *
+     * @return visoalization viewer
+     */
     public VisualizationViewer<Integer, String> getVv() {
         return vv;
     }
 
     /**
-     * Constructor
+     * Constructor.
      */
     public GraphPanel() {
         setBackground(Color.white);
@@ -103,8 +124,8 @@ public class GraphPanel extends JPanel {
 
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));
-//        vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
-//        vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
+        vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
+        vv.getRenderContext().setEdgeStrokeTransformer(new EdgeThickness(bestOne));
         return vv;
     }
 

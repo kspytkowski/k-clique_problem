@@ -43,22 +43,32 @@ public class ApplicationController extends Thread {
     private final Chart plot = new Chart("K-clique solver", "Individuals' fitness in population", "Generation", "Fitness");
     // plot
     private AbstractIndividual actualBestindividual; // best in last iteration
-    private GraphVisualizationActualizer graphActualizer;
-    private PlotActualizer chartActualizer;
-    private boolean paused = true;
-    private boolean finished = true;
+    private GraphVisualizationActualizer graphActualizer; // graph actualizer
+    private PlotActualizer chartActualizer; // plot actualizer
+    private boolean paused = true; // flag to pause a thread
+    private boolean finished = true; // flag - if algorithm is finished
+    private ArrayList<AbstractIndividual> bestAdoptedInEveryIteration = null;
+    // contains array of best adopted individuals
 
+    /**
+     * Getter
+     *
+     * @return true if algorithms is not running (is finished)
+     */
     public boolean isFinished() {
         return finished;
     }
 
+    /**
+     * Setter, sets both actualizers
+     *
+     * @param graphActualizer
+     * @param chartActualizer
+     */
     public void setActualizers(GraphVisualizationActualizer graphActualizer, PlotActualizer chartActualizer) {
         this.graphActualizer = graphActualizer;
         this.chartActualizer = chartActualizer;
     }
-
-    private ArrayList<AbstractIndividual> bestAdoptedInEveryIteration = null;
-    // contains array of best adopted individuals
 
     /**
      * Setter
@@ -147,7 +157,7 @@ public class ApplicationController extends Thread {
     public void stopSolving() {
         finished = true;
     }
-    
+
     /**
      * Pauses thread.
      */

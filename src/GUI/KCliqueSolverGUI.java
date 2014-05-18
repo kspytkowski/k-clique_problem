@@ -10,9 +10,10 @@ import genetics.IndividualType;
 import genetics.SelectionType;
 import graph.GraphRepresentation;
 import graph.LayoutType;
-
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import org.jfree.chart.ChartPanel;
 
@@ -20,23 +21,31 @@ import org.jfree.chart.ChartPanel;
  *
  * @author wukat & others
  */
-public class KCliqueSolverGUI extends javax.swing.JFrame {
+public class KCliqueSolverGUI extends JFrame {
 
-    ApplicationController controller = new ApplicationController();
-    GraphVisualizationActualizer graphActualizer;
-    PlotActualizer chartActualizer;
+    private final ApplicationController controller; // controller
+    private final GraphVisualizationActualizer graphActualizer; // thread that actualizes graph view
+    private final PlotActualizer chartActualizer; // thread that actualizes chart
 
     /**
-     * Creates new form KKliqueSolverGUI
+     * Creates new form KKliqueSolverGUI.
      */
     public KCliqueSolverGUI() {
+        this.controller = new ApplicationController();
         initComponents();
         initChart();
         tabChoosePanel.addTab("Simulation", simulationPanel);
-        tabChoosePanel.addTab("Graph generation", new GraphGenerationPanel(graphPanel, controller));
+        tabChoosePanel.addTab("Graph generation", new GraphGenerationPanel(graphPanel, controller, tabChoosePanel));
         graphActualizer = new GraphVisualizationActualizer(controller, graphPanel, stopButton, startButton);
         chartActualizer = new PlotActualizer(chartPanelInGUI);
         controller.setActualizers(graphActualizer, chartActualizer);
+        startThreads();
+    }
+
+    /**
+     * Starts actualizers and main program.
+     */
+    private void startThreads() {
         graphActualizer.start();
         chartActualizer.start();
         controller.start();
@@ -457,7 +466,13 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_binaryCodingCheckBoxActionPerformed
 
     private void groupCodingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupCodingCheckBoxActionPerformed
-        numberOfGroupsSpinner.setEnabled(true);
+        if (actualizeNumberOfGroupsSpinner()) {
+            JOptionPane.showMessageDialog(this, "There's no sense to use group "
+                    + "coding on so small graph! Use binary encoding instead.",
+                    "Clue", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            numberOfGroupsSpinner.setEnabled(true);
+        }
     }//GEN-LAST:event_groupCodingCheckBoxActionPerformed
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
@@ -473,8 +488,8 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
                 controller.resumeSolving();
                 controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
             } else {
-                JOptionPane.showMessageDialog(this, "There's no graph!\nSwitch to graph genearation panel!", "Warning", JOptionPane.WARNING_MESSAGE);
-
+                JOptionPane.showMessageDialog(this, "There's no graph!\nSwitch to graph genearation panel!",
+                        "Warning", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_startButtonActionPerformed
@@ -487,12 +502,11 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
 
     private void tabChoosePanelStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabChoosePanelStateChanged
         if (tabChoosePanel.getSelectedIndex() == 0 && controller.getGraphRepresentation() != null) {
-            //new
             actualizeSearchedKCliqueSizeSpinner();
+            actualizeNumberOfGroupsSpinner();
         }
     }//GEN-LAST:event_tabChoosePanelStateChanged
 
-    // TO DO ustalic porzadne reguly co do ilosci grup w zalezn. od wielkosci grafu czy cos tam
     /**
      * Adds and shows empty chart in GUI.
      */
@@ -518,16 +532,13 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         controller.setNumberOfIterations((int) numberOfGenerationsSpinner.getValue());
     }
 
-    private void loadGraphMenuItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_loadGraphMenuItemActionPerformed
+    private void loadGraphMenuItemActionPerformed(java.awt.event.ActionEvent evt) {
         JFileChooser databaseFileChooser = new JFileChooser();
         int option = databaseFileChooser.showDialog(this, "Import");
         if (option == JFileChooser.APPROVE_OPTION) {
             try {
                 controller.setGraphRepresentation(new GraphRepresentation(databaseFileChooser.getSelectedFile().getAbsolutePath()));
-
-                //new
                 actualizeSearchedKCliqueSizeSpinner();
-
                 graphPanel.setLayoutType(LayoutType.CIRCLE);
                 graphPanel.displayNewGraph(controller.getGraphRepresentation().getGraph());
             } catch (NoPossibilityToCreateGraphException | ProblemWithReadingGraphFromFileException e) {
@@ -536,6 +547,9 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         }
     }// GEN-LAST:event_loadGraphMenuItemActionPerformed
 
+    /**
+     * Actualizes current and maximum value in spinner.
+     */
     private void actualizeSearchedKCliqueSizeSpinner() {
         int oldValue = (int) searchedKCliqueSizeSpinnerNumberModel.getValue();
         if (oldValue != 0) {
@@ -547,8 +561,40 @@ public class KCliqueSolverGUI extends javax.swing.JFrame {
         } else {
             searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
         }
-        //   searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(2, 2, controller.getGraphRepresentation().getVertexCount(), 1);
         searchedKCliqueSizeSpinner.setModel(searchedKCliqueSizeSpinnerNumberModel);
+    }
+
+    /**
+     * Actualizes spinner's range (from 4 to number of vertexes in actual graph
+     * or to 16).
+     *
+     * @return true if graph is too small to use group enciding
+     */
+    private boolean actualizeNumberOfGroupsSpinner() {
+        boolean notEnoughtVertexes = true;
+        int oldValue = (int) numberOfGroupsSpinner.getValue();
+        SpinnerNumberModel model;
+        if (controller.getGraphRepresentation() != null) {
+            int vertexAmount = controller.getGraphRepresentation().getVertexCount();
+            if (vertexAmount >= 4) {
+                notEnoughtVertexes = false;
+                if (vertexAmount < 16 && oldValue <= vertexAmount) {
+                    model = new SpinnerNumberModel(oldValue, 4, vertexAmount, 1);
+                } else if (vertexAmount < 16) {
+                    model = new SpinnerNumberModel(vertexAmount, 4, vertexAmount, 1);
+                } else {
+                    model = new SpinnerNumberModel(oldValue, 4, 16, 1);
+                }
+                numberOfGroupsSpinner.setModel(model);
+            } else {
+                groupCodingCheckBox.setSelected(false);
+                binaryCodingCheckBox.setSelected(true);
+                numberOfGroupsSpinner.setEnabled(false);
+            }
+        } else {
+            return false;
+        }
+        return notEnoughtVertexes;
     }
 
     /**

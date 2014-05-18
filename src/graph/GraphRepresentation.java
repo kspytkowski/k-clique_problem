@@ -261,6 +261,27 @@ public class GraphRepresentation {
     }
 
     /**
+     * Removes edge if it's source and destination is the same vertex.
+     */
+    public boolean removeSingleVertexLoopback() {
+        boolean removed = false;
+        for (String e : graph.getEdges()) {
+            int temp = 0;
+            boolean first = true;
+            for (int i : graph.getEndpoints(e)) {
+                if (first) {
+                    temp = i;
+                    first = false;
+                } else if (temp == i) {
+                    graph.removeEdge(e);
+                    removed = true;
+                }
+            }
+        }
+        return removed;
+    }
+
+    /**
      * Getter
      *
      * @return graph
@@ -312,6 +333,15 @@ public class GraphRepresentation {
      */
     public int getVertexCount() {
         return graph.getVertexCount();
+    }
+
+    /**
+     * Getter
+     *
+     * @return graph edges amount
+     */
+    public int getEdgeCount() {
+        return graph.getEdgeCount();
     }
 
     /**

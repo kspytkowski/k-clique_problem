@@ -111,7 +111,7 @@
       <SubComponents>
         <Component class="javax.swing.JSpinner" name="verticesCount">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(10, 0, 2000, 1))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(10, 2, 2000, 1))"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="verticesCountLabel">
@@ -121,7 +121,7 @@
         </Component>
         <Component class="javax.swing.JSpinner" name="edgesCount">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(10, 0, 2000, 1))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(10, 1, 2000, 1))"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="edgesCountLabel">
@@ -142,7 +142,7 @@
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(5, 0, 2000, 1))"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(5, 2, 2000, 1))"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="demandedCliqueSizeLabel">
@@ -178,8 +178,10 @@
                   <Component id="loadButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="saveButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                  <Component id="saveLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="graphFileName" min="-2" max="-2" attributes="0"/>
+                  <Component id="graphFileName" min="-2" pref="269" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -192,6 +194,7 @@
                       <Component id="loadButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="saveButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="graphFileName" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -220,6 +223,11 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="graph name"/>
             <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="saveLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File name"/>
           </Properties>
         </Component>
       </SubComponents>
