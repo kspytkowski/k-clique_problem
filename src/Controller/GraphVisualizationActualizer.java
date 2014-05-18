@@ -50,7 +50,7 @@ public class GraphVisualizationActualizer extends Thread {
                 graphPanel.repaint();
                 if (controller.isFinished()) {
                     startButton.setEnabled(true);
-                    stopButton.setEnabled(false);
+                    stopButton.doClick();
                 }
             }
             synchronized (this) {

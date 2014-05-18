@@ -394,6 +394,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         vv.setGraphMouse(new EditingModalGraphMouse(vv.getRenderContext(),
                 graphCreator.getVertexFactory(), graphCreator.getEdgeFactory()));
         vv.setBackground(Color.white);
+        graphPanel.setBest(null);
         graphPanel.setVv(vv);
         graphPanel.removeAll();
         graphPanel.add(vv);

@@ -13,7 +13,6 @@ import graph.LayoutType;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import org.jfree.chart.ChartPanel;
 
@@ -482,6 +481,7 @@ public class KCliqueSolverGUI extends JFrame {
         }
         synchronized (controller) {
             if (controller.getGraphRepresentation() != null) {
+                tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 2, false);
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
                 controller.getPlot().clearAllSeries();
@@ -497,6 +497,7 @@ public class KCliqueSolverGUI extends JFrame {
     private void stopButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopButtonActionPerformed
         stopButton.setEnabled(false);
         controller.stopSolving();
+        tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 2, true);
         startButton.setEnabled(true);
     }//GEN-LAST:event_stopButtonActionPerformed
 
