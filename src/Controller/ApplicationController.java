@@ -1,5 +1,5 @@
 /*
- * authors: Wojciech Kasperek & Krzysztof Spytkowski
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
  */
 package Controller;
 
@@ -215,8 +215,8 @@ public class ApplicationController extends Thread {
             Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding, numberOfGroupsInGroupEncoding);
             int rate = (int) ceil(numberOfIterations / numberOfGroupsInGroupEncoding);
             finished = false;
-            for (int i = 1; !finished; i++) {
-                if (i % rate == 0) {
+            for (int i = 0; !finished; i++) {
+                if (i % rate == 0 && i != 0) {
                     population.singleLifeCycle(true, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 } else {
                     population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);

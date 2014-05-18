@@ -1,3 +1,6 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import static java.lang.Math.ceil;
@@ -7,17 +10,13 @@ import graph.GraphRepresentation;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 29th March 2014
- */
 public class Population {
 
     public final ExecutorService ex = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() > 3) ? Runtime.getRuntime().availableProcessors() - 2 : 1);
@@ -86,14 +85,16 @@ public class Population {
     }
 
     /**
-     * One cycle. //TODO
+     * Single life cycle - selection, crossing over and mutation. In special
+     * year in group encoding also removing one group.
      *
-     * @param specialYear
-     * @param selection
-     * @param crossingOverProbability
-     * @param crossingOverType
-     * @param mutationProbability
-     * @param toRemove
+     * @param specialYear - marks special year
+     * @param selection - type of selection
+     * @param crossingOverProbability - probability of crossing over
+     * @param crossingOverType - type of crossing over
+     * @param mutationProbability - probability of mutation
+     * @param toRemove - percent (from 0.0 to 1.0) of population's individuals
+     * to remove
      */
     public void singleLifeCycle(boolean specialYear, SelectionType selection, double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) {
         if (specialYear && numberOfGroups > 2) {
@@ -108,17 +109,6 @@ public class Population {
         Mutation.mutate(this, mutationProbability);
         determineEveryIndividualFitness();
         this.removeWorstIndividuals(toRemove);
-        this.keepConstantPopulationSize();
-    }
-
-    // tia, o tym marzyłem - robimy klasę abstrakcyjną, zaślepki, a tu dalej wyspecjalizowane funkcje...
-    public void singleLifeCycleKRZYSZTOF(double crossingOverProbability, CrossingOverType crossingOverType, double mutationProbability, double toRemove) {
-        Selection.proceedSelection(SelectionType.LINEARRANKINGSELECTION, this);
-        CrossingOver.crossOver(crossingOverType, this, crossingOverProbability);
-        this.keepConstantPopulationSize();
-        Mutation.mutate(this, mutationProbability);
-        determineEveryIndividualFitness();
-        removeWorstIndividuals(toRemove);
         this.keepConstantPopulationSize();
     }
 
@@ -219,9 +209,10 @@ public class Population {
     public void determineEveryIndividualFitness() {
         try {
             ex.invokeAll(actualizeGroupsOfIndividuals());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**

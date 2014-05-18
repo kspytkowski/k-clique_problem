@@ -1,3 +1,6 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package graph;
 
 import java.io.BufferedReader;
@@ -17,10 +20,6 @@ import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import org.apache.commons.collections15.Factory;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 16th March 2014
- */
 public class GraphRepresentation {
 
     private static final Random rand = new Random(); // object that generates random numbers

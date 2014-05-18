@@ -1,3 +1,6 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package GUI;
 
 import Controller.GraphVisualizationAndButtonsStateActualizer;
@@ -16,10 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import org.jfree.chart.ChartPanel;
 
-/**
- *
- * @author wukat & others
- */
 public class KCliqueSolverGUI extends JFrame {
 
     private final ApplicationController controller; // controller

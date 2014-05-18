@@ -1,11 +1,10 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import graph.GraphRepresentation;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 17th April 2014
- */
 public abstract class AbstractIndividual implements Comparable<AbstractIndividual> {
 
     protected GraphRepresentation graph = null; // main graph

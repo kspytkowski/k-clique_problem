@@ -1,7 +1,9 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import graph.GraphRepresentation;
-
 import java.util.LinkedList;
 import java.util.Random;
 

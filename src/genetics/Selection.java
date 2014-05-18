@@ -1,3 +1,6 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import java.util.Collections;
@@ -5,11 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
-/**
- * @author Krzysztof Spytkowski
- * @modified wukat
- * @date 7th April 2014
- */
 public class Selection {
 
     private static final int gameIndividualsAmount = 3; // amount of individuals that take part in every tournament

@@ -1,3 +1,6 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package GUI;
 
 import java.awt.Color;
@@ -26,10 +29,6 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 20th April 2014
- */
 public class Chart {
 
     private final JFreeChart jFreeChart; // chart
@@ -39,11 +38,6 @@ public class Chart {
     private final XYSeriesCollection dataset; // set of series
     private final ChartPanel chartPanel; // chart frame
 
-    // u lidki siec czynnosci na wgzaminie, nie siec zdarzen, rob klasy, luki z czasem (kazde zadanie min. 2 łuki => dop
-    // rowadzajacy i odprowadzajacy
-    
-    //TODO => zrob od zera a nie od 1, bo jak znajdzie w zerowej iteracji to sie nic nie wyswietla
-    
     /**
      * Constructor
      *
@@ -118,10 +112,9 @@ public class Chart {
     public void repaintChart() {
         chartPanel.repaint();
     }
-    
+
     /**
-     * Probably clears plot.
-     * TODO try it if needed to use
+     * Probably clears plot. TODO try it if needed to use
      */
     public void clearAllSeries() {
         bestSeries.clear();
@@ -150,8 +143,10 @@ public class Chart {
         try {
             out = new OutputStreamWriter(outputStream, "UTF-8");
             svgGenerator.stream(out, true);
-            outputStream.flush();
-            outputStream.close();
+            if (outputStream != null) {
+                outputStream.flush();
+                outputStream.close();
+            }
         } catch (UnsupportedEncodingException e) {
         } catch (IOException e) {
         }

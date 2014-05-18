@@ -1,9 +1,8 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 6th April 2014
- */
 public enum CrossingOverType {
 
     ONEPOINTWITHTWOCHILDREN, ONEPOINTWITHONECHILD, UNIFORMCROSSOVER, WEIGHTEDUNIFORMCROSSOVER, TWOPOINTSWITHTWOCHILDREN, TWOPOINTSWITHONECHILD;

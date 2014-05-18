@@ -1,5 +1,5 @@
 /*
- * authors: Wojciech Kasperek & Krzysztof Spytkowski
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
  */
 package GUI;
 
@@ -17,10 +17,6 @@ import genetics.AbstractIndividual;
 import graph.GraphVisualisation;
 import graph.LayoutType;
 
-/**
- *
- * @author wukat
- */
 public class GraphPanel extends JPanel {
 
     private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
@@ -31,8 +27,8 @@ public class GraphPanel extends JPanel {
 
     /**
      * Setter
-     * 
-     * @param graph 
+     *
+     * @param graph
      */
     public void setGraph(Graph<Integer, String> graph) {
         this.graph = graph;

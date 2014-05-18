@@ -1,11 +1,10 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import java.util.Random;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 7th April 2014
- */
 public class Mutation {
 
     /**

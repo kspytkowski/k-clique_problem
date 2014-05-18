@@ -1,15 +1,15 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
-/**
- * @author wukat
- * @date 1st May 2014
- */
 public enum SelectionType {
+
     TOURNAMENTSELECTION, ROULETTEWHEELSELECTION, LINEARRANKINGSELECTION;
-    
+
     /**
      * Gets type at given index.
-     * 
+     *
      * @param index
      * @return type of selection
      */

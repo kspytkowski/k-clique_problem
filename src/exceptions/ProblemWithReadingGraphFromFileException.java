@@ -1,24 +1,22 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package exceptions;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 16 kwi 2014
- */
 public class ProblemWithReadingGraphFromFileException extends Exception {
 
     private static final long serialVersionUID = 1L; // default serial version
 
     /**
-     * Constructor
+     * Constructor.
      */
     public ProblemWithReadingGraphFromFileException() {
     }
 
     /**
      * Constructor
-     * 
-     * @param message
-     *            - information about exception
+     *
+     * @param message - information about exception
      */
     public ProblemWithReadingGraphFromFileException(String message) {
         super(message);
@@ -26,9 +24,8 @@ public class ProblemWithReadingGraphFromFileException extends Exception {
 
     /**
      * Constructor
-     * 
-     * @param cause
-     *            - cause of exception
+     *
+     * @param cause - cause of exception
      */
     public ProblemWithReadingGraphFromFileException(Throwable cause) {
         super(cause);
@@ -36,11 +33,9 @@ public class ProblemWithReadingGraphFromFileException extends Exception {
 
     /**
      * Constructor
-     * 
-     * @param message
-     *            - information about exception
-     * @param cause
-     *            - cause of exception
+     *
+     * @param message - information about exception
+     * @param cause - cause of exception
      */
     public ProblemWithReadingGraphFromFileException(String message, Throwable cause) {
         super(message, cause);

@@ -1,6 +1,5 @@
 /*
- * authors: Wojciech Kasperek & Krzysztof Spytkowski
- * Each line should be prefixed with  * 
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
  */
 package GUI;
 
@@ -20,10 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 
-/**
- *
- * @author wukat
- */
 public class GraphGenerationPanel extends javax.swing.JPanel {
 
     private GraphRepresentation graphCreator = null; // contains created graph
@@ -370,7 +365,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             graphPanel.setGraph(graphCreator.getGraph());
             if (removedSomeEdges) {
                 JOptionPane.showMessageDialog(this, "Edges starting and finishing in same vertex were removed.",
-                    "Removed some edges", JOptionPane.INFORMATION_MESSAGE);
+                        "Removed some edges", JOptionPane.INFORMATION_MESSAGE);
             }
         } else if (removedSomeEdges) {
             JOptionPane.showMessageDialog(this, "Finish drawing - your graph should have at least 2 vertexes and 1 edge!"

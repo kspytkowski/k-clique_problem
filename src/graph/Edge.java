@@ -1,9 +1,8 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package graph;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 16 mar 2014
- */
 public class Edge {
 
     private final int first; // first vertex of edge
@@ -11,11 +10,9 @@ public class Edge {
 
     /**
      * Constructor
-     * 
-     * @param first
-     *            - first vertex
-     * @param second
-     *            - second vertex
+     *
+     * @param first - first vertex
+     * @param second - second vertex
      */
     public Edge(int first, int second) {
         this.first = first;
@@ -24,7 +21,7 @@ public class Edge {
 
     /**
      * Getter
-     * 
+     *
      * @return first vertex
      */
     public int getFirstVertex() {
@@ -33,7 +30,7 @@ public class Edge {
 
     /**
      * Getter
-     * 
+     *
      * @return second vertex
      */
     public int getSecondVertex() {

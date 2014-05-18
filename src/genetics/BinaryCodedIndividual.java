@@ -1,14 +1,12 @@
+/*
+ * authors: Wojciech Kasperek & Krzysztof Spytkowski & Izabela Śmietana
+ */
 package genetics;
 
 import graph.GraphRepresentation;
-
 import java.util.LinkedList;
 import java.util.Random;
 
-/**
- * @author Krzysztof Spytkowski
- * @date 18th April 2014
- */
 public class BinaryCodedIndividual extends AbstractIndividual {
 
     private int activeGenesAmount; // amount of vertices in subgraph
@@ -41,12 +39,12 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         Random rand = new Random();
         for (int i = 0; i < graph.getsearchedKCliqueSize(); i++) {
             int k = helpList.get(rand.nextInt(graph.getVertexCount() - i));
-            chromosome[k] = 1; // 1!
+            chromosome[k] = 1;
             helpList.remove((Integer) k);
         }
-        for (int i = 0; i < graph.getVertexCount(); i++) { //new!
-            chromosome[i] = (chromosome[i] == 0) ? 1 : 0;             
-        } //new!
+        for (int i = 0; i < graph.getVertexCount(); i++) {
+            chromosome[i] = (chromosome[i] == 0) ? 1 : 0;
+        }
         determineIndividualFitness();
     }
 
@@ -77,7 +75,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         for (int i = 0; i < graph.getVertexCount(); i++) {
             if (getChromosome()[i] == 0) { // 1!
                 for (int k = i + 1; k <= graph.getVertexCount(); k++) {
-                    if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 0) { // 1!
+                    if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 0) {
                         edgesAmount += 1;
                     }
                 }
@@ -85,12 +83,10 @@ public class BinaryCodedIndividual extends AbstractIndividual {
         }
         double isKClique = 0.0;
         if (getActiveGenesAmount() > 1) {
-            isKClique = (double) edgesAmount / ((getActiveGenesAmount() * (getActiveGenesAmount() - 1) / 2)) * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount() - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
-            // int k = getActiveGenesAmount();
-            // double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
-            // double isKlique = 0.0; if (edgesAmount / (k * (k - 1) / 2) == 1) isKlique = 1;
-            // czyJestKKlika = k > graph.getsearchedKCliqueSize() ? 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (edgesAmount / (k * (k - 1) / 2)) + (isKlique * k /
-            // graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
+            isKClique = (double) edgesAmount / ((getActiveGenesAmount()
+                    * (getActiveGenesAmount() - 1) / 2))
+                    * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount()
+                            - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
         }
         setFitness(isKClique);
     }
