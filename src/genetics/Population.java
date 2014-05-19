@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class Population {
 
-    public final ExecutorService ex = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() > 3) ? Runtime.getRuntime().availableProcessors() - 2 : 1);
+    private final ExecutorService executor = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() > 3) ? Runtime.getRuntime().availableProcessors() - 2 : 1);
 
     private final GraphRepresentation graph; // main graph
     private LinkedList<AbstractIndividual> individuals; // list of individuals
@@ -208,11 +208,17 @@ public class Population {
      */
     public void determineEveryIndividualFitness() {
         try {
-            ex.invokeAll(actualizeGroupsOfIndividuals());
+            executor.invokeAll(actualizeGroupsOfIndividuals());
         } catch (InterruptedException ex) {
             Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    /**
+     * Shut downs running threads created in population class.
+     */
+    public void shutDownThreads() {
+        executor.shutdown();
     }
 
     /**

@@ -231,7 +231,7 @@ public class ApplicationController extends Thread {
                     graphActualizer.actualize();
                 }
             }
-            population.ex.shutdownNow();
+            population.shutDownThreads();
         } catch (GeneticAlgorithmException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -256,7 +256,7 @@ public class ApplicationController extends Thread {
                     graphActualizer.actualize();
                 }
             }
-            population.ex.shutdownNow();
+            population.shutDownThreads();
         } catch (GeneticAlgorithmException ex) {
             Logger.getLogger(ApplicationController.class.getName()).log(Level.SEVERE, null, ex);
         }
