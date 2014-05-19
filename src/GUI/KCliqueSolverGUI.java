@@ -92,9 +92,6 @@ public class KCliqueSolverGUI extends JFrame {
         tabChoosePanel = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        openMenuItem = new javax.swing.JMenuItem();
-        saveMenuItem = new javax.swing.JMenuItem();
-        saveAsMenuItem = new javax.swing.JMenuItem();
         loadGraphMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
@@ -389,19 +386,6 @@ public class KCliqueSolverGUI extends JFrame {
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
 
-        openMenuItem.setMnemonic('o');
-        openMenuItem.setText("Open");
-        fileMenu.add(openMenuItem);
-
-        saveMenuItem.setMnemonic('s');
-        saveMenuItem.setText("Save");
-        fileMenu.add(saveMenuItem);
-
-        saveAsMenuItem.setMnemonic('a');
-        saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.setDisplayedMnemonicIndex(5);
-        fileMenu.add(saveAsMenuItem);
-
         loadGraphMenuItem.setText("Load graph");
         loadGraphMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -412,6 +396,11 @@ public class KCliqueSolverGUI extends JFrame {
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitMenuItemActionPerformed(evt);
+            }
+        });
         fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
@@ -506,6 +495,10 @@ public class KCliqueSolverGUI extends JFrame {
             actualizeNumberOfGroupsSpinner();
         }
     }//GEN-LAST:event_tabChoosePanelStateChanged
+
+    private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitMenuItemActionPerformed
 
     /**
      * Adds and shows empty chart in GUI.
@@ -658,10 +651,7 @@ public class KCliqueSolverGUI extends JFrame {
     private javax.swing.JSpinner numberOfGenerationsSpinner;
     private javax.swing.JLabel numberOfGroupsLabel;
     private javax.swing.JSpinner numberOfGroupsSpinner;
-    private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel populationPanel;
-    private javax.swing.JMenuItem saveAsMenuItem;
-    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JLabel searchedKCliqueSizeLabel;
     private javax.swing.SpinnerModel searchedKCliqueSizeSpinnerNumberModel;
     private javax.swing.JSpinner searchedKCliqueSizeSpinner;
