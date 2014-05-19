@@ -2,6 +2,7 @@
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{enumerate}
+\usepackage{listings}
 
 \author{Wojciech Kasperek, Krzysztof Spytkowski, Izabela Śmietana}
 \shortauthor{W. Kasperek, K. Spytkowski, I. Śmietana}
@@ -9,7 +10,7 @@
 \titlePL{Problem istnienia k-kliki}
 \titleEN{}
 
-\thesistype{Projekt zaliczeniowy:}
+\thesistype{Projekt zaliczeniowy z przedmiotu Badania Operacyjne i Teoria Złożoności Obliczeniowej:}
 %\thesistype{Master of Science Thesis}
 
 \supervisor{dr Adam Sędziwy}
@@ -39,8 +40,8 @@
 
 \chapter{Zarys problemu}
 \label{cha:wprowadzenie}
-PARAPAPA o problemie (o grafach złożoności NP cośtam etc.)
-\section{Algorytmy genetyczne}
+Nasz projekt polegał na stworzeniu programu umożliwiającego stwierdzenie czy istnieje klika o zadanym rozmiarze w podanym grafie. Postawiony problem jest w teorii złożoności obliczeniowej jednym z problemów NP-zupełnych. Dlatego też nasz program do rozwiązania tego problemu korzysta z algorytmu genetycznego. 
+\section{Algorytm genetyczny}
 \label{sec:algGenetyczne}
 o algorytmach ogólnie słów parę
 \section{Podejście do rozwiązania}
@@ -48,44 +49,83 @@ o algorytmach ogólnie słów parę
 bla bla bla, że mieliśmy dwa pomysły z kodowaniami
 że teraz wyjaśnimi co i jak, a później w jakimśtam rozdziale będzie jak przebiega całość
 
-\chapter{Kodowania}
+\chapter{Kodowanie}
 \label{cha:encoding}
+Każdy osobniki (podgraf zadanego grafu) reprezentowany jest przez chromosom (zbiór wierzchołków). 
 \section{Binarne}
 \label{sec:binary}
-to takie wolne o.O
+W tym kodowaniu zasada jest następująca: „1” w chromosomie oznacza przynależność danego wierzchołka do podgrafu, „0” oznacza, że tego wierzchołka nie ma w podgrafie.
 \section{Grupowe}
 \label{sec:group}
 takie pro
 
-\chapter{Metody krzyżowania}
+\chapter{Krzyżowanie}
 \label{cha:crossing}
-\section{Jednopunktowe}
-\label{sec:singlePoint}
-ho
-\section{Uniform??? + ważony}
-\label{sec:uniform}
-fd
-\section{Dwupunktowe}
-\label{sec:twoPoints}
-d
+Zadaniem krzyżowania jest wymiana "materiału genetycznego" pomiędzy dwoma osobnikami w populacji. W wyniku krzyżowania na podstawie dwóch osobników (rodzice) tworzony jest nowy osobnik (dziecko) bądź nowe osobniki (dzieci). Po wykonaniu krzyżowania dzieci zastępują w populacji rodziców. 
+ 
+\section{Jednopunktowe z dwoma potomkami}
+\label{sec:jedenDwa}
+Polega na podziale dwóch chromosomów (pochodzących od rodziców) na dwie części (niekoniecznie równe) i z nich tworzone są dzieci: pierwsze dziecko składa się z początkowej części pierwszego rodzica i końcówki drugiego natomiast drugie dziecko odwrotnie - początek drugiego rodzica i koniec pierwszego.
 
-\chapter{Metody selekcji}
+\section{Jednopunktowe z jednym potomkiem}
+\label{sec:jedenJeden}
+Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego rodzica i początek materiału genetycznego drugiego rodzica są zaniedbywane.
+
+\section{Jednolite?! z jednym potomkiem}
+\label{sec:uniform}
+W tym krzyżowaniu każdy gen dziecka jest losowany od rodziców z prawdopodobienstwem 50\%.
+
+\chapter{bezsensowny nowy chapter zeby bledy nie wyskakiwaly}
+\label{cha:sorryTakiMamyKlimat}
+
+\section{Ważone z jednym potomkiem}
+\label{sec:wazone}
+W wyniku tego krzyżowania powstaje jeden nowy osobnik, który dziedziczy każdy gen zgodnie z prawdopodobieństwem:
+\begin{center}
+przystosowanie konkretnego rodzica / suma przystosowań obu rodziców
+\end{center}
+
+\section{Dwupunktowe z dwoma potomkami}
+\label{sec:dwaDwa}
+Tym razem dzielimy chromosomy rodziców na 3 części. Pierwsze dziecko składa się z początkowej części pierwszego rodzica, środkowej drugiego rodzica i końcówki ponownie pierwszego rodzica. Natomiast drugie dziecko odwrotnie - początek drugiego rodzica, środek pierwszego i koniec znów drugiego.
+
+\section{Dwupunktowe z jednym potomkiem}
+\label{sec:dwaJeden}
+Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, środek materiału genetycznego pierwszego rodzica, początek i koniec materiału genetycznego drugiego rodzica są zaniedbywane.
+
+\chapter{Selekcja}
 \label{cha:selection}
+W zależności od wartości funkcji przystosowania danego osobnika w populacji ma on większe (gdy jest 'dobry') lub mniejsze (gdy jest 'słaby') szanse na znalezienie się w kolejnym pokoleniu. To właśnie selekcja dokonuje wyboru osobników będących rodzicami dla nowego pokolenia.
 \section{Turniejowa}
 \label{sec:tournament}
-taka fajna
-\section{Ruletki}
+Polega na podziale populacji na grupy n-osobników (w naszej implementacji są to grupy 3-osobnikowe). Następnie z każdej z tych grup wybierany jest osobnik najlepiej przystosowany i on przepisywany jest do nowo tworzonej populacji.
+
+\section{Ruletkowa}
 \label{sec:roulette}
-taka niebezpieczna
+Polega na n krotnym losowaniu (n - liczba osobników w populacji) ze starej populacji osobników, które zostaną przepisane do nowej populacji. Oczywiście wszystkie osobniki mają różne prawdopodobieństwa wylosowania, które są liczone zgodnie ze wzorem:
+\begin{center}
+wartość przystosowania danego osobnika / suma wartości przystosowania wszystkich osobników
+\end{center}
+ 
 \section{Rankingowa}
 \label{sec:linear}
-a co to to nie wiem
+Selekcja tą metodą jest bardzo podobna do selekcji metodą koła ruletki. Modyfikacja polega jedynie na zmianie funkcji określającej prawdopodobieństwo wyboru danego osobnika. Przed przystąpieniem do tej selekcji należy nadać każdemu z osobników pewną wartość (pozycje w rankingu) zależną od jego położenia na liście posortowanej względem wartości funkcji przystosowania. Wzór pozwalający obliczyć prawdopodobieństwo wyboru:
+\begin{center}
+pozycja w rankingu / suma wartości przystosowania wszystkich osobników
+\end{center}
 
 \chapter{Mutowanie}
 \label{cha:mutation}
 
-\chapter{Działanie programu}
+\section{Przy kodowaniu binarnym}
+\label{sec:kodBin}
+Mutacja polega na zamianie genu „1” na gen „0” (i odwrotnie).
+\section{Przy kodowaniu grupowym}
+\label{sec:kodGru}
+
+\chapter{Program}
 \label{cha:program}
+Stworzony przez nas program " " został napisany w języku JAVA. Do rysowania i wizualizacji grafów użyliśmy biblioteki JUNG. Przy rysowaniu i tworzeniu wykresów przystosowania osobników w populacji pomocna okazała się biblioteka JFreeChart. Natomiast zapis wykresów do pliku umożliwiła biblioteka Batik (no chyba nie zaimplementowalismy....)!
 \section{Przebieg pojedynczej iteracji}
 \label{sec:singleLifeCycle}
 singleLifeCycle
