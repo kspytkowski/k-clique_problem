@@ -382,7 +382,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
      */
     private void drawing() {
         graphCreator = new GraphRepresentation();
-        Layout<Integer, String> layout = new StaticLayout(graphCreator.getGraph());
+        StaticLayout<Integer, String> layout = new StaticLayout<>(graphCreator.getGraph());
         layout.setSize(graphPanel.getSize());
         VisualizationViewer<Integer, String> vv
                 = new VisualizationViewer<>(layout, graphPanel.getSize());
