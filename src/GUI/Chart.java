@@ -107,14 +107,14 @@ public class Chart {
     }
 
     /**
-     * Repaints ChartFrame
+     * Repaints ChartFrame.
      */
     public void repaintChart() {
         chartPanel.repaint();
     }
 
     /**
-     * Probably clears plot. TODO try it if needed to use
+     * Probably clears plot.
      */
     public void clearAllSeries() {
         bestSeries.clear();
