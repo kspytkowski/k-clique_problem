@@ -81,14 +81,14 @@ public class BinaryCodedIndividual extends AbstractIndividual {
                 }
             }
         }
-        double isKClique = 0.0;
+        double howMuchIsKClique = 0.0;
         if (getActiveGenesAmount() > 1) {
-            isKClique = (double) edgesAmount / ((getActiveGenesAmount()
+            howMuchIsKClique = (double) edgesAmount / ((getActiveGenesAmount()
                     * (getActiveGenesAmount() - 1) / 2))
                     * (graph.getsearchedKCliqueSize() - Math.abs(getActiveGenesAmount()
                             - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
         }
-        setFitness(isKClique);
+        setFitness(howMuchIsKClique);
     }
 
     @Override
