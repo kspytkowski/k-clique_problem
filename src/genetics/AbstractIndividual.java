@@ -83,7 +83,7 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
     /**
      * Getter
      *
-     * @param index - index of gene
+     * @param geneIndex - index of gene
      * @return value of gene
      */
     public int getValueOfGene(int geneIndex) {
@@ -131,6 +131,8 @@ public abstract class AbstractIndividual implements Comparable<AbstractIndividua
      * Compares two individuals - better individual has better fitness
      *
      * @param i - individual
+     * @return 0 if individuals have the same fitness, 1 if this individual has
+     * heigher fitness than individual given in parameter, -1 otherwise
      */
     @Override
     public int compareTo(AbstractIndividual i) {

@@ -4,6 +4,6 @@
 package graph;
 
 public enum LayoutType {
-
+    
     CIRCLE, KAMADAKAWAI, FRUCHTERMANRHEINGOLD, SPRING, MEYER
 }

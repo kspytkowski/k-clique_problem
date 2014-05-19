@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 public class Population {
 
     private final ExecutorService executor = Executors.newFixedThreadPool((Runtime.getRuntime().availableProcessors() > 3) ? Runtime.getRuntime().availableProcessors() - 2 : 1);
-
     private final GraphRepresentation graph; // main graph
     private LinkedList<AbstractIndividual> individuals; // list of individuals
     private final int demandedIndividualsAmount; // amount of individuals that SHOULD BE in population

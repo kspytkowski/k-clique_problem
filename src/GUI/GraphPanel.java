@@ -19,7 +19,7 @@ import graph.LayoutType;
 
 public class GraphPanel extends JPanel {
 
-    private VisualizationViewer<Integer, String> vv = null; // visualization viewer of graph
+    private VisualizationViewer<Integer, String> vv; // visualization viewer of graph
     private Layout<Integer, String> actualGrLayout = null; // displayed layout
     private Graph<Integer, String> graph; // graph
     private LayoutType layoutType = LayoutType.CIRCLE; // actually chosen layout of a graph
@@ -65,6 +65,7 @@ public class GraphPanel extends JPanel {
      * Constructor.
      */
     public GraphPanel() {
+        this.vv = null;
         setBackground(Color.white);
         setDoubleBuffered(true);
     }
@@ -91,7 +92,6 @@ public class GraphPanel extends JPanel {
      * Function actualizes graph on the screen
      *
      * @param g - new graph
-     * @param layoutType - type of layout to visualization of graph
      */
     public final void displayNewGraph(Graph<Integer, String> g) {
         this.graph = g;
@@ -117,7 +117,6 @@ public class GraphPanel extends JPanel {
             vv.setBackground(Color.WHITE);
             vv.setGraphMouse(new DefaultModalGraphMouse<String, Number>());
         }
-
         vv.getRenderContext().setVertexDrawPaintTransformer(new VertexDrawing());
         vv.getRenderContext().setVertexFillPaintTransformer(new VertexPainting(bestOne));
         vv.getRenderContext().setEdgeDrawPaintTransformer(new EdgePainting(bestOne));
@@ -130,27 +129,32 @@ public class GraphPanel extends JPanel {
      */
     public class EdgePainting implements Transformer<String, Paint> {
 
-        AbstractIndividual a;
+        AbstractIndividual individual; // individual
 
-        public void setIndividual(AbstractIndividual a) {
-            this.a = a;
+        /**
+         * Setter
+         *
+         * @param ind - individual
+         */
+        public void setIndividual(AbstractIndividual ind) {
+            this.individual = ind;
         }
 
         /**
          * Constructor
          *
-         * @param arr - individual with chromosome
+         * @param ind - individual with chromosome
          */
-        public EdgePainting(AbstractIndividual arr) {
-            this.a = arr;
+        public EdgePainting(AbstractIndividual ind) {
+            this.individual = ind;
         }
 
         @Override
         public Paint transform(String e) {
-            if (a != null) {
+            if (individual != null) {
                 boolean flag = false;
                 for (int i : graph.getEndpoints(e)) {
-                    if (a.getChromosome()[i - 1] != 0) {
+                    if (individual.getChromosome()[i - 1] != 0) {
                         flag = true;
                     }
                 }
@@ -167,12 +171,17 @@ public class GraphPanel extends JPanel {
      */
     public class EdgeThickness implements Transformer<String, Stroke> {
 
-        AbstractIndividual arr;
-        protected final Stroke THIN = new BasicStroke(1); // thickness
-        protected final Stroke THICK = new BasicStroke(2);
+        AbstractIndividual individual; // individual
+        protected final Stroke THIN = new BasicStroke(1); // thickness of edge (thin)
+        protected final Stroke THICK = new BasicStroke(2); // thickness of edge (thick)
 
-        public void setIndividual(AbstractIndividual a) {
-            this.arr = a;
+        /**
+         * Setter
+         *
+         * @param ind - individual
+         */
+        public void setIndividual(AbstractIndividual ind) {
+            this.individual = ind;
         }
 
         /**
@@ -181,15 +190,15 @@ public class GraphPanel extends JPanel {
          * @param arr - individual with chromosome
          */
         public EdgeThickness(AbstractIndividual arr) {
-            this.arr = arr;
+            this.individual = arr;
         }
 
         @Override
         public Stroke transform(String e) {
-            if (arr != null) {
+            if (individual != null) {
                 boolean flag = false;
                 for (int i : graph.getEndpoints(e)) {
-                    if (arr.getChromosome()[i - 1] != 0) {
+                    if (individual.getChromosome()[i - 1] != 0) {
                         flag = true;
                     }
                 }
@@ -218,10 +227,15 @@ public class GraphPanel extends JPanel {
      */
     public class VertexPainting implements Transformer<Integer, Paint> {
 
-        AbstractIndividual arr;
+        AbstractIndividual individual; // individual
 
-        public void setIndividual(AbstractIndividual a) {
-            this.arr = a;
+        /**
+         * Setter
+         *
+         * @param ind - individual
+         */
+        public void setIndividual(AbstractIndividual ind) {
+            this.individual = ind;
         }
 
         /**
@@ -230,13 +244,13 @@ public class GraphPanel extends JPanel {
          * @param arr - individual with chromosome
          */
         public VertexPainting(AbstractIndividual arr) {
-            this.arr = arr;
+            this.individual = arr;
         }
 
         @Override
         public Paint transform(Integer i) {
-            if (arr != null) {
-                if (0 == arr.getChromosome()[i - 1]) {
+            if (individual != null) {
+                if (0 == individual.getChromosome()[i - 1]) {
                     return Color.YELLOW;
                 }
             }

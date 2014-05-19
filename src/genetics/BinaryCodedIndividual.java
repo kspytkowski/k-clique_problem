@@ -26,7 +26,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
      * appropriate amount of genes (vertices) and puts them into chromosome
      * (table)
      *
-     * @param graphSize - graph's size (amount of vertices)
+     * @param graph - graph
      */
     public BinaryCodedIndividual(GraphRepresentation graph) {
         this.graph = graph;
@@ -73,9 +73,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     public final void determineIndividualFitness() {
         int edgesAmount = 0;
         for (int i = 0; i < graph.getVertexCount(); i++) {
-            if (getChromosome()[i] == 0) { // 1!
+            if (getValueOfGene(i) == 0) { 
                 for (int k = i + 1; k <= graph.getVertexCount(); k++) {
-                    if (graph.isNeighbor(i + 1, k) && getChromosome()[k - 1] == 0) {
+                    if (graph.isNeighbor(i + 1, k) && getValueOfGene(k - 1) == 0) {
                         edgesAmount += 1;
                     }
                 }
@@ -103,9 +103,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     @Override
     public void setGene(int geneIndex, int value) {
-        if (chromosome[geneIndex] != value && value == 0) { // 1!
+        if (chromosome[geneIndex] != value && value == 0) { 
             activeGenesAmount++;
-        } else if (chromosome[geneIndex] != value && value == 1) { // 0!
+        } else if (chromosome[geneIndex] != value && value == 1) { 
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;
