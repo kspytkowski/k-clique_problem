@@ -48,25 +48,38 @@
 Nasz projekt polegał na stworzeniu programu umożliwiającego stwierdzenie czy istnieje klika o zadanym rozmiarze w podanym grafie. Postawiony problem jest w teorii złożoności obliczeniowej jednym z problemów NP-zupełnych. Dlatego też nasz program do rozwiązania tego problemu korzysta z algorytmu genetycznego. 
 \section{Algorytm genetyczny}
 \label{sec:algGenetyczne}
-o algorytmach ogólnie słów parę
+Mechanizm działania klasycznego algorytmu genetycznego składa się z następujących kroków:
+\begin{enumerate}
+\item Inicjacja – utworzenie populacji początkowej, wybór ustalonej liczby osobników i nadanie wartości losowych genom wchodzącym w skład ich chromosomu.
+\item Ocena przystosowania – obliczenie wartości funkcji przystosowania dla każdego osobnika.
+\item Selekcja chromosomów – wybór osobników, które biorą udział w tworzeniu nowej populacji.
+\item Zastosowanie operatorów genetycznych – na grupie osobników, wybranych drogą selekcji działają
+operatory genetyczne (krzyżowanie i mutacja).
+\item Utworzenie nowej populacji – osobniki otrzymane jako rezultat działania operatorów
+genetycznych wchodzą w skład nowej populacji. Cała poprzednia populacja jest zastępowana przez
+tak samo liczną nowa populacje potomków.
+\item Sprawdzenie warunku stopu algorytmu - wyprowadzenie 'najlepszego' osobnika (o największej wartości funkcji przystosowania). Jeżeli osobnik ten spełnia postawione w zadaniu warunki to algorytm kończy pracę, w przeciwnym razie przechodzimy w pętli do punktu 2 (działając już na nowej populacji - potomków).
+
+\end{enumerate}
 \section{Podejście do rozwiązania}
 \label{sec:podejscie}
 bla bla bla, że mieliśmy dwa pomysły z kodowaniami
 że teraz wyjaśnimi co i jak, a później w jakimśtam rozdziale będzie jak przebiega całość
 
-\chapter{Kodowanie i funkcja oceny}
+\chapter{Kodowanie i funkcja przystosowania}
 \label{cha:encoding}
-Każdy osobniki (podgraf zadanego grafu) reprezentowany jest przez chromosom (zbiór wierzchołków). 
+Każdy osobnik (podgraf zadanego grafu) reprezentowany jest przez chromosom, który składa się z genów (zbioru wierzchołków podgrafu). Powstały zbiór cech danego osobnika stanowi jego genotyp, który podlega ocenie funkcji przystosowania. A więc genotyp opisuje proponowane rozwiązanie problemu, a funkcja przystosowania ocenia, jak
+dobre jest to rozwiązanie.
 \section{Binarne}
 \label{sec:binary}
-W tym kodowaniu zasada jest następująca: „1” w chromosomie oznacza przynależność danego wierzchołka do podgrafu, „0” oznacza, że tego wierzchołka nie ma w podgrafie.
+W tym kodowaniu zasada jest następująca: '0' w chromosomie oznacza przynależność danego wierzchołka do podgrafu, '1' oznacza, że tego wierzchołka nie ma w podgrafie.
 \section{Grupowe}
 \label{sec:group}
 takie pro
 
 \chapter{Krzyżowanie}
 \label{cha:crossing}
-Zadaniem krzyżowania jest wymiana "materiału genetycznego" pomiędzy dwoma osobnikami w populacji. W wyniku krzyżowania na podstawie dwóch osobników (rodzice) tworzony jest nowy osobnik (dziecko) bądź nowe osobniki (dzieci). Po wykonaniu krzyżowania dzieci zastępują w populacji rodziców. 
+Zadaniem krzyżowania jest wymiana 'materiału genetycznego' pomiędzy dwoma osobnikami w populacji. Polega na połączeniu niektórych (wybranych od rodziców) genotypów w jeden. Kojarzenie ma sprawić, że potomek dwóch osobników rodzicielskich ma zespół cech, który jest kombinacją ich cech (może się zdarzyć, że tych najlepszych). Po wykonaniu krzyżowania dzieci zastępują w populacji rodziców. 
  
 \section{Jednopunktowe z dwoma potomkami}
 \label{sec:jedenDwa}
@@ -76,9 +89,9 @@ Polega na podziale dwóch chromosomów (pochodzących od rodziców) na dwie czę
 \label{sec:jedenJeden}
 Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego rodzica i początek materiału genetycznego drugiego rodzica są zaniedbywane.
 
-\section{Jednolite?! z jednym potomkiem}
+\section{Jednorodne z jednym potomkiem}
 \label{sec:uniform}
-W tym krzyżowaniu każdy gen dziecka jest losowany od rodziców z prawdopodobienstwem 50\%.
+W tym krzyżowaniu każdy gen dziecka jest losowany od rodziców z prawdopodobieństwem 50\%.
 
 \section{Ważone z jednym potomkiem}
 \label{sec:wazone}
@@ -116,8 +129,9 @@ Selekcja tą metodą jest bardzo podobna do selekcji metodą koła ruletki. Mody
 pozycja w rankingu / suma wartości przystosowania wszystkich osobników
 \end{center}
 
-\chapter{Mutowanie}
+\chapter{Mutacja}
 \label{cha:mutation}
+Zadaniem mutacji jest wprowadzenie subtelnych zmian do genotypu losowo wybranych osobników. Dzięki temu w kolejnych pokoleniach zachowujemy różnorodność w populacji, czyli zapobiegamy przedwczesnej zbieżności algorytmu. Mutacja zachodzi z pewnym przyjętym prawdopodobieństwem - zazwyczaj rzędu 1-5\%. Jest ono niskie, ponieważ zbyt silna mutacja przynosi efekt odwrotny do zamierzonego: zamiast różnicować dobre rozwiązania - niszczy je.
 
 \section{Przy kodowaniu binarnym}
 \label{sec:kodBin}
