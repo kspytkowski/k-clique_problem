@@ -41,6 +41,7 @@
 \def\acknowledgements#1   {\gdef\@acknowledgements{#1}}
 \def\department#1   {\gdef\@department{#1}}
 \def\degreeprogramme#1 {\gdef\@degreeprogramme{#1}}
+\def\subject#1 {\gdef\@subject{#1}}
 
 
 %\bibliographystyle{abbrv}
@@ -58,6 +59,7 @@
 \begin{tabular}{p{45mm}l}
 Autorzy: & {\itshape \@author}\\[-1mm]
 Kierunek studiów: & {\itshape \@degreeprogramme}\\[-1mm]
+Przedmiot: & {\itshape \@subject}\\[-1mm]
 Opiekun projektu: & {\itshape \@supervisor}\\
 \end{tabular}
 }
@@ -71,6 +73,7 @@ Opiekun projektu: & {\itshape \@supervisor}\\
 \begin{tabular}{p{45mm}l}
 Author: & {\itshape \@author}\\[-1mm]
 Degree programme: & {\itshape \@degreeprogramme}\\[-1mm]
+Subject: & {\itshape \@subject}\\[-1mm]
 Supervisor: & {\itshape \@supervisor}\\
 \end{tabular}
 }
@@ -125,7 +128,7 @@ Supervisor: & {\itshape \@supervisor}\\
 %{\large\itshape O\'swiadczam, \'swiadomy(-a) odpowiedzialno\'sci karnej za po\'swiadczenie nieprawdy, \.ze \mbox{niniejsz\k{a}} prac\k{e} dyplomow\k{a} wykona\l{}em(-am) osobi\'scie i samodzielnie i nie korzysta\l{}em(-am) ze \'zr\'ode\l{} innych ni\.z wymienione w pracy.}
 
 
-%\clearpage \titlepage
+\clearpage \titlepage
 %
 %\vspace*{15cm} \vfill
 %\begin{flushright} 
