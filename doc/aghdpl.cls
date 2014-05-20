@@ -172,7 +172,7 @@ Supervisor: & {\itshape \@supervisor}\\
 \titleformat{\chapter}[block]
 {\bfseries\LARGE}{\filright \LARGE\thechapter. }{0ex}{}
 %odstêpy: lewy, góra, dó³
-\titlespacing{\chapter}{0pt}{17mm}{19mm}
+\titlespacing{\chapter}{0pt}{0mm}{10mm}
 \titleformat{\section}[block]
 {\bfseries\Large}{\filright \Large\thesection. }{0ex}{}
 \titlespacing{\section}{7mm}{8mm plus 0mm minus 1mm}{4mm plus 0mm minus 1mm}
