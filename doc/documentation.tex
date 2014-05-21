@@ -66,50 +66,77 @@ w~grafie istnieje klika o~rozmiarze $k$~wtedy i~tylko wtedy gdy~w~dopełnieniu g
 o~rozmiarze $k$.
 
 Ze~względu na~klasę złożoności problemu i~brak odpowiednio szybkich algorytmów dokładnych, w~naszym projekcie 
-posłużymy się~algorytmem przybliżonym. 
+posłużymy się~algorytmem przybliżonym (genetycznym). 
 
 \section{Klasyczny algorytm genetyczny}
 \label{sec:algGenetyczne}
-Postawiony problem definiuje nam środowisko, w którym istnieje pewna populacja osobników. Każdy z osobników ma 
-przypisany pewien zbiór informacji stanowiących jego genotyp, a będących podstawą do utworzenia
-fenotypu. Fenotyp to zbiór cech podlegających ocenie funkcji przystosowania modelującej środowisko.
-Innymi słowy - genotyp opisuje proponowane rozwiązanie problemu, a funkcja przystosowania ocenia, jak
-dobre jest to rozwiązanie.
+Postawiony problem definiuje środowisko, w~którym istnieje pewna populacja osobników. Każdy z~osobników ma~
+przypisany pewien zbiór informacji stanowiących jego genotyp, a~będących podstawą do~utworzenia
+fenotypu. Fenotyp to~zbiór cech podlegających ocenie (przez funkcję przystosowania).
+Innymi słowy - genotyp opisuje proponowane rozwiązanie problemu, a~funkcja przystosowania ocenia, jak
+dobre jest to~rozwiązanie.
 
-Genotyp składa się z chromosomów, gdzie zakodowany jest fenotyp i ewentualnie pewne informacje
-pomocnicze dla algorytmu genetycznego. Chromosom składa się z genów.
+Genotyp składa się~z~chromosomów, w~których zakodowany jest fenotyp i~ewentualnie pewne informacje
+pomocnicze dla~algorytmu genetycznego. Chromosomy składają się~z~genów.
 
-Mechanizm działania klasycznego algorytmu genetycznego składa się z następujących kroków:
+Klasycznego algorytm genetyczny składa się~z~następujących kroków:
 \begin{enumerate}
-\item Inicjacja – utworzenie populacji początkowej, wybór ustalonej liczby osobników i nadanie wartości losowych 
-genom wchodzącym w skład ich chromosomów.
-\item Ocena przystosowania – obliczenie wartości funkcji przystosowania dla każdego osobnika.
-\item Selekcja – wybór osobników, które będą brać udział w tworzeniu nowej populacji.
-\item Zastosowanie operatorów genetycznych – na grupie osobników wybranych drogą selekcji działają
-operatory genetyczne (krzyżowanie i mutacja).
+\item Inicjacja – utworzenie populacji początkowej, wybór ustalonej liczby osobników i~nadanie wartości losowych 
+genom wchodzącym w~skład ich~chromosomów.
+\item Ocena przystosowania – obliczenie wartości funkcji przystosowania dla~każdego osobnika.
+\item Selekcja – wybór osobników, które będą brać udział w~tworzeniu nowej populacji.
+\item Zastosowanie operatorów genetycznych – na~grupie osobników wybranych drogą selekcji działają
+operatory genetyczne (krzyżowanie i~mutacja).
 \item Utworzenie nowej populacji – osobniki otrzymane jako rezultat działania operatorów
-genetycznych wchodzą w skład nowej populacji. Cała poprzednia populacja jest zastępowana przez
-tak samo liczną nową populację potomków.
-\item Sprawdzenie warunku stopu algorytmu - wyprowadzenie 'najlepszego' osobnika (o największej wartości funkcji 
-przystosowania). Jeżeli osobnik ten spełnia postawione w zadaniu warunki to algorytm kończy pracę, w przeciwnym 
-razie przechodzi do punktu 2 (działając już na nowej populacji - potomków).
+genetycznych wchodzą w~skład nowej populacji. Cała poprzednia populacja jest~zastępowana przez
+tak~samo liczną nową populację potomków.
+\item Sprawdzenie warunku stopu algorytmu - wyprowadzenie 'najlepszego' osobnika (o~największej wartości funkcji 
+przystosowania). Jeżeli osobnik ten~spełnia postawione w~zadaniu warunki to~algorytm kończy pracę, w~przeciwnym 
+razie przechodzi do~punktu 2~(działając już na populacji potomków).
 
 \end{enumerate}
-\section{Własna implementacja//interpretacja algorytmu}
+\section{Własna interpretacja problemu i algorytmu}
 \label{sec:podejscie}
-bla bla bla, że mieliśmy dwa pomysły z kodowaniami
-że teraz wyjaśnimi co i jak, a później w jakimśtam rozdziale będzie jak przebiega całość => wlasnie tutaj bedzie 
-jak to ogolnie przebiega, szczegoly w nastepnym rozdziale
+Zaimplementowany przez nas~sposób rozwiązania problemu jest oparty na~powyższym algorytmie, jednak program 
+udostępnia wiele możliwości dostosowywania go. Dzięki temu możemy badać skuteczność poszczególnych metod 
+w~odniesieniu do~zadanego problemu i~ustalanych przez~użytkownika parametrów wejściowych.
+
+W~aplikacji zawarte zostały dwa sposoby kodowania osobnika, binarny i~grupowy. Są~to~zupełnie różne sposoby
+zapisu informacji w~chromosomie, a~właściwie w~każdym kodowaniu chromosom zawiera inne informacje. Mimo różnic w~genotypach, 
+w~obu przypadkach fenotypem jest graf.
+Program udostępnia również trzy różne sposoby selekcji możliwe do~zastosowania w~problemie istnienia k-kliki oraz~kilka 
+różnych krzyżowań. Opisy wszystkich metod, kodowań, funkcji oceny oraz motywacja wyboru właśnie takich 
+sposobów, znajdują się~w~dalszych rozdziałach.
 
 \chapter{Kodowanie i funkcja przystosowania}
 \label{cha:encoding}
+W~obu kodowaniach chromosomem jest tablica, której indeksy oznaczają kolejne wierzchołki zadanego grafu.
 \section{Binarne}
 \label{sec:binary}
 W binarnym kodowaniu chromosomu zasada jest następująca: gen '0' w chromosomie oznacza przynależność danego wierzchołka 
 do podgrafu, '1' oznacza, że tego wierzchołka nie ma w podgrafie.
 \section{Grupowe}
 \label{sec:group}
-takie pro
+Kodowanie grupowe, w~odróżnieniu od~binarnego, dopuszcza przyjmowanie przez geny więcej niż~dwóch wartości - dokładniej możliwych 
+jest tyle, ile~aktualnie wynosi liczba grup. Każda grupa - a~więc~każda wartość ($\langle0; n)$, przy czym $n$~to~liczba grup) - odpowiada 
+podgrafowi w~zadanym grafie. Takie podejście pozwala zawrzeć w~genotypie znacznie więcej informacji, ponieważ każdy podgraf to~potencjalne 
+rozwiązanie. 
+
+Ocena osobnika w~tym wypadku polega na~ocenie osobno każdej grupy i~wyłonieniu najlepszej z~nich. Najlepsza wartość odpowiada przystosowaniu 
+całego osobnika.
+
+Ważnym aspektem jest odpowiednie numerowanie poszczególnych grup. Po~każdej ocenie następuje przepisanie numeracji tak, aby~najmniejszy
+numer odpowiadał najlepszemu podgrafowi, a~odpowiednio większe kolejnym. Ma~to~bardzo duże znaczenie przy~operacji krzyżowania, ponieważ 
+zapobiega psuciu najlepiej ocenionych rozwiązań. Dla~przykładu, ten~sam dobrze przystosowany zbiór wierzchołków w~różnych chromosomach mógł
+należeć do~grup o~różnych numerach, przez~co~nowo powstały w~wyniku krzyżowania osobnik otrzymywał informacje o wspomnianym podgrafie rozbite
+na~dwie grupy (czyli je~tracił).
+
+Ostatnia sprawa dotycząca omawianego kodowania to~liczba grup. W~populacji cały czas jest utrzymywana równa ilość grup u~każdego osobnika, jednak,
+w~wybranych iteracjach, liczba grup dla całej populacji jest zmniejszana, za~każdym razem o jeden. Likwidowany, najsłabiej przystosowany podgraf, 
+zostaje dołączany do~drugiego aktualnie najsłabszego.
+
+Częstość usuwania grup zależy od~zadanej ilości iteracji, tak, że~w~końcowych iteracjach pozostają jedynie dwie.
+
 
 \chapter{Selekcja}
 \label{cha:selection}
