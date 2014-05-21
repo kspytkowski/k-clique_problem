@@ -27,7 +27,7 @@
 \RequirePackage{titlesec}
 \RequirePackage{tocloft}
 
-\geometry{lmargin=30mm, rmargin=20mm, tmargin=30mm, bmargin=30mm, foot=10mm, head=10mm}
+\geometry{lmargin=20mm, rmargin=20mm, tmargin=30mm, bmargin=30mm, foot=10mm, head=10mm}
 \definecolor{Green}{rgb}{0.1,0.5,0.1}
 
 \def\shorttitlePL#1   {\gdef\@shorttitlePL{#1}}
