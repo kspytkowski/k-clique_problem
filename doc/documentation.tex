@@ -46,19 +46,32 @@
 \chapter{Zarys problemu}
 \label{cha:zarys}
 
-\section{Omówienie tematu}
-\label{sec:omowienie}
- 
-Klika w grafie jest zbiorem wierzchołków, w którym każda para wierzchołków jest połączona krawędzią, czyli zbiorem który tworzy podgraf będący grafem pełnym. Problem istnienia k-kliki polega na stwierdzeniu czy w danym grafie istnieje klika o podanym rozmiarze $k$. Mając podane wierzchołki należące do takiej kliki możemy łatwo stwierdzić że tworzą one klikę, dlatego problem ten należy do klasy NP (rozwiązanie można zweryfikować w czasie wielomianowym).
+%\section{Omówienie tematu}
+%\label{sec:omowienie}
 
-Problem istnienia k-kliki jest także jednym z pierwszych zidentyfikowanych problemów NP-zupełnych. Problem NP-zupełny to problem, który należy do klasy NP oraz dowolny problem należący do NP może być do niego zredukowany w czasie wielomianowym. NP-zupełność naszego problemu wynika z NP-zupełności problemu zbioru niezależnego. Problem ten to pytanie czy dla danego grafu $G$ i liczby $k$, istnieje w $G$ zbiór niezależny (zbiór wierzchołków nie połączonych żadnymi krawędziami) o $k$ wierzchołkach. W naszym problemie w grafie istnieje klika o rozmiarze $k$ wtedy i tylko wtedy gdy w dopełnieniu grafu istnieje zbiór niezależny o rozmiarze $k$.
+Wybrany przez nas temat dotyczy kliki, dlatego omówienie zaczniemy od~wprowadzenia tego pojęcia. 
+Kliką w~grafie nazywamy zbiór wierzchołków, w~którym każda para wierzchołków jest połączona krawędzią, 
+czyli podgraf będący grafem pełnym. Problem istnienia k-kliki polega na~stwierdzeniu 
+czy~w~danym grafie istnieje klika o~podanym rozmiarze $k$. Problem ten należy do~klasy NP, co~oznacza, że~rozwiązanie 
+można zweryfikować w czasie wielomianowym (konkretnie: mając podane wierzchołki należące do~szukanej
+kliki możemy w czasie $k^2$ sprawdzić, czy faktycznie jest to klika).
 
-\section{Wybór algorytmu?!}
-\label{sec:alg}
-dlaczego akurat genetyczny?
-\subsection{Klasyczny algorytm genetyczny}
-\label{subsec:algGenetyczne}
-Postawiony problem definiuje nam środowisko, w którym istnieje pewna populacja osobników. Każdy z osobników ma przypisany pewien zbiór informacji stanowiących jego genotyp, a będących podstawą do utworzenia
+%trochę za bardzo zerżnięte, nie?
+Problem istnienia k-kliki jest także jednym z~pierwszych zidentyfikowanych problemów NP-zupełnych. 
+Problem NP-zupełny to~problem, który należy do klasy NP oraz dowolny problem należący do~NP może być do~niego 
+zredukowany w~czasie wielomianowym. NP-zupełność naszego problemu wynika z~NP-zupełności problemu 
+zbioru niezależnego. Problem ten to~pytanie czy~dla danego grafu $G$ i~liczby $k$, istnieje w~$G$ zbiór 
+niezależny (zbiór wierzchołków niepołączonych żadnymi krawędziami) o~$k$~wierzchołkach. W~naszym problemie 
+w~grafie istnieje klika o~rozmiarze $k$~wtedy i~tylko wtedy gdy~w~dopełnieniu grafu istnieje zbiór niezależny 
+o~rozmiarze $k$.
+
+Ze~względu na~klasę złożoności problemu i~brak odpowiednio szybkich algorytmów dokładnych, w~naszym projekcie 
+posłużymy się~algorytmem przybliżonym. 
+
+\section{Klasyczny algorytm genetyczny}
+\label{sec:algGenetyczne}
+Postawiony problem definiuje nam środowisko, w którym istnieje pewna populacja osobników. Każdy z osobników ma 
+przypisany pewien zbiór informacji stanowiących jego genotyp, a będących podstawą do utworzenia
 fenotypu. Fenotyp to zbiór cech podlegających ocenie funkcji przystosowania modelującej środowisko.
 Innymi słowy - genotyp opisuje proponowane rozwiązanie problemu, a funkcja przystosowania ocenia, jak
 dobre jest to rozwiązanie.
@@ -68,7 +81,8 @@ pomocnicze dla algorytmu genetycznego. Chromosom składa się z genów.
 
 Mechanizm działania klasycznego algorytmu genetycznego składa się z następujących kroków:
 \begin{enumerate}
-\item Inicjacja – utworzenie populacji początkowej, wybór ustalonej liczby osobników i nadanie wartości losowych genom wchodzącym w skład ich chromosomów.
+\item Inicjacja – utworzenie populacji początkowej, wybór ustalonej liczby osobników i nadanie wartości losowych 
+genom wchodzącym w skład ich chromosomów.
 \item Ocena przystosowania – obliczenie wartości funkcji przystosowania dla każdego osobnika.
 \item Selekcja – wybór osobników, które będą brać udział w tworzeniu nowej populacji.
 \item Zastosowanie operatorów genetycznych – na grupie osobników wybranych drogą selekcji działają
@@ -76,19 +90,23 @@ operatory genetyczne (krzyżowanie i mutacja).
 \item Utworzenie nowej populacji – osobniki otrzymane jako rezultat działania operatorów
 genetycznych wchodzą w skład nowej populacji. Cała poprzednia populacja jest zastępowana przez
 tak samo liczną nową populację potomków.
-\item Sprawdzenie warunku stopu algorytmu - wyprowadzenie 'najlepszego' osobnika (o największej wartości funkcji przystosowania). Jeżeli osobnik ten spełnia postawione w zadaniu warunki to algorytm kończy pracę, w przeciwnym razie przechodzi do punktu 2 (działając już na nowej populacji - potomków).
+\item Sprawdzenie warunku stopu algorytmu - wyprowadzenie 'najlepszego' osobnika (o największej wartości funkcji 
+przystosowania). Jeżeli osobnik ten spełnia postawione w zadaniu warunki to algorytm kończy pracę, w przeciwnym 
+razie przechodzi do punktu 2 (działając już na nowej populacji - potomków).
 
 \end{enumerate}
-\subsection{Własna implementacja algorytmu}
-\label{subsec:podejscie}
+\section{Własna implementacja//interpretacja algorytmu}
+\label{sec:podejscie}
 bla bla bla, że mieliśmy dwa pomysły z kodowaniami
-że teraz wyjaśnimi co i jak, a później w jakimśtam rozdziale będzie jak przebiega całość => wlasnie tutaj bedzie jak to ogolnie przebiega, szczegoly w nastepnym rozdziale
+że teraz wyjaśnimi co i jak, a później w jakimśtam rozdziale będzie jak przebiega całość => wlasnie tutaj bedzie 
+jak to ogolnie przebiega, szczegoly w nastepnym rozdziale
 
 \chapter{Kodowanie i funkcja przystosowania}
 \label{cha:encoding}
 \section{Binarne}
 \label{sec:binary}
-W binarnym kodowaniu chromosomu zasada jest następująca: gen '0' w chromosomie oznacza przynależność danego wierzchołka do podgrafu, '1' oznacza, że tego wierzchołka nie ma w podgrafie.
+W binarnym kodowaniu chromosomu zasada jest następująca: gen '0' w chromosomie oznacza przynależność danego wierzchołka 
+do podgrafu, '1' oznacza, że tego wierzchołka nie ma w podgrafie.
 \section{Grupowe}
 \label{sec:group}
 takie pro
@@ -96,36 +114,48 @@ takie pro
 \chapter{Selekcja}
 \label{cha:selection}
 Selekcja dokonuje wyboru osobników będących rodzicami dla nowego pokolenia.
-W zależności od wartości funkcji przystosowania danego osobnika w populacji ma on większe (gdy jest 'dobry') lub mniejsze (gdy jest 'słaby') szanse na znalezienie się w kolejnym pokoleniu. 
+W zależności od wartości funkcji przystosowania danego osobnika w populacji ma on większe (gdy jest 'dobry') lub mniejsze 
+(gdy jest 'słaby') szanse na znalezienie się w kolejnym pokoleniu. 
 \section{Turniejowa}
 \label{sec:tournament}
-Polega na podziale populacji na grupy n-osobników (w naszej implementacji są to grupy 3-osobnikowe). Następnie z każdej z tych grup wybierany jest najlepiej przystosowany osobnik, który przepisywany jest do nowo tworzonej populacji.
+Polega na podziale populacji na grupy n-osobników (w naszej implementacji są to grupy 3-osobnikowe). Następnie z każdej z 
+tych grup wybierany jest najlepiej przystosowany osobnik, który przepisywany jest do nowo tworzonej populacji.
 
 \section{Koła ruletki}
 \label{sec:roulette}
-Polega na n krotnym (n - liczba osobników w populacji) losowaniu osobników ze starej populacji i przepisaniu ich do nowej populacji. Przed rozpoczęciem losowania każdemu osobnikowi nadawane jest prawdopodobieństwo wylosowania, które wyliczane jest zgodnie ze wzorem:
+Polega na n krotnym (n - liczba osobników w populacji) losowaniu osobników ze starej populacji i przepisaniu ich do nowej 
+populacji. Przed rozpoczęciem losowania każdemu osobnikowi nadawane jest prawdopodobieństwo wylosowania, które wyliczane 
+jest zgodnie ze wzorem:
 \begin{center}
 wartość przystosowania danego osobnika / suma wartości przystosowania wszystkich osobników
 \end{center}
  
 \section{Rankingu liniowego}
 \label{sec:linear}
-Selekcja tą metodą jest bardzo podobna do selekcji metodą koła ruletki. Modyfikacja polega jedynie na zmianie funkcji określającej prawdopodobieństwo wyboru danego osobnika. Przed przystąpieniem do tej selekcji należy nadać każdemu z osobników pewną wartość (pozycje w rankingu) zależną od jego położenia na liście posortowanej względem wartości funkcji przystosowania. Wzór pozwalający obliczyć prawdopodobieństwo wyboru to:
+Selekcja tą metodą jest bardzo podobna do selekcji metodą koła ruletki. Modyfikacja polega jedynie na zmianie funkcji 
+określającej prawdopodobieństwo wyboru danego osobnika. Przed przystąpieniem do tej selekcji należy nadać każdemu z 
+osobników pewną wartość (pozycje w rankingu) zależną od jego położenia na liście posortowanej względem wartości funkcji 
+przystosowania. Wzór pozwalający obliczyć prawdopodobieństwo wyboru to:
 \begin{center}
 pozycja w rankingu / suma wartości przystosowania wszystkich osobników
 \end{center}
 
 \chapter{Krzyżowanie}
 \label{cha:crossing}
-Zadaniem krzyżowania jest wymiana 'materiału genetycznego' pomiędzy dwoma osobnikami w populacji. Polega na połączeniu niektórych (wybranych od rodziców) genotypów w jeden. Kojarzenie ma sprawić, że potomek dwóch osobników rodzicielskich ma zespół cech, który jest kombinacją ich cech (może się zdarzyć, że tych najlepszych). 
+Zadaniem krzyżowania jest wymiana 'materiału genetycznego' pomiędzy dwoma osobnikami w populacji. Polega na połączeniu 
+niektórych (wybranych od rodziców) genotypów w jeden. Kojarzenie ma sprawić, że potomek dwóch osobników rodzicielskich 
+ma zespół cech, który jest kombinacją ich cech (może się zdarzyć, że tych najlepszych). 
  
 \section{Jednopunktowe z dwoma potomkami}
 \label{sec:jedenDwa}
-Polega na podziale dwóch chromosomów (pochodzących od rodziców) na dwie części (niekoniecznie równe) i utworzeniu z nich dwójki dzieci: pierwsze dziecko składa się z początkowej części materiału genetycznego pierwszego rodzica i końcówki drugiego, natomiast drugie dziecko otrzymuje początek materiału genetycznego drugiego rodzica i końcówkę pierwszego.
+Polega na podziale dwóch chromosomów (pochodzących od rodziców) na dwie części (niekoniecznie równe) i utworzeniu z nich 
+dwójki dzieci: pierwsze dziecko składa się z początkowej części materiału genetycznego pierwszego rodzica i końcówki drugiego, 
+natomiast drugie dziecko otrzymuje początek materiału genetycznego drugiego rodzica i końcówkę pierwszego.
 
 \section{Jednopunktowe z jednym potomkiem}
 \label{sec:jedenJeden}
-Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego rodzica i początek materiału genetycznego drugiego rodzica są zaniedbywane.
+Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego 
+rodzica i początek materiału genetycznego drugiego rodzica są zaniedbywane.
 
 \section{Jednorodne z jednym potomkiem}
 \label{sec:uniform}
@@ -133,22 +163,29 @@ W wyniku tego krzyżowania powstaje jeden nowy osobnik, któremu przypisywane s�
 
 \section{Ważone z jednym potomkiem}
 \label{sec:wazone}
-Krzyżowanie analogiczne do powyższego, modyfikacji ulega jedynie prawdopodobieństwo otrzymania przez dziecko konkretnego genu. Prawdopodobieństwo to liczone jest ze wzoru:
+Krzyżowanie analogiczne do powyższego, modyfikacji ulega jedynie prawdopodobieństwo otrzymania przez dziecko konkretnego genu. 
+Prawdopodobieństwo to liczone jest ze wzoru:
 \begin{center}
 przystosowanie konkretnego rodzica / suma przystosowań obu rodziców
 \end{center}
 
 \section{Dwupunktowe z dwoma potomkami}
 \label{sec:dwaDwa}
-W tym typie krzyżowania chromosomy rodziców dzielone są na 3 części. Pierwsze dziecko otrzymuje początkową części materiału genetycznego pierwszego rodzica, środkową drugiego rodzica i końcową pierwszego rodzica. Natomiast drugie dziecko - początkową części materiału genetycznego drugiego rodzica, środkową pierwszego rodzica i końcową drugiego rodzica.
+W tym typie krzyżowania chromosomy rodziców dzielone są na 3 części. Pierwsze dziecko otrzymuje początkową części materiału 
+genetycznego pierwszego rodzica, środkową drugiego rodzica i końcową pierwszego rodzica. Natomiast drugie dziecko - 
+początkową części materiału genetycznego drugiego rodzica, środkową pierwszego rodzica i końcową drugiego rodzica.
 
 \section{Dwupunktowe z jednym potomkiem}
 \label{sec:dwaJeden}
-Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko. Środowa część materiału genetycznego pierwszego rodzica oraz początkowa i końcowa część materiału genetycznego drugiego rodzica są zaniedbywane.
+Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko. Środowa część materiału genetycznego pierwszego 
+rodzica oraz początkowa i końcowa część materiału genetycznego drugiego rodzica są zaniedbywane.
 
 \chapter{Mutacja}
 \label{cha:mutation}
-Zadaniem mutacji jest wprowadzenie subtelnych zmian do genotypu losowo wybranych osobników. Dzięki temu w kolejnych pokoleniach zachowana zostaje różnorodność w populacji, co pozwala zapobiec przedwczesnej zbieżności algorytmu. Mutacja zachodzi z pewnym przyjętym prawdopodobieństwem - zazwyczaj rzędu 1-5\%. Powinno być ono tak niskie, ponieważ zbyt silna mutacja przynosi efekt odwrotny do zamierzonego: zamiast różnicować dobre rozwiązania - niszczy je.
+Zadaniem mutacji jest wprowadzenie subtelnych zmian do genotypu losowo wybranych osobników. Dzięki temu w kolejnych pokoleniach 
+zachowana zostaje różnorodność w populacji, co pozwala zapobiec przedwczesnej zbieżności algorytmu. Mutacja zachodzi z 
+pewnym przyjętym prawdopodobieństwem - zazwyczaj rzędu 1-5\%. Powinno być ono tak niskie, ponieważ zbyt silna mutacja przynosi 
+efekt odwrotny do zamierzonego: zamiast różnicować dobre rozwiązania - niszczy je.
 
 \section{Przy kodowaniu binarnym}
 \label{sec:kodBin}
@@ -158,7 +195,9 @@ Polega na zamianie genu '1' na gen '0' (i odwrotnie).
 
 \chapter{Program}
 \label{cha:program}
-Stworzony przez nas program "cos tam solver" został napisany w języku JAVA. Do rysowania i wizualizacji grafów użyliśmy biblioteki JUNG. Przy rysowaniu i tworzeniu wykresów przystosowania osobników w populacji pomocna okazała się biblioteka JFreeChart. Natomiast zapis wykresów do pliku umożliwiła biblioteka Batik (no chyba nie zaimplementowalismy....)!
+Stworzony przez nas program "cos tam solver" został napisany w języku JAVA. Do rysowania i wizualizacji grafów użyliśmy biblioteki 
+JUNG. Przy rysowaniu i tworzeniu wykresów przystosowania osobników w populacji pomocna okazała się biblioteka JFreeChart. Natomiast 
+zapis wykresów do pliku umożliwiła biblioteka Batik (no chyba nie zaimplementowalismy....)!
 \section{Przebieg pojedynczej iteracji}
 \label{sec:singleLifeCycle}
 singleLifeCycle
