@@ -160,8 +160,8 @@ Supervisor: & {\itshape \@supervisor}\\
 
 \frenchspacing
 \sloppy 
-\widowpenalty     9999 
-\clubpenalty      9999 
+\widowpenalty     10000 
+\clubpenalty      10000 
 \flushbottom
 
 %---------------------------------------------------------------------------
