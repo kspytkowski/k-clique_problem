@@ -47,16 +47,40 @@ public class GraphRepresentation {
         if (existedKCliqueSize > vertices) {
             throw new NoPossibilityToCreateGraphException("It is impossible to create graph with size of " + vertices + " that contains k-clique with size of " + existedKCliqueSize);
         }
+        if ((existedKCliqueSize * (existedKCliqueSize - 1) / 2) > edges) {
+            throw new NoPossibilityToCreateGraphException("It is impossible to create graph with size of " + vertices + " that has " + edges + " egdes and contains k-clique with size of " + existedKCliqueSize);
+        }
+        if (existedKCliqueSize > vertices) {
+            throw new NoPossibilityToCreateGraphException("It is impossible to create graph with size of " + vertices + " that has " + edges + " egdes and contains k-clique with size of " + existedKCliqueSize);
+        }
         graph = createGraphVertices(vertices);
-        LinkedList<Edge> edgesList = createListWithPossibleEdges(existedKCliqueSize);
+        LinkedList<Integer> verticesList = new LinkedList<>();
+        for (int i = 1; i <= vertices; i++) {
+            verticesList.add(i);
+        }
+        LinkedList<Integer> verticesList2 = new LinkedList<>();
+        for (int i = 1; i <= existedKCliqueSize; i++) {
+            int randV = rand.nextInt(verticesList.size());
+            verticesList2.add(verticesList.get(randV));
+            verticesList.remove(randV);
+        }
+        LinkedList<Edge> edgesList = new LinkedList<>();
+        for (int i = 1; i <= existedKCliqueSize; i++) {
+            for (int j = i + 1; j <= existedKCliqueSize; j++) {
+                edgesList.add(new Edge(verticesList2.get(i - 1), verticesList2.get(j - 1)));
+            }
+        }
         int kCliqueEgdesAmount = existedKCliqueSize * (existedKCliqueSize - 1) / 2;
         fillGraphWithEdges(graph, edgesList, 0, kCliqueEgdesAmount);
         edgesList = new LinkedList<>();
-        for (int i = 1; i <= vertices; i++) {
-            for (int j = existedKCliqueSize + 1; j <= vertices; j++) {
-                if (i != j && i < j) {
-                    edgesList.add(new Edge(i, j));
-                }
+        for (int i = 1; i <= vertices - existedKCliqueSize; i++) {
+            for (int j = i + 1; j <= vertices - existedKCliqueSize; j++) {
+                edgesList.add(new Edge(verticesList.get(i - 1), verticesList.get(j - 1)));
+            }
+        }
+        for (int i = 1; i <= vertices - existedKCliqueSize; i++) {
+            for (int j = 1; j <= existedKCliqueSize; j++) {
+                edgesList.add(new Edge(verticesList.get(i - 1), verticesList2.get(j - 1)));
             }
         }
         fillGraphWithEdges(graph, edgesList, kCliqueEgdesAmount, edges);
