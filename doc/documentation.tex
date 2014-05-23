@@ -113,8 +113,8 @@ sposobów, znajdują się~w~dalszych rozdziałach.
 W~obu kodowaniach chromosomem jest tablica, której indeksy oznaczają kolejne wierzchołki zadanego grafu.
 \section{Binarne}
 \label{sec:binary}
-W binarnym kodowaniu chromosomu zasada jest następująca: gen '0' w chromosomie oznacza przynależność danego wierzchołka 
-do podgrafu, '1' oznacza, że tego wierzchołka nie ma w podgrafie.
+W binarnym kodowaniu chromosomu zasada jest~następująca: gen '0' w~chromosomie oznacza przynależność danego wierzchołka 
+do~podgrafu, '1' oznacza, że~tego~wierzchołka nie~ma~w~podgrafie.
 \section{Grupowe}
 \label{sec:group}
 Kodowanie grupowe, w~odróżnieniu od~binarnego, dopuszcza przyjmowanie przez geny więcej niż~dwóch wartości - dokładniej możliwych 
@@ -140,28 +140,26 @@ Częstość usuwania grup zależy od~zadanej ilości iteracji, tak, że~w~końco
 
 \chapter{Selekcja}
 \label{cha:selection}
-Selekcja dokonuje wyboru osobników będących rodzicami dla nowego pokolenia.
-W zależności od wartości funkcji przystosowania danego osobnika w populacji ma on większe (gdy jest 'dobry') lub mniejsze 
-(gdy jest 'słaby') szanse na znalezienie się w kolejnym pokoleniu. 
+Selekcja dokonuje wyboru osobników będących rodzicami dla~nowego pokolenia.
+W~zależności od~wartości funkcji przystosowania danego osobnika w~populacji ma~on~większe (gdy jest 'dobry') lub~mniejsze 
+(gdy jest 'słaby') szanse na~znalezienie się~w~kolejnym pokoleniu. 
 \section{Turniejowa}
 \label{sec:tournament}
-Polega na podziale populacji na grupy n-osobników (w naszej implementacji są to grupy 3-osobnikowe). Następnie z każdej z 
-tych grup wybierany jest najlepiej przystosowany osobnik, który przepisywany jest do nowo tworzonej populacji.
+Polega na~podziale populacji na~grupy n-osobników (w naszej implementacji są~to~grupy 3-osobnikowe). Następnie z~każdej z~tych grup wybierany jest najlepiej przystosowany osobnik, który przepisywany jest do~nowo tworzonej populacji.
 
 \section{Koła ruletki}
 \label{sec:roulette}
-Polega na n krotnym (n - liczba osobników w populacji) losowaniu osobników ze starej populacji i przepisaniu ich do nowej 
+Polega na~n~krotnym (n - liczba osobników w populacji) losowaniu osobników ze~starej populacji i~przepisaniu ich do~nowej 
 populacji. Przed rozpoczęciem losowania każdemu osobnikowi nadawane jest prawdopodobieństwo wylosowania, które wyliczane 
-jest zgodnie ze wzorem:
+jest zgodnie ze~wzorem:
 \begin{center}
 wartość przystosowania danego osobnika / suma wartości przystosowania wszystkich osobników
 \end{center}
  
 \section{Rankingu liniowego}
 \label{sec:linear}
-Selekcja tą metodą jest bardzo podobna do selekcji metodą koła ruletki. Modyfikacja polega jedynie na zmianie funkcji 
-określającej prawdopodobieństwo wyboru danego osobnika. Przed przystąpieniem do tej selekcji należy nadać każdemu z 
-osobników pewną wartość (pozycje w rankingu) zależną od jego położenia na liście posortowanej względem wartości funkcji 
+Selekcja tą~metodą jest bardzo podobna do~selekcji metodą koła ruletki. Modyfikacja polega jedynie na~zmianie funkcji 
+określającej prawdopodobieństwo wyboru danego osobnika. Przed przystąpieniem do~tej~selekcji należy nadać każdemu z~osobników pewną wartość (pozycje w~rankingu) zależną od~jego położenia na~liście posortowanej względem wartości funkcji 
 przystosowania. Wzór pozwalający obliczyć prawdopodobieństwo wyboru to:
 \begin{center}
 pozycja w rankingu / suma wartości przystosowania wszystkich osobników
@@ -169,62 +167,61 @@ pozycja w rankingu / suma wartości przystosowania wszystkich osobników
 
 \chapter{Krzyżowanie}
 \label{cha:crossing}
-Zadaniem krzyżowania jest wymiana 'materiału genetycznego' pomiędzy dwoma osobnikami w populacji. Polega na połączeniu 
-niektórych (wybranych od rodziców) genotypów w jeden. Kojarzenie ma sprawić, że potomek dwóch osobników rodzicielskich 
-ma zespół cech, który jest kombinacją ich cech (może się zdarzyć, że tych najlepszych). 
+Zadaniem krzyżowania jest wymiana 'materiału genetycznego' pomiędzy dwoma osobnikami w populacji. Polega na~połączeniu 
+niektórych (wybranych od rodziców) genotypów w jeden. Kojarzenie ma~sprawić, że~potomek dwóch osobników rodzicielskich 
+ma~zespół cech, który jest kombinacją ich cech (może się~zdarzyć, że~tych najlepszych). 
  
 \section{Jednopunktowe z dwoma potomkami}
 \label{sec:jedenDwa}
-Polega na podziale dwóch chromosomów (pochodzących od rodziców) na dwie części (niekoniecznie równe) i utworzeniu z nich 
-dwójki dzieci: pierwsze dziecko składa się z początkowej części materiału genetycznego pierwszego rodzica i końcówki drugiego, 
-natomiast drugie dziecko otrzymuje początek materiału genetycznego drugiego rodzica i końcówkę pierwszego.
+Polega na podziale dwóch chromosomów (pochodzących od~rodziców) na~dwie części (niekoniecznie równe) i~utworzeniu z~nich 
+dwójki dzieci: pierwsze dziecko składa się~z~początkowej części materiału genetycznego pierwszego rodzica i~końcówki drugiego, 
+natomiast drugie dziecko otrzymuje początek materiału genetycznego drugiego rodzica i~końcówkę pierwszego.
 
 \section{Jednopunktowe z jednym potomkiem}
 \label{sec:jedenJeden}
-Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego 
-rodzica i początek materiału genetycznego drugiego rodzica są zaniedbywane.
+Krzyżowanie analogiczne do~powyższego, ale~w~wyniku powstaje jedno dziecko, końcówka materiału genetycznego pierwszego 
+rodzica i~początek materiału genetycznego drugiego rodzica są~zaniedbywane.
 
 \section{Jednorodne z jednym potomkiem}
 \label{sec:uniform}
-W wyniku tego krzyżowania powstaje jeden nowy osobnik, któremu przypisywane są kolejne geny rodziców, każdy z prawdopodobieństwem 50\%.
+W~wyniku tego krzyżowania powstaje jeden nowy osobnik, któremu przypisywane są~kolejne geny rodziców, każdy z~prawdopodobieństwem 50\%.
 
 \section{Ważone z jednym potomkiem}
 \label{sec:wazone}
-Krzyżowanie analogiczne do powyższego, modyfikacji ulega jedynie prawdopodobieństwo otrzymania przez dziecko konkretnego genu. 
-Prawdopodobieństwo to liczone jest ze wzoru:
+Krzyżowanie analogiczne do~powyższego, modyfikacji ulega jedynie prawdopodobieństwo otrzymania przez dziecko konkretnego genu. 
+Prawdopodobieństwo to~liczone jest ze~wzoru:
 \begin{center}
 przystosowanie konkretnego rodzica / suma przystosowań obu rodziców
 \end{center}
 
 \section{Dwupunktowe z dwoma potomkami}
 \label{sec:dwaDwa}
-W tym typie krzyżowania chromosomy rodziców dzielone są na 3 części. Pierwsze dziecko otrzymuje początkową części materiału 
-genetycznego pierwszego rodzica, środkową drugiego rodzica i końcową pierwszego rodzica. Natomiast drugie dziecko - 
-początkową części materiału genetycznego drugiego rodzica, środkową pierwszego rodzica i końcową drugiego rodzica.
+W~tym~typie krzyżowania chromosomy rodziców dzielone są~na~3~części. Pierwsze dziecko otrzymuje początkową części materiału 
+genetycznego pierwszego rodzica, środkową drugiego rodzica i~końcową pierwszego rodzica. Natomiast drugie dziecko - 
+początkową części materiału genetycznego drugiego rodzica, środkową pierwszego rodzica i~końcową drugiego rodzica.
 
 \section{Dwupunktowe z jednym potomkiem}
 \label{sec:dwaJeden}
-Krzyżowanie analogiczne do powyższego, ale w wyniku powstaje jedno dziecko. Środowa część materiału genetycznego pierwszego 
-rodzica oraz początkowa i końcowa część materiału genetycznego drugiego rodzica są zaniedbywane.
+Krzyżowanie analogiczne do~powyższego, ale~w~wyniku powstaje jedno dziecko. Środowa część materiału genetycznego pierwszego 
+rodzica oraz~początkowa i~końcowa część materiału genetycznego drugiego rodzica są~zaniedbywane.
 
 \chapter{Mutacja}
 \label{cha:mutation}
-Zadaniem mutacji jest wprowadzenie subtelnych zmian do genotypu losowo wybranych osobników. Dzięki temu w kolejnych pokoleniach 
-zachowana zostaje różnorodność w populacji, co pozwala zapobiec przedwczesnej zbieżności algorytmu. Mutacja zachodzi z 
-pewnym przyjętym prawdopodobieństwem - zazwyczaj rzędu 1-5\%. Powinno być ono tak niskie, ponieważ zbyt silna mutacja przynosi 
-efekt odwrotny do zamierzonego: zamiast różnicować dobre rozwiązania - niszczy je.
+Zadaniem mutacji jest wprowadzenie subtelnych zmian do~genotypu losowo wybranych osobników. Dzięki temu w~kolejnych pokoleniach 
+zachowana zostaje różnorodność w~populacji, co~pozwala zapobiec przedwczesnej zbieżności algorytmu. Mutacja zachodzi z~pewnym przyjętym prawdopodobieństwem - zazwyczaj rzędu 1-5\%. Powinno być ono tak~niskie, ponieważ zbyt silna mutacja przynosi 
+efekt odwrotny do zamierzonego: zamiast różnicować dobre rozwiązania - niszczy~je.
 
 \section{Przy kodowaniu binarnym}
 \label{sec:kodBin}
-Polega na zamianie genu '1' na gen '0' (i odwrotnie).
+Polega na~zamianie genu '1' na~gen '0' (i~odwrotnie).
 \section{Przy kodowaniu grupowym}
 \label{sec:kodGru}
 
 \chapter{Program}
 \label{cha:program}
-Stworzony przez nas program "cos tam solver" został napisany w języku JAVA. Do rysowania i wizualizacji grafów użyliśmy biblioteki 
-JUNG. Przy rysowaniu i tworzeniu wykresów przystosowania osobników w populacji pomocna okazała się biblioteka JFreeChart. Natomiast 
-zapis wykresów do pliku umożliwiła biblioteka Batik (no chyba nie zaimplementowalismy....)!
+Stworzony przez nas program "cos tam solver" został napisany w~języku~JAVA. Do~rysowania i~wizualizacji grafów użyliśmy biblioteki 
+JUNG. Przy rysowaniu i~tworzeniu wykresów przystosowania osobników w~populacji pomocna okazała się~biblioteka JFreeChart. Natomiast 
+zapis wykresów do~pliku umożliwiła biblioteka Batik (no chyba nie zaimplementowalismy....)!
 \section{Przebieg pojedynczej iteracji}
 \label{sec:singleLifeCycle}
 singleLifeCycle
