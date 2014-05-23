@@ -71,12 +71,19 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Sets new layout type
+     * Sets new layout type and repaints view if layout changed.
      *
      * @param layoutType - type of layout
      */
     public void setLayoutType(LayoutType layoutType) {
-        this.layoutType = layoutType;
+        if (this.layoutType != layoutType) {
+            this.layoutType = layoutType;
+            add(actualizeVisualization(best, true));
+            if (getComponentCount() > 1) {
+                remove(0);
+            }
+            repaint();
+        }
     }
 
     @Override
