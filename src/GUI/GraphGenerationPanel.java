@@ -11,12 +11,11 @@ import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
-import graph.Edge;
 import graph.GraphRepresentation;
+import graph.LayoutType;
 import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 
@@ -63,6 +62,9 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         drawingControlPanel = new javax.swing.JPanel();
         drawButton = new javax.swing.JButton();
         finishDrawingButton = new javax.swing.JButton();
+        settingLayoutPanel = new javax.swing.JPanel();
+        layoutLabel = new javax.swing.JLabel();
+        layoutChooserCheckBox = new javax.swing.JComboBox();
 
         generationParameters.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Generation parameters"))));
 
@@ -111,7 +113,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                         .addComponent(isCliqueDemanded)
                         .addGap(18, 18, 18)
                         .addComponent(demandedCliqueSizeLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(demandedCliqueSize, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -218,16 +220,51 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        settingLayoutPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Setting layout"));
+
+        layoutLabel.setText("Choose layout");
+
+        layoutChooserCheckBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Circle", "Kamada Kawai", "Fruchterman Rheingold", "Meyer" }));
+        layoutChooserCheckBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                layoutChooserCheckBoxItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout settingLayoutPanelLayout = new javax.swing.GroupLayout(settingLayoutPanel);
+        settingLayoutPanel.setLayout(settingLayoutPanelLayout);
+        settingLayoutPanelLayout.setHorizontalGroup(
+            settingLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingLayoutPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(layoutLabel)
+                .addGap(28, 28, 28)
+                .addComponent(layoutChooserCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(390, Short.MAX_VALUE))
+        );
+        settingLayoutPanelLayout.setVerticalGroup(
+            settingLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(settingLayoutPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(settingLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(layoutLabel)
+                    .addComponent(layoutChooserCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(drawingControlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(loadingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(generationParameters, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(drawingControlPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loadingPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(generationParameters, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(settingLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -239,7 +276,9 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                 .addComponent(loadingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(drawingControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(settingLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(88, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -348,6 +387,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         loadButton.setEnabled(flag);
         generateButton.setEnabled(flag);
         saveButton.setEnabled(flag);
+        layoutChooserCheckBox.setEnabled(flag);
         finishDrawingButton.setEnabled(!flag);
     }
 
@@ -379,6 +419,23 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_finishDrawingButtonActionPerformed
 
+    private void layoutChooserCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_layoutChooserCheckBoxItemStateChanged
+        switch (layoutChooserCheckBox.getSelectedIndex()) {
+            case 0:
+                graphPanel.setLayoutType(LayoutType.CIRCLE);
+                break;
+            case 1:
+                graphPanel.setLayoutType(LayoutType.KAMADAKAWAI);
+                break;
+            case 2:
+                graphPanel.setLayoutType(LayoutType.FRUCHTERMANRHEINGOLD);
+                break;
+            case 3:
+                graphPanel.setLayoutType(LayoutType.MEYER);
+                break;
+        }
+    }//GEN-LAST:event_layoutChooserCheckBoxItemStateChanged
+
     /**
      * Drawing graph function.
      */
@@ -391,7 +448,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         EditingModalGraphMouse gm = new EditingModalGraphMouse(vv.getRenderContext(),
                 graphCreator.getVertexFactory(), graphCreator.getEdgeFactory());
         gm.remove(gm.getPopupEditingPlugin());
-        gm.add(new RemovingEdgesAndVerticesMenus(vv));   
+        gm.add(new RemovingEdgesAndVerticesMenus(vv));
         vv.setGraphMouse(gm);
         vv.setBackground(Color.white);
         graphPanel.setBest(null);
@@ -412,10 +469,13 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
     private javax.swing.JPanel generationParameters;
     private javax.swing.JTextField graphFileName;
     private javax.swing.JCheckBox isCliqueDemanded;
+    private javax.swing.JComboBox layoutChooserCheckBox;
+    private javax.swing.JLabel layoutLabel;
     private javax.swing.JButton loadButton;
     private javax.swing.JPanel loadingPanel;
     private javax.swing.JButton saveButton;
     private javax.swing.JLabel saveLabel;
+    private javax.swing.JPanel settingLayoutPanel;
     private javax.swing.JSpinner verticesCount;
     private javax.swing.JLabel verticesCountLabel;
     // End of variables declaration//GEN-END:variables
