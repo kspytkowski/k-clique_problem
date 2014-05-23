@@ -92,7 +92,6 @@ public class KCliqueSolverGUI extends JFrame {
         tabChoosePanel = new javax.swing.JTabbedPane();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        loadGraphMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
@@ -102,7 +101,7 @@ public class KCliqueSolverGUI extends JFrame {
         individualsEncodingCheckBoxGroup.add(groupCodingCheckBox);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("K-Klique Problem Solver23");
+        setTitle("K-Klique Problem Solver");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFocusTraversalPolicyProvider(true);
@@ -367,7 +366,7 @@ public class KCliqueSolverGUI extends JFrame {
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         mainGraphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
@@ -385,14 +384,6 @@ public class KCliqueSolverGUI extends JFrame {
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
-
-        loadGraphMenuItem.setText("Load graph");
-        loadGraphMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loadGraphMenuItemActionPerformed(evt);
-            }
-        });
-        fileMenu.add(loadGraphMenuItem);
 
         exitMenuItem.setMnemonic('x');
         exitMenuItem.setText("Exit");
@@ -435,9 +426,9 @@ public class KCliqueSolverGUI extends JFrame {
                 .addContainerGap()
                 .addComponent(mainGraphPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(tabChoosePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(tabChoosePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(simulationPanel, 699, 699, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         graphPanel = new GraphPanel();
@@ -538,7 +529,7 @@ public class KCliqueSolverGUI extends JFrame {
                 JOptionPane.showMessageDialog(this, e.getMessage());
             }
         }
-    }// GEN-LAST:event_loadGraphMenuItemActionPerformed
+    }
 
     /**
      * Actualizes current and maximum value in spinner.
@@ -640,7 +631,6 @@ public class KCliqueSolverGUI extends JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.ButtonGroup individualsEncodingCheckBoxGroup;
     private javax.swing.JPanel individualsEncodingPanel;
-    private javax.swing.JMenuItem loadGraphMenuItem;
     private GraphPanel graphPanel;
     private javax.swing.JPanel mainGraphPanel;
     private javax.swing.JMenuBar menuBar;
