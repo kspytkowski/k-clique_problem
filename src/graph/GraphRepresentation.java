@@ -18,6 +18,7 @@ import edu.uci.ics.jung.graph.util.Pair;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import java.util.Collection;
 import org.apache.commons.collections15.Factory;
 
 public class GraphRepresentation {
@@ -375,5 +376,50 @@ public class GraphRepresentation {
     @Override
     public String toString() {
         return graph.toString();
+    }
+
+    /**
+     * Repairs graph if any vertex was removed while drawing. 
+     * If user removed vertex number 3 (so left f.e. 1,2,4,5), function
+     * relabels it to 1,2,3,4.
+     */
+    public void repairGraphAfterEditing() {
+        LinkedList<Integer> vertices = new LinkedList<>(graph.getVertices());
+        int last = vertices.get(vertices.size() - 1);
+        if (last > vertices.size()) {
+            int accumulator  = 0;
+            for (int j = 0; j < vertices.size() - 1; j++) {
+                if (vertices.get(j) != j + 1) {
+                    int temp = vertices.get(vertices.size() - 1 - j + accumulator);
+                    changeEdge(temp, j + 1);
+                    graph.removeVertex(temp);
+                    graph.addVertex(j + 1);
+                    vertices.remove(vertices.size() - 1 - j);
+                    vertices.add(j, j + 1);
+                    accumulator++;
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes edges containig toReplace vertex and inserts same with replacing
+     * vertex
+     *
+     * @param toReplace - number of vertex to replace
+     * @param replacing - number of vertex to insert instead of toReplace
+     */
+    private void changeEdge(int toReplace, int replacing) {
+        Collection<String> edges = graph.getEdges();
+        for (String e : edges) {
+            Pair<Integer> endpoints = graph.getEndpoints(e);
+            if (endpoints.getFirst() == toReplace) {
+                graph.removeEdge(e);
+                graph.addEdge(e, replacing, endpoints.getSecond());
+            } else if (endpoints.getSecond() == toReplace) {
+                graph.removeEdge(e);
+                graph.addEdge(e, replacing, endpoints.getFirst());
+            }
+        }
     }
 }

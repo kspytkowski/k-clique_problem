@@ -11,10 +11,12 @@ import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
+import graph.Edge;
 import graph.GraphRepresentation;
 import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
 
@@ -359,6 +361,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         graphPanel.repaint();
         if (graphCreator.getVertexCount() >= 2 && graphCreator.getEdgeCount() >= 1) {
             controller.setGraphRepresentation(graphCreator);
+            graphCreator.repairGraphAfterEditing();
             setEnabledWhileDrawing(true);
             graphPanel.getVv().setGraphMouse(new DefaultModalGraphMouse<String, Number>());
             graphPanel.setGraph(graphCreator.getGraph());
@@ -385,8 +388,11 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         layout.setSize(graphPanel.getSize());
         VisualizationViewer<Integer, String> vv
                 = new VisualizationViewer<>(layout, graphPanel.getSize());
-        vv.setGraphMouse(new EditingModalGraphMouse(vv.getRenderContext(),
-                graphCreator.getVertexFactory(), graphCreator.getEdgeFactory()));
+        EditingModalGraphMouse gm = new EditingModalGraphMouse(vv.getRenderContext(),
+                graphCreator.getVertexFactory(), graphCreator.getEdgeFactory());
+        gm.remove(gm.getPopupEditingPlugin());
+        gm.add(new RemovingEdgesAndVerticesMenus(vv));   
+        vv.setGraphMouse(gm);
         vv.setBackground(Color.white);
         graphPanel.setBest(null);
         graphPanel.setVv(vv);

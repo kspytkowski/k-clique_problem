@@ -53,7 +53,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Getter of visoalization viewer
+     * Getter of visualization viewer
      *
      * @return visoalization viewer
      */
