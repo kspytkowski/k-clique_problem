@@ -19,6 +19,7 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import java.util.Collection;
+import java.util.Iterator;
 import org.apache.commons.collections15.Factory;
 
 public class GraphRepresentation {
@@ -222,13 +223,14 @@ public class GraphRepresentation {
         try (FileWriter fileWriter = new FileWriter(path + File.separatorChar + fileName)) {
             fileWriter.write(graph.getVertexCount() + "\n");
             fileWriter.write(graph.getEdgeCount() + "\n");
+            Iterator<String> it = graph.getEdges().iterator();
             for (int i = 1; i <= graph.getEdgeCount(); i++) {
-                Pair<Integer> vertices = graph.getEndpoints("EDGE" + i);
+                Pair<Integer> vertices = graph.getEndpoints(it.next());
                 fileWriter.write(vertices.getFirst() + " ");
                 fileWriter.write(vertices.getSecond() + "\n");
             }
         } catch (IOException e) {
-            throw new ProblemWithReadingGraphFromFileException("For some reason cannot write graph to file\nChange file name!");
+            throw new ProblemWithReadingGraphFromFileException("For some reason cannot write graph to file");
         }
     }
 

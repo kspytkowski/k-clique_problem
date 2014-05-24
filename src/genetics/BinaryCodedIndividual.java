@@ -73,7 +73,7 @@ public class BinaryCodedIndividual extends AbstractIndividual {
     public final void determineIndividualFitness() {
         int edgesAmount = 0;
         for (int i = 0; i < graph.getVertexCount(); i++) {
-            if (getValueOfGene(i) == 0) { 
+            if (getValueOfGene(i) == 0) {
                 for (int k = i + 1; k <= graph.getVertexCount(); k++) {
                     if (graph.isNeighbor(i + 1, k) && getValueOfGene(k - 1) == 0) {
                         edgesAmount += 1;
@@ -103,9 +103,9 @@ public class BinaryCodedIndividual extends AbstractIndividual {
 
     @Override
     public void setGene(int geneIndex, int value) {
-        if (chromosome[geneIndex] != value && value == 0) { 
+        if (chromosome[geneIndex] != value && value == 0) {
             activeGenesAmount++;
-        } else if (chromosome[geneIndex] != value && value == 1) { 
+        } else if (chromosome[geneIndex] != value && value == 1) {
             activeGenesAmount--;
         }
         chromosome[geneIndex] = value;
