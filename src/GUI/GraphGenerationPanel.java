@@ -396,6 +396,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 2) % 3, flag);
         drawButton.setEnabled(flag);
         loadButton.setEnabled(flag);
+        graphFileName.setEnabled(flag);
         generateButton.setEnabled(flag);
         saveButton.setEnabled(flag);
         layoutChooserCheckBox.setEnabled(flag);

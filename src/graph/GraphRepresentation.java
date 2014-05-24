@@ -389,11 +389,11 @@ public class GraphRepresentation {
             int accumulator = 0;
             for (int j = 0; j < vertices.size() - 1; j++) {
                 if (vertices.get(j) != j + 1) {
-                    int temp = vertices.get(vertices.size() - 1 - j + accumulator);
+                    int temp = vertices.get(vertices.size() - 1 + accumulator);
                     changeEdge(temp, j + 1);
                     graph.removeVertex(temp);
                     graph.addVertex(j + 1);
-                    vertices.remove(vertices.size() - 1 - j);
+                    vertices.remove(vertices.size() - 1 + accumulator);
                     vertices.add(j, j + 1);
                     accumulator++;
                 }
