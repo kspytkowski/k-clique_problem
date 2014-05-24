@@ -50,12 +50,12 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         generationParameters = new javax.swing.JPanel();
-        verticesCount = new javax.swing.JSpinner(new SpinnerNumberModel(10, 2, 2000, 1));
+        verticesCount = new javax.swing.JSpinner(new SpinnerNumberModel(10, 2, 200, 1));
         verticesCountLabel = new javax.swing.JLabel();
         edgesCount = new javax.swing.JSpinner(new SpinnerNumberModel(10, 1, 2000, 1));
         edgesCountLabel = new javax.swing.JLabel();
         isCliqueDemanded = new javax.swing.JCheckBox();
-        demandedCliqueSize = new javax.swing.JSpinner(new SpinnerNumberModel(5, 2, 2000, 1));
+        demandedCliqueSize = new javax.swing.JSpinner(new SpinnerNumberModel(5, 2, 200, 1));
         demandedCliqueSizeLabel = new javax.swing.JLabel();
         generateButton = new javax.swing.JButton();
         loadingPanel = new javax.swing.JPanel();
@@ -72,11 +72,11 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
 
         generationParameters.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Generation parameters"))));
 
-        verticesCount.setToolTipText("Set value from 2 to 2000.");
+        verticesCount.setToolTipText("Set value from 2 to 200");
 
         verticesCountLabel.setText("Vertices");
 
-        edgesCount.setToolTipText("Set from 1 to 2000.");
+        edgesCount.setToolTipText("Set from 1 to 2000");
 
         edgesCountLabel.setText("Edges");
 
@@ -87,7 +87,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             }
         });
 
-        demandedCliqueSize.setToolTipText("Set value from 2 to number of vertices.");
+        demandedCliqueSize.setToolTipText("Set value from 2 to number of vertices");
         demandedCliqueSize.setEnabled(false);
 
         demandedCliqueSizeLabel.setText("Clique size");
@@ -288,7 +288,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(drawingControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(settingLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(175, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
