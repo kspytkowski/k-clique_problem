@@ -386,16 +386,14 @@ public class GraphRepresentation {
         LinkedList<Integer> vertices = new LinkedList<>(graph.getVertices());
         int last = vertices.get(vertices.size() - 1);
         if (last > vertices.size()) {
-            int accumulator = 0;
             for (int j = 0; j < vertices.size() - 1; j++) {
                 if (vertices.get(j) != j + 1) {
-                    int temp = vertices.get(vertices.size() - 1 + accumulator);
+                    int temp = vertices.get(vertices.size() - 1);
                     changeEdge(temp, j + 1);
                     graph.removeVertex(temp);
                     graph.addVertex(j + 1);
-                    vertices.remove(vertices.size() - 1 + accumulator);
+                    vertices.remove(vertices.size() - 1);
                     vertices.add(j, j + 1);
-                    accumulator++;
                 }
             }
         }
