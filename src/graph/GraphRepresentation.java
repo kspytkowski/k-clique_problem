@@ -379,15 +379,14 @@ public class GraphRepresentation {
     }
 
     /**
-     * Repairs graph if any vertex was removed while drawing. 
-     * If user removed vertex number 3 (so left f.e. 1,2,4,5), function
-     * relabels it to 1,2,3,4.
+     * Repairs graph if any vertex was removed while drawing. If user removed
+     * vertex number 3 (so left f.e. 1,2,4,5), function relabels it to 1,2,3,4.
      */
     public void repairGraphAfterEditing() {
         LinkedList<Integer> vertices = new LinkedList<>(graph.getVertices());
         int last = vertices.get(vertices.size() - 1);
         if (last > vertices.size()) {
-            int accumulator  = 0;
+            int accumulator = 0;
             for (int j = 0; j < vertices.size() - 1; j++) {
                 if (vertices.get(j) != j + 1) {
                     int temp = vertices.get(vertices.size() - 1 - j + accumulator);
