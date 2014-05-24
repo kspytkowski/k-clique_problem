@@ -115,9 +115,9 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                         .addComponent(edgesCount, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(isCliqueDemanded)
-                        .addGap(18, 18, 18)
-                        .addComponent(demandedCliqueSizeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(demandedCliqueSizeLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(demandedCliqueSize, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -166,12 +166,12 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             .addGroup(loadingPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(loadButton)
-                .addGap(18, 18, 18)
-                .addComponent(saveButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(saveLabel)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(graphFileName, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(saveButton)
                 .addContainerGap())
         );
         loadingPanelLayout.setVerticalGroup(
