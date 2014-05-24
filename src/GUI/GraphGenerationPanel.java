@@ -72,7 +72,11 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
 
         generationParameters.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Generation parameters"))));
 
+        verticesCount.setToolTipText("Set value from 2 to 2000.");
+
         verticesCountLabel.setText("Vertices");
+
+        edgesCount.setToolTipText("Set from 1 to 2000.");
 
         edgesCountLabel.setText("Edges");
 
@@ -83,6 +87,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             }
         });
 
+        demandedCliqueSize.setToolTipText("Set value from 2 to number of vertices.");
         demandedCliqueSize.setEnabled(false);
 
         demandedCliqueSizeLabel.setText("Clique size");
@@ -155,6 +160,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         });
 
         graphFileName.setText("graph name");
+        graphFileName.setToolTipText("Insert file name.");
         graphFileName.setEnabled(false);
 
         saveLabel.setText("File name");

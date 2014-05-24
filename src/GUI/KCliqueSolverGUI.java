@@ -124,6 +124,7 @@ public class KCliqueSolverGUI extends JFrame {
 
         crossingOverTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "one point with two children", "one point with one child", "uniform", "weighted uniform", "two points with two children", "two points with one child" }));
 
+        crossingOverProbabilitySpinner.setToolTipText("Set value form 0 to 1.");
         crossingOverProbabilitySpinner.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout crossingOverPanelLayout = new javax.swing.GroupLayout(crossingOverPanel);
@@ -154,6 +155,8 @@ public class KCliqueSolverGUI extends JFrame {
         mutationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Mutation"));
 
         mutationProbabilityLabel.setText("Probability");
+
+        mutationProbabilitySpinner.setToolTipText("Set value from 0 to 1.");
 
         javax.swing.GroupLayout mutationPanelLayout = new javax.swing.GroupLayout(mutationPanel);
         mutationPanel.setLayout(mutationPanelLayout);
@@ -201,7 +204,11 @@ public class KCliqueSolverGUI extends JFrame {
 
         amountOfIndividualsLabel.setText("Amount of individuals");
 
+        amountOfIndividualsSpinner.setToolTipText("Set value from 10 to 100.");
+
         numberOfGenerationsLabel.setText("Number of generations");
+
+        numberOfGenerationsSpinner.setToolTipText("Set value from 100 to 2000.");
 
         javax.swing.GroupLayout populationPanelLayout = new javax.swing.GroupLayout(populationPanel);
         populationPanel.setLayout(populationPanelLayout);
@@ -248,6 +255,8 @@ public class KCliqueSolverGUI extends JFrame {
         searchedKCliqueSizeLabel.setText("Searched K-Clique size");
         searchedKCliqueSizeLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        searchedKCliqueSizeSpinner.setToolTipText("Set value from 2 to number of vertices in graph. 0 set if there's no graph.");
+
         javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
         controlPanel.setLayout(controlPanelLayout);
         controlPanelLayout.setHorizontalGroup(
@@ -284,6 +293,7 @@ public class KCliqueSolverGUI extends JFrame {
 
         numberOfGroupsLabel.setText("Number of groups");
 
+        numberOfGroupsSpinner.setToolTipText("Set value from 4 to 16 or to number of vertices, if it's smaller than 16.");
         numberOfGroupsSpinner.setEnabled(false);
 
         binaryCodingCheckBox.setText("binary");
@@ -415,7 +425,7 @@ public class KCliqueSolverGUI extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tabChoosePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
-                    .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                    .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))

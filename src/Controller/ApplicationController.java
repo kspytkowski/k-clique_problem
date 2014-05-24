@@ -223,7 +223,7 @@ public class ApplicationController extends Thread {
                 }
                 actualBestindividual = new GroupCodedIndividual((GroupCodedIndividual) population.findBestAdoptedIndividual());
                 bestAdoptedInEveryIteration.add(actualBestindividual);
-                if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
+                if (actualBestindividual.getFitness() == 1 || i + 1 == numberOfIterations) {
                     finished = true;
                 }
                 actualizePlot(i, population);
@@ -244,11 +244,11 @@ public class ApplicationController extends Thread {
         try {
             Population population = new Population(numberOfIndividuals, graphRepresentation, individualEncoding);
             finished = false;
-            for (int i = 1; !finished; i++) {
+            for (int i = 0; !finished; i++) {
                 population.singleLifeCycle(false, howToSelect, crossingOverProbability, howToCross, mutationProbability, 0.7);
                 actualBestindividual = new BinaryCodedIndividual((BinaryCodedIndividual) population.findBestAdoptedIndividual());
                 bestAdoptedInEveryIteration.add(actualBestindividual);
-                if (actualBestindividual.getFitness() == 1 || i == numberOfIterations) {
+                if (actualBestindividual.getFitness() == 1 || i + 1 == numberOfIterations) {
                     finished = true;
                 }
                 actualizePlot(i, population);

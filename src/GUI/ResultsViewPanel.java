@@ -14,7 +14,7 @@ public class ResultsViewPanel extends javax.swing.JPanel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param graphPanel
      * @param controller
      */
@@ -30,10 +30,18 @@ public class ResultsViewPanel extends javax.swing.JPanel {
     public void actualizeIterationSpinnerAndLabel() {
         if (controller.getBestAdoptedInEveryIteration() != null) {
             int numberOfIterations = controller.getBestAdoptedInEveryIteration().size();
-            iterationSpinner.setModel(new SpinnerNumberModel(numberOfIterations, 1, numberOfIterations, 1));
-            note.setText(String.format("%.2f", ((Double) graphPanel.getActualIndividual().getFitness())));
+            if (numberOfIterations > 0) {
+                iterationSpinner.setModel(new SpinnerNumberModel(numberOfIterations, 1, numberOfIterations, 1));
+                iterationSpinner.setToolTipText("Set value from 1 to " + numberOfIterations + ".");
+                note.setText(String.format("%.2f", ((Double) graphPanel.getActualIndividual().getFitness())));
+            } else {
+                iterationSpinner.setModel(new SpinnerNumberModel(0, 0, 0, 1));
+                iterationSpinner.setToolTipText("Only 0 allowed, there's nothing to show.");
+                note.setText("None");
+            }
         } else {
             iterationSpinner.setModel(new SpinnerNumberModel(0, 0, 0, 1));
+            iterationSpinner.setToolTipText("Only 0 allowed, there's nothing to show.");
             note.setText("None");
         }
     }

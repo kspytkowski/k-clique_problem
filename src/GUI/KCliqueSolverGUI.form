@@ -95,7 +95,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="tabChoosePanel" pref="608" max="32767" attributes="0"/>
-                  <Component id="simulationPanel" pref="608" max="32767" attributes="0"/>
+                  <Component id="simulationPanel" pref="599" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="chartPanelInGUI" max="32767" attributes="0"/>
@@ -248,6 +248,7 @@
             </Component>
             <Component class="javax.swing.JSpinner" name="crossingOverProbabilitySpinner">
               <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value form 0 to 1."/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Default Cursor"/>
                 </Property>
@@ -296,6 +297,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="mutationProbabilitySpinner">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value from 0 to 1."/>
+              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0.05, 0.00, 1.0, 0.01))"/>
               </AuxValues>
@@ -390,6 +394,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="amountOfIndividualsSpinner">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value from 10 to 100."/>
+              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(20, 10, 100, 1))"/>
               </AuxValues>
@@ -400,6 +407,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="numberOfGenerationsSpinner">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value from 100 to 2000."/>
+              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(500, 100, 2000, 1))"/>
               </AuxValues>
@@ -468,6 +478,9 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="searchedKCliqueSizeSpinner">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value from 2 to number of vertices in graph. 0 set if there&apos;s no graph."/>
+              </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(searchedKCliqueSizeSpinnerNumberModel)"/>
                 <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="searchedKCliqueSizeSpinnerNumberModel = new SpinnerNumberModel(0,0,0,1);"/>
@@ -529,6 +542,7 @@
             </Component>
             <Component class="javax.swing.JSpinner" name="numberOfGroupsSpinner">
               <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Set value from 4 to 16 or to number of vertices, if it&apos;s smaller than 16."/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <AuxValues>
