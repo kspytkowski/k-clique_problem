@@ -58,7 +58,7 @@ public class GraphVisualizationAndButtonsStateActualizer extends Thread {
                 if (controller.isFinished()) {
                     stopButton.setEnabled(false);
                     startButton.setEnabled(true);
-                    tabs.setEnabledAt((tabs.getSelectedIndex() + 1) % 2, true);
+                    tabs.setEnabledAt((tabs.getSelectedIndex() + 1) % 3, true);
                 }
             }
             synchronized (this) {

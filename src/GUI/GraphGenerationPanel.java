@@ -28,6 +28,10 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form GraphGeneration.
+     * 
+     * @param graphPanel
+     * @param controller 
+     * @param tabChoosePanel
      */
     public GraphGenerationPanel(GraphPanel graphPanel, ApplicationController controller, JTabbedPane tabChoosePanel) {
         initComponents();
@@ -206,9 +210,9 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
             .addGroup(drawingControlPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(drawButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(finishDrawingButton)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap())
         );
         drawingControlPanelLayout.setVerticalGroup(
             drawingControlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +240,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         settingLayoutPanelLayout.setHorizontalGroup(
             settingLayoutPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(settingLayoutPanelLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
+                .addContainerGap()
                 .addComponent(layoutLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(layoutChooserCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,7 +266,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(drawingControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(settingLayoutPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(settingLayoutPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(loadingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(generationParameters, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -382,7 +386,8 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
      * @param flag - flag to set (enabled/disabled)
      */
     private void setEnabledWhileDrawing(boolean flag) {
-        tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 2, flag);
+        tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 3, flag);
+        tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 2) % 3, flag);
         drawButton.setEnabled(flag);
         loadButton.setEnabled(flag);
         generateButton.setEnabled(flag);
@@ -451,7 +456,7 @@ public class GraphGenerationPanel extends javax.swing.JPanel {
         gm.add(new RemovingEdgesAndVerticesMenus(vv));
         vv.setGraphMouse(gm);
         vv.setBackground(Color.white);
-        graphPanel.setBest(null);
+        graphPanel.setActualIndividual(null);
         graphPanel.setVv(vv);
         graphPanel.removeAll();
         graphPanel.add(vv);

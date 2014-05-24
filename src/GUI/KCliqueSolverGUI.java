@@ -24,6 +24,7 @@ public class KCliqueSolverGUI extends JFrame {
     private final ApplicationController controller; // controller
     private final GraphVisualizationAndButtonsStateActualizer graphActualizer; // thread that actualizes graph view
     private final PlotActualizer chartActualizer; // thread that actualizes chart
+    private final ResultsViewPanel resultsPanel;
 
     /**
      * Creates new form KKliqueSolverGUI.
@@ -32,8 +33,10 @@ public class KCliqueSolverGUI extends JFrame {
         this.controller = new ApplicationController();
         initComponents();
         initChart();
+        this.resultsPanel = new ResultsViewPanel(graphPanel, controller);
         tabChoosePanel.addTab("Simulation", simulationPanel);
         tabChoosePanel.addTab("Graph generation", new GraphGenerationPanel(graphPanel, controller, tabChoosePanel));
+        tabChoosePanel.addTab("Simulation results through iterations", resultsPanel);
         graphActualizer = new GraphVisualizationAndButtonsStateActualizer(controller, graphPanel, stopButton, startButton, tabChoosePanel);
         chartActualizer = new PlotActualizer(chartPanelInGUI);
         controller.setActualizers(graphActualizer, chartActualizer);
@@ -60,7 +63,6 @@ public class KCliqueSolverGUI extends JFrame {
 
         individualsEncodingCheckBoxGroup = new javax.swing.ButtonGroup();
         simulationPanel = new javax.swing.JPanel();
-        chartPanelInGUI = new javax.swing.JPanel();
         crossingOverPanel = new javax.swing.JPanel();
         crossingOverProbabilityLabel = new javax.swing.JLabel();
         crossingOverTypeLabel = new javax.swing.JLabel();
@@ -90,6 +92,7 @@ public class KCliqueSolverGUI extends JFrame {
         binaryCodingCheckBox = new javax.swing.JCheckBox();
         mainGraphPanel = new javax.swing.JPanel();
         tabChoosePanel = new javax.swing.JTabbedPane();
+        chartPanelInGUI = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         exitMenuItem = new javax.swing.JMenuItem();
@@ -112,20 +115,6 @@ public class KCliqueSolverGUI extends JFrame {
         simulationPanel.setBorder(null);
         simulationPanel.setMaximumSize(new java.awt.Dimension(1000, 1022));
         simulationPanel.setPreferredSize(new java.awt.Dimension(642, 711));
-
-        chartPanelInGUI.setBackground(new java.awt.Color(254, 254, 254));
-        chartPanelInGUI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
-
-        javax.swing.GroupLayout chartPanelInGUILayout = new javax.swing.GroupLayout(chartPanelInGUI);
-        chartPanelInGUI.setLayout(chartPanelInGUILayout);
-        chartPanelInGUILayout.setHorizontalGroup(
-            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        chartPanelInGUILayout.setVerticalGroup(
-            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 432, Short.MAX_VALUE)
-        );
 
         crossingOverPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Crossing-over"));
 
@@ -340,7 +329,6 @@ public class KCliqueSolverGUI extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(selectionPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(populationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(simulationPanelLayout.createSequentialGroup()
                         .addComponent(crossingOverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -362,9 +350,7 @@ public class KCliqueSolverGUI extends JFrame {
                     .addComponent(mutationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainGraphPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
@@ -377,6 +363,20 @@ public class KCliqueSolverGUI extends JFrame {
                 tabChoosePanelStateChanged(evt);
             }
         });
+
+        chartPanelInGUI.setBackground(new java.awt.Color(254, 254, 254));
+        chartPanelInGUI.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(254, 254, 254)));
+
+        javax.swing.GroupLayout chartPanelInGUILayout = new javax.swing.GroupLayout(chartPanelInGUI);
+        chartPanelInGUI.setLayout(chartPanelInGUILayout);
+        chartPanelInGUILayout.setHorizontalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        chartPanelInGUILayout.setVerticalGroup(
+            chartPanelInGUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 365, Short.MAX_VALUE)
+        );
 
         menuBar.setToolTipText("K-Klique Problem Solver");
 
@@ -414,21 +414,26 @@ public class KCliqueSolverGUI extends JFrame {
                 .addComponent(mainGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(simulationPanel, 608, 608, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tabChoosePanel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tabChoosePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                    .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(chartPanelInGUI, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(tabChoosePanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(simulationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(simulationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chartPanelInGUI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(mainGraphPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 708, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         graphPanel = new GraphPanel();
@@ -445,7 +450,7 @@ public class KCliqueSolverGUI extends JFrame {
 
     private void groupCodingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupCodingCheckBoxActionPerformed
         if (actualizeNumberOfGroupsSpinner()) {
-            JOptionPane.showMessageDialog(this, "There's no sense to use group "
+            JOptionPane.showMessageDialog(simulationPanel, "There's no sense to use group "
                     + "coding on so small graph! Use binary encoding instead.",
                     "Clue", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -460,14 +465,14 @@ public class KCliqueSolverGUI extends JFrame {
         }
         synchronized (controller) {
             if (controller.getGraphRepresentation() != null) {
-                tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 2, false);
+                tabChoosePanel.setEnabledAt((tabChoosePanel.getSelectedIndex() + 1) % 3, false);
                 startButton.setEnabled(false);
                 stopButton.setEnabled(true);
                 controller.getPlot().clearAllSeries();
                 controller.resumeSolving();
                 controller.getGraphRepresentation().setsearchedKCliqueSize((int) searchedKCliqueSizeSpinner.getValue());
             } else {
-                JOptionPane.showMessageDialog(this, "There's no graph!\nSwitch to graph genearation panel!",
+                JOptionPane.showMessageDialog(simulationPanel, "There's no graph!\nSwitch to graph genearation panel!",
                         "Warning", JOptionPane.WARNING_MESSAGE);
             }
         }
@@ -484,6 +489,8 @@ public class KCliqueSolverGUI extends JFrame {
         if (tabChoosePanel.getSelectedIndex() == 0 && controller.getGraphRepresentation() != null) {
             actualizeSearchedKCliqueSizeSpinner();
             actualizeNumberOfGroupsSpinner();
+        } else if (tabChoosePanel.getSelectedIndex() == 2) {
+            resultsPanel.actualizeIterationSpinnerAndLabel();
         }
     }//GEN-LAST:event_tabChoosePanelStateChanged
 

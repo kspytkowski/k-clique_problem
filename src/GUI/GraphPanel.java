@@ -23,7 +23,16 @@ public class GraphPanel extends JPanel {
     private Layout<Integer, String> actualGrLayout = null; // displayed layout
     private Graph<Integer, String> graph; // graph
     private LayoutType layoutType = LayoutType.CIRCLE; // actually chosen layout of a graph
-    private AbstractIndividual best; // best adopted individual
+    private AbstractIndividual actualIndividual; // actualIndividual adopted individual
+
+    /**
+     * Getter
+     * 
+     * @return actual individual
+     */
+    public AbstractIndividual getActualIndividual() {
+        return actualIndividual;
+    }
 
     /**
      * Setter
@@ -37,10 +46,10 @@ public class GraphPanel extends JPanel {
     /**
      * Setter
      *
-     * @param best
+     * @param actualIndividual
      */
-    public void setBest(AbstractIndividual best) {
-        this.best = best;
+    public void setActualIndividual(AbstractIndividual actualIndividual) {
+        this.actualIndividual = actualIndividual;
     }
 
     /**
@@ -78,11 +87,13 @@ public class GraphPanel extends JPanel {
     public void setLayoutType(LayoutType layoutType) {
         if (this.layoutType != layoutType) {
             this.layoutType = layoutType;
-            add(actualizeVisualization(best, true));
-            if (getComponentCount() > 1) {
-                remove(0);
+            if (graph != null) {
+                add(actualizeVisualization(actualIndividual, true));
+                if (getComponentCount() > 1) {
+                    remove(0);
+                }
+                repaint();
             }
-            repaint();
         }
     }
 
@@ -90,7 +101,7 @@ public class GraphPanel extends JPanel {
     public void repaint() {
         super.repaint();
         if (graph != null) {
-            actualizeVisualization(best, false);
+            actualizeVisualization(actualIndividual, false);
             validate();
         }
     }
@@ -110,14 +121,27 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Creates visualization of a graph with best one from population
+     * Displays given individual.
      *
-     * @param bestOne - best subgraph from population
+     * @param individual
+     */
+    public void displayNewBest(AbstractIndividual individual) {
+        add(actualizeVisualization(individual, true));
+        if (getComponentCount() > 1) {
+            remove(0);
+        }
+        repaint();
+    }
+
+    /**
+     * Creates visualization of a graph with actualIndividual one from population
+     *
+     * @param bestOne - actualIndividual subgraph from population
      * @param changedGraph - set true, if graph is new
      * @return visualization
      */
     public synchronized VisualizationViewer<Integer, String> actualizeVisualization(AbstractIndividual bestOne, boolean changedGraph) {
-        setBest(bestOne);
+        setActualIndividual(bestOne);
         if (changedGraph) {
             actualGrLayout = GraphVisualisation.getLayout(graph, layoutType);
             vv = new VisualizationViewer<>(actualGrLayout, getSize());
@@ -132,7 +156,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Paints edges - if it's in a best one, it's blue; otherwise black.
+     * Paints edges - if it's in a actualIndividual one, it's blue; otherwise black.
      */
     public class EdgePainting implements Transformer<String, Paint> {
 
@@ -174,7 +198,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Sets edge thickness, thick - in best one.
+     * Sets edge thickness, thick - in actualIndividual one.
      */
     public class EdgeThickness implements Transformer<String, Stroke> {
 
@@ -230,7 +254,7 @@ public class GraphPanel extends JPanel {
     }
 
     /**
-     * Sets color of vertex; yellow - in best one; red - otherwise.
+     * Sets color of vertex; yellow - in actualIndividual one; red - otherwise.
      */
     public class VertexPainting implements Transformer<Integer, Paint> {
 

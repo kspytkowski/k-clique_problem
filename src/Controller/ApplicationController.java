@@ -296,6 +296,15 @@ public class ApplicationController extends Thread {
     /**
      * Getter
      *
+     * @return array containing the best individual from every iteration
+     */
+    public ArrayList<AbstractIndividual> getBestAdoptedInEveryIteration() {
+        return bestAdoptedInEveryIteration;
+    }
+
+    /**
+     * Getter
+     *
      * @return best in last iteration
      */
     public AbstractIndividual getActualBestindividual() {
