@@ -19,7 +19,9 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import org.apache.commons.collections15.Factory;
 
 public class GraphRepresentation {
@@ -171,7 +173,7 @@ public class GraphRepresentation {
             if (verticesAmount < 1) {
                 throw new NoPossibilityToCreateGraphException("Amount of vertices cannot be less than 1");
             }
-            graph = createGraphVertices(verticesAmount);
+            // graph = createGraphVertices(verticesAmount);
             int edgesAmount = Integer.parseInt(bufferedReader.readLine());
             if (edgesAmount < 0) {
                 throw new NoPossibilityToCreateGraphException("Amount of edges cannot be less than 0");
@@ -179,17 +181,23 @@ public class GraphRepresentation {
             if (edgesAmount > (verticesAmount * (verticesAmount - 1) / 2)) {
                 throw new NoPossibilityToCreateGraphException("To many edges to generate graph");
             }
+
+            graph = new SparseGraph<>();
+            for (int i = 1; i <= verticesAmount; i++) {
+                graph.addVertex((Integer) Integer.parseInt(bufferedReader.readLine()));
+            }
+
             for (int i = 1; i <= edgesAmount; i++) {
                 String line = bufferedReader.readLine();
                 String[] splitted = line.split(" ");
                 int firstVertex = Integer.parseInt(splitted[0]);
                 int secondVertex = Integer.parseInt(splitted[1]);
-                if (firstVertex < 1 || secondVertex < 1 || firstVertex > verticesAmount || secondVertex > verticesAmount) {
+                if (firstVertex < 1 || secondVertex < 1) {// || firstVertex > verticesAmount || secondVertex > verticesAmount) {
                     throw new ProblemWithReadingGraphFromFileException("It is impossible to creat graph with given vertices and edges");
                 }
-                if (firstVertex >= secondVertex) {
-                    throw new ProblemWithReadingGraphFromFileException("File format is wrong");
-                }
+                // if (firstVertex >= secondVertex) {
+                //     throw new ProblemWithReadingGraphFromFileException("File format is wrong");
+                // }
                 graph.addEdge("EDGE" + i, Integer.parseInt(splitted[0]), Integer.parseInt(splitted[1]));
             }
         } catch (NumberFormatException e) {
@@ -223,6 +231,12 @@ public class GraphRepresentation {
         try (FileWriter fileWriter = new FileWriter(path + File.separatorChar + fileName)) {
             fileWriter.write(graph.getVertexCount() + "\n");
             fileWriter.write(graph.getEdgeCount() + "\n");
+
+            Iterator<Integer> iter = graph.getVertices().iterator();
+            while (iter.hasNext()) {
+                fileWriter.write(iter.next() + "\n");
+            }
+
             Iterator<String> it = graph.getEdges().iterator();
             for (int i = 1; i <= graph.getEdgeCount(); i++) {
                 Pair<Integer> vertices = graph.getEndpoints(it.next());
