@@ -19,9 +19,7 @@ import exceptions.GeneticAlgorithmException;
 import exceptions.NoPossibilityToCreateGraphException;
 import exceptions.ProblemWithReadingGraphFromFileException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 import org.apache.commons.collections15.Factory;
 
 public class GraphRepresentation {
@@ -402,7 +400,7 @@ public class GraphRepresentation {
         LinkedList<Integer> vertices = new LinkedList<>(graph.getVertices());
         int last = vertices.get(vertices.size() - 1);
         if (last > vertices.size()) {
-            for (int j = 0; j < vertices.size() - 1; j++) {
+            for (int j = 0; j < vertices.size(); j++) {
                 if (vertices.get(j) != j + 1) {
                     int temp = vertices.get(vertices.size() - 1);
                     changeEdge(temp, j + 1);
