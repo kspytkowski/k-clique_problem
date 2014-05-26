@@ -66,7 +66,7 @@ public final class GroupCodedIndividual extends AbstractIndividual {
     public double determineFitnessOfSubrgaph(int group) {
         LinkedList<Integer> vertexes = getVertexesInGroup(group);
         double k = vertexes.size(), e = 0, isKlique = 0;
-        double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
+//        double differenceBetweenSizes = (k > graph.getsearchedKCliqueSize()) ? k - graph.getsearchedKCliqueSize() : graph.getsearchedKCliqueSize() - k;
         if (k > 1) {
             for (int i = 0; i < k; i++) {
                 for (int j = i + 1; j < k; j++) {
@@ -75,17 +75,26 @@ public final class GroupCodedIndividual extends AbstractIndividual {
                     }
                 }
             }
-            if (e / (k * (k - 1) / 2) == 1) {
-                isKlique = 1;
-            }
-            return k > graph.getsearchedKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
-        } else {
-            if (k == 1) {
-                return 0;
-            } else {
-                return -1;
-            }
         }
+//            if (e / (k * (k - 1) / 2) == 1) {
+//                isKlique = 1;
+//            }
+//            return k > graph.getsearchedKCliqueSize() ? 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * graph.getsearchedKCliqueSize() / k) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes)) : 0.4 * (e / (k * (k - 1) / 2)) + (isKlique * k / graph.getsearchedKCliqueSize()) * 0.5 + 0.2 / (1 + Math.exp(differenceBetweenSizes));
+//        } else {
+//            if (k == 1) {
+//                return 0;
+//            } else {
+//                return -1;
+//            }
+//        }
+        double howMuchIsKClique = 0.0;
+        if (k > 1) {
+            howMuchIsKClique = (double) e / ((k
+                    * (k - 1) / 2))
+                    * (graph.getsearchedKCliqueSize() - Math.abs(k
+                            - graph.getsearchedKCliqueSize())) / graph.getsearchedKCliqueSize();
+        }
+        return howMuchIsKClique;
     }
 
     /**
